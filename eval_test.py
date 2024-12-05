@@ -82,6 +82,15 @@ class TestObject(unittest.TestCase):
             ("1 > 1", False),
             ("1 == 1", True),
             ("1 != 1", False),
+            ("true == true", True),
+            ("false == false", True),
+            ("true == false", False),
+            ("true != false", True),
+            ("false != true", True),
+            ("(1 < 2) == true", True),
+            ("(1 < 2) == false", False),
+            ("(1 > 2) == true", False),
+            ("(1 > 2) == false", True),
         ]
 
         for (input, expected) in tests:

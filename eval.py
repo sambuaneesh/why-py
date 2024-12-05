@@ -54,6 +54,10 @@ def eval_minus_prefix_operator_expression(right: Object) -> Object:
 def eval_infix_expression(operator: str, left: Object, right: Object) -> Object:
     if left.type() == INTEGER_OBJ and right.type() == INTEGER_OBJ:
         return eval_integer_infix_expression(operator, left, right)
+    elif operator == "==":
+        return TRUE if left == right else FALSE
+    elif operator == "!=":
+        return TRUE if left != right else FALSE
     return NULL
 
 def eval_integer_infix_expression(operator: str, left: Integer, right: Integer) -> Object:
