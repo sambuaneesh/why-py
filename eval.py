@@ -6,6 +6,9 @@ TRUE = Boolean(True)
 FALSE = Boolean(False)
 NULL = Null()
 
+def is_error(obj: Object) -> bool:
+    return obj is not None and obj.type() == ERROR_OBJ
+
 def Eval(node: Node) -> Object:
     if isinstance(node, Program):
         return eval_program(node)
@@ -17,15 +20,15 @@ def Eval(node: Node) -> Object:
         return TRUE if node.value else FALSE
     elif isinstance(node, PrefixExpression):
         right = Eval(node.right)
-        if isinstance(right, Error):
+        if is_error(right):
             return right
         return eval_prefix_expression(node.operator, right)
     elif isinstance(node, InfixExpression):
         left = Eval(node.left)
-        if isinstance(left, Error):
+        if is_error(left):
             return left
         right = Eval(node.right)
-        if isinstance(right, Error):
+        if is_error(right):
             return right
         return eval_infix_expression(node.operator, left, right)
     elif isinstance(node, BlockStatement):
@@ -34,7 +37,7 @@ def Eval(node: Node) -> Object:
         return eval_if_expression(node)
     elif isinstance(node, ReturnStatement):
         val = Eval(node.return_value)
-        if isinstance(val, Error):
+        if is_error(val):
             return val
         return ReturnValue(val)
     else:
@@ -46,7 +49,7 @@ def eval_program(program: Program) -> Object:
         result = Eval(statement)
         if isinstance(result, ReturnValue):
             return result.value
-        if isinstance(result, Error):
+        if is_error(result):
             return result
     return result
 
@@ -65,7 +68,7 @@ def eval_statements(statements: List[Statement]) -> Object:
         result = Eval(statement)
         if isinstance(result, ReturnValue):
             return result.value
-        if isinstance(result, Error):
+        if is_error(result):
             return result
     return result
 
@@ -125,7 +128,7 @@ def eval_integer_infix_expression(operator: str, left: Integer, right: Integer) 
 
 def eval_if_expression(node: IfExpression) -> Object:
     condition = Eval(node.condition)
-    if isinstance(condition, Error):
+    if is_error(condition):
         return condition
     if is_truthy(condition):
         return Eval(node.consequence)
