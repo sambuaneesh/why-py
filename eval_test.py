@@ -1,4 +1,4 @@
-from object import Integer, Boolean
+from object import Integer, Boolean, Null
 import unittest
 from lexer import Lexer
 from parser import Parser
@@ -25,6 +25,12 @@ def test_boolean_object(t, obj, expected):
         return False
     if obj.value != expected:
         t.fail(f"object has wrong value. got={obj.value}, want={expected}")
+        return False
+    return True
+
+def test_null_object(t, obj):
+    if not isinstance(obj, Null):
+        t.fail(f"object is not Null. got={type(obj)} ({obj})")
         return False
     return True
 
@@ -97,6 +103,25 @@ class TestObject(unittest.TestCase):
             with self.subTest(input=input):
                 evaluated = test_eval(input)
                 test_boolean_object(self, evaluated, expected)
+
+    def test_if_else_expressions(self):
+        tests = [
+            ("if (true) { 10 }", 10),
+            ("if (false) { 10 }", None),
+            ("if (1) { 10 }", None),
+            ("if (1 < 2) { 10 }", 10),
+            ("if (1 > 2) { 10 }", None),
+            ("if (1 > 2) { 10 } else { 20 }", 20),
+            ("if (1 < 2) { 10 } else { 20 }", 10),
+        ]
+        for (input, expected) in tests:
+            with self.subTest(input=input):
+                evaluated = test_eval(input)
+                if expected is None:
+                    test_null_object(self, evaluated)
+                else:
+                    test_integer_object(self, evaluated, Integer(expected))
+
 
 if __name__ == "__main__":
     unittest.main()

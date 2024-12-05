@@ -22,6 +22,10 @@ def Eval(node: Node) -> Object:
         left = Eval(node.left)
         right = Eval(node.right)
         return eval_infix_expression(node.operator, left, right)
+    elif isinstance(node, BlockStatement):
+        return eval_statements(node.statements)
+    elif isinstance(node, IfExpression):
+        return eval_if_expression(node)
     else:
         return None
 
@@ -80,3 +84,18 @@ def eval_integer_infix_expression(operator: str, left: Integer, right: Integer) 
     elif operator == ">":
         return TRUE if left_val > right_val else FALSE
     return NULL
+
+def eval_if_expression(node: IfExpression) -> Object:
+    condition = Eval(node.condition)
+    if is_truthy(condition):
+        return Eval(node.consequence)
+    elif node.alternative:
+        return Eval(node.alternative)
+    return NULL
+
+def is_truthy(obj: Object) -> bool:
+    if obj == TRUE:
+        return True
+    elif obj == FALSE:
+        return False
+    return False
