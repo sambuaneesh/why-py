@@ -161,5 +161,17 @@ if (10 > 1) {
                 self.assertIsInstance(evaluated, Error)
                 self.assertEqual(evaluated.message, expected_message)
 
+    def test_let_statements(self):
+        tests = [
+            ("let a = 5; a;", 5),
+            ("let a = 5 * 5; a;", 25), 
+            ("let a = 5; let b = a; b;", 5),
+            ("let a = 5; let b = a; let c = a + b + 5; c;", 15),
+        ]
+        for (input, expected) in tests:
+            with self.subTest(input=input):
+                evaluated = test_eval(input)
+                test_integer_object(self, evaluated, Integer(expected))
+
 if __name__ == "__main__":
     unittest.main()
