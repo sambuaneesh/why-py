@@ -49,5 +49,19 @@ class TestObject(unittest.TestCase):
                 evaluated = test_eval(input)
                 test_boolean_object(self, evaluated, expected)
 
+    def test_bang_operator(self):
+        tests = [
+            ("!true", False),
+            ("!false", True),
+            ("!5", False),
+            ("!!true", True),
+            ("!!false", False),
+            ("!!5", True),
+        ]
+        for (input, expected) in tests:
+            with self.subTest(input=input):
+                evaluated = test_eval(input)
+                test_boolean_object(self, evaluated, expected)
+
 if __name__ == "__main__":
     unittest.main()
