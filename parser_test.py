@@ -123,15 +123,31 @@ return 69;
         if not isinstance(stmt, ExpressionStatement):
             self.fail(f"program.statements[0] is not ExpressionStatement. got={type(stmt)}")
 
-        literal = stmt.expression
-        if not isinstance(literal, IntegerLiteral):
-            self.fail(f"exp not IntegerLiteral. got={type(literal)}")
+        if not self._test_literal_expression(stmt.expression, 69):
+            return
 
-        if literal.value != 69:
-            self.fail(f"literal.value not 69. got={literal.value}")
+    def _test_literal_expression(self, exp: Expression, expected) -> bool:
+        if isinstance(expected, int):
+            return self._test_integer_literal(exp, expected)
+        elif isinstance(expected, bool):
+            return self._test_boolean_literal(exp, expected)
+        self.fail(f"type of exp not handled. got={type(exp)}")
+        return False
 
-        if literal.token_literal() != "69":
-            self.fail(f"literal.token_literal not '69'. got={literal.token_literal()}")
+    def _test_boolean_literal(self, exp: Expression, value: bool) -> bool:
+        if not isinstance(exp, Boolean):
+            self.fail(f"exp not Boolean. got={type(exp)}")
+            return False
+        
+        if exp.value != value:
+            self.fail(f"bo.value not {value}. got={exp.value}")
+            return False
+
+        if exp.token_literal() != str(value).lower():
+            self.fail(f"bo.token_literal not {value}. got={exp.token_literal()}")
+            return False
+
+        return True
 
     def test_parsing_prefix_expressions(self):
         prefix_tests = [
@@ -173,6 +189,46 @@ return 69;
 
         if il.token_literal() != str(value):
             self.fail(f"integ.TokenLiteral not {value}. got={il.token_literal()}")
+            return False
+
+        return True
+
+    def _test_identifier(self, exp, value):
+        if not isinstance(exp, Identifier):
+            self.fail(f"exp not Identifier. got={type(exp)}")
+            return False
+
+        if exp.value != value:
+            self.fail(f"ident.Value not {value}. got={exp.value}")
+            return False
+
+        if exp.token_literal() != value:
+            self.fail(f"ident.TokenLiteral not {value}. got={exp.token_literal()}")
+            return False
+
+        return True
+
+    def _test_literal_expression(self, exp, expected):
+        if isinstance(expected, int):
+            return self._test_integer_literal(exp, expected)
+        elif isinstance(expected, str):
+            return self._test_identifier(exp, expected)
+        self.fail(f"type of exp not handled. got={type(exp)}")
+        return False
+
+    def _test_infix_expression(self, exp, left, operator, right):
+        if not isinstance(exp, InfixExpression):
+            self.fail(f"exp is not InfixExpression. got={type(exp)}")
+            return False
+
+        if not self._test_literal_expression(exp.left, left):
+            return False
+
+        if exp.operator != operator:
+            self.fail(f"exp.operator is not '{operator}'. got={exp.operator}")
+            return False
+
+        if not self._test_literal_expression(exp.right, right):
             return False
 
         return True
@@ -264,6 +320,42 @@ return 69;
             {
                 "input": "3 + 4 * 5 == 3 * 1 + 4 * 5",
                 "expected": "((3 + (4 * 5)) == ((3 * 1) + (4 * 5)))"
+            },
+            {
+                "input": "true",
+                "expected": "true"
+            },
+            {
+                "input": "false", 
+                "expected": "false"
+            },
+            {
+                "input": "3 > 5 == false",
+                "expected": "((3 > 5) == false)"
+            },
+            {
+                "input": "3 < 5 == true",
+                "expected": "((3 < 5) == true)"
+            },
+            {
+                "input": "1 + (2 + 3) + 4",
+                "expected": "((1 + (2 + 3)) + 4)"
+            },
+            {
+                "input": "(5 + 5) * 2",
+                "expected": "((5 + 5) * 2)"
+            },
+            {
+                "input": "2 / (5 + 5)",
+                "expected": "(2 / (5 + 5))"
+            },
+            {
+                "input": "-(5 + 5)",
+                "expected": "(-(5 + 5))"
+            },
+            {
+                "input": "!(true == true)",
+                "expected": "(!(true == true))"
             }
         ]
 
