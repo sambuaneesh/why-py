@@ -30,6 +30,8 @@ def eval_statements(statements: List[Statement]) -> Object:
 def eval_prefix_expression(operator: str, right: Object) -> Object:
     if operator == "!":
         return eval_bang_operator_expression(right)
+    elif operator == "-":
+        return eval_minus_prefix_operator_expression(right)
     return NULL
 
 def eval_bang_operator_expression(right: Object) -> Object:
@@ -38,3 +40,9 @@ def eval_bang_operator_expression(right: Object) -> Object:
     elif right == FALSE:
         return TRUE
     return FALSE
+
+def eval_minus_prefix_operator_expression(right: Object) -> Object:
+    if right.type() != INTEGER_OBJ:
+        return NULL
+    value = right.value
+    return Integer(-value)

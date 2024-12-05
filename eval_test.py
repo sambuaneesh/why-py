@@ -33,6 +33,16 @@ class TestObject(unittest.TestCase):
         tests = [
             ("5", Integer(5)),
             ("10", Integer(10)),
+            ("-5", Integer(-5)),
+            ("-10", Integer(-10)),
+            # TODO
+            # ("5 + 5 + 5 + 5 - 10", Integer(15)),
+            # ("2 * 2 * 2 * 2 * 2", Integer(32)),
+            # ("-50 + 100 + -50", Integer(0)),
+            # ("5 * 2 + 10", Integer(20)),
+            # ("5 + 2 * 10", Integer(25)),
+            # ("20 + 2 * -10", Integer(0)),
+            # ("50 / 2 * 2 + 10", Integer(60)),
         ]
         for (input, expected) in tests:
             with self.subTest(input=input):
