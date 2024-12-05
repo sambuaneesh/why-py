@@ -1,5 +1,6 @@
 from object import *
 from ast1 import *
+from environment import Environment
 
 # instead of creating new instance every time using singletons
 TRUE = Boolean(True)
@@ -9,44 +10,51 @@ NULL = Null()
 def is_error(obj: Object) -> bool:
     return obj is not None and obj.type() == ERROR_OBJ
 
-def Eval(node: Node) -> Object:
+def Eval(node: Node, env: Environment) -> Object:
     if isinstance(node, Program):
-        return eval_program(node)
+        return eval_program(node, env)
     elif isinstance(node, ExpressionStatement):
-        return Eval(node.expression)
+        return Eval(node.expression, env)
     elif isinstance(node, IntegerLiteral):
         return Integer(node.value)
     elif isinstance(node, BooleanLiteral):
         return TRUE if node.value else FALSE
     elif isinstance(node, PrefixExpression):
-        right = Eval(node.right)
+        right = Eval(node.right, env)
         if is_error(right):
             return right
-        return eval_prefix_expression(node.operator, right)
+        return eval_prefix_expression(node.operator, right, env)
     elif isinstance(node, InfixExpression):
-        left = Eval(node.left)
+        left = Eval(node.left, env)
         if is_error(left):
             return left
-        right = Eval(node.right)
+        right = Eval(node.right, env)
         if is_error(right):
             return right
         return eval_infix_expression(node.operator, left, right)
     elif isinstance(node, BlockStatement):
-        return eval_block_statement(node)
+        return eval_block_statement(node, env)
     elif isinstance(node, IfExpression):
-        return eval_if_expression(node)
+        return eval_if_expression(node, env)
     elif isinstance(node, ReturnStatement):
-        val = Eval(node.return_value)
+        val = Eval(node.return_value, env)
         if is_error(val):
             return val
         return ReturnValue(val)
+    elif isinstance(node, LetStatement):
+        val = Eval(node.value, env)
+        if is_error(val):
+            return val
+        env.set(node.name.value, val)
+    elif isinstance(node, Identifier):
+        return eval_identifier(node, env)
     else:
         return NULL
 
-def eval_program(program: Program) -> Object:
+def eval_program(program: Program, env: Environment) -> Object:
     result = None
     for statement in program.statements:
-        result = Eval(statement)
+        result = Eval(statement, env)
         if isinstance(result, ReturnValue):
             return result.value
         if is_error(result):
@@ -54,25 +62,25 @@ def eval_program(program: Program) -> Object:
     return result
 
 
-def eval_block_statement(block: BlockStatement) -> Object:
+def eval_block_statement(block: BlockStatement, env: Environment) -> Object:
     result = None
     for statement in block.statements:
-        result = Eval(statement)
+        result = Eval(statement, env)
         if result is not None and (result.type() == RETURN_VALUE_OBJ or result.type() == ERROR_OBJ):
             return result
     return result
 
-def eval_statements(statements: List[Statement]) -> Object:
+def eval_statements(statements: List[Statement], env: Environment) -> Object:
     result = None
     for statement in statements:
-        result = Eval(statement)
+        result = Eval(statement, env)
         if isinstance(result, ReturnValue):
             return result.value
         if is_error(result):
             return result
     return result
 
-def eval_prefix_expression(operator: str, right: Object) -> Object:
+def eval_prefix_expression(operator: str, right: Object, env: Environment) -> Object:
     if operator == "!":
         return eval_bang_operator_expression(right)
     elif operator == "-":
@@ -126,14 +134,14 @@ def eval_integer_infix_expression(operator: str, left: Integer, right: Integer) 
         return TRUE if left_val > right_val else FALSE
     return Error(f"unknown operator: {left.type()} {operator} {right.type()}")
 
-def eval_if_expression(node: IfExpression) -> Object:
-    condition = Eval(node.condition)
+def eval_if_expression(node: IfExpression, env: Environment) -> Object:
+    condition = Eval(node.condition, env)
     if is_error(condition):
         return condition
     if is_truthy(condition):
-        return Eval(node.consequence)
+        return Eval(node.consequence, env)
     elif node.alternative:
-        return Eval(node.alternative)
+        return Eval(node.alternative, env)
     return NULL
 
 def is_truthy(obj: Object) -> bool:
@@ -144,3 +152,9 @@ def is_truthy(obj: Object) -> bool:
     elif obj == NULL:
         return False
     return True
+
+def eval_identifier(node: Identifier, env: Environment) -> Object:
+    val, exists = env.get(node.value)
+    if not exists:
+        return Error(f"identifier not found: {node.value}")
+    return val

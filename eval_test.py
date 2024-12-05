@@ -3,12 +3,13 @@ import unittest
 from lexer import Lexer
 from parser import Parser
 from eval import Eval
-
+from environment import Environment
 def test_eval(input):
     l = Lexer(input)
     p = Parser(l)
     program = p.parse_program()
-    return Eval(program)
+    env = Environment()
+    return Eval(program, env)
 
 def test_integer_object(t, obj, expected):
     if not isinstance(obj, Integer):
