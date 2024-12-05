@@ -8,7 +8,7 @@ NULL = Null()
 
 def Eval(node: Node) -> Object:
     if isinstance(node, Program):
-        return eval_statements(node.statements)
+        return eval_program(node)
     elif isinstance(node, ExpressionStatement):
         return Eval(node.expression)
     elif isinstance(node, IntegerLiteral):
@@ -23,16 +23,38 @@ def Eval(node: Node) -> Object:
         right = Eval(node.right)
         return eval_infix_expression(node.operator, left, right)
     elif isinstance(node, BlockStatement):
-        return eval_statements(node.statements)
+        return eval_block_statement(node)
     elif isinstance(node, IfExpression):
         return eval_if_expression(node)
+    elif isinstance(node, ReturnStatement):
+        val = Eval(node.return_value)
+        return ReturnValue(val)
     else:
         return None
+
+def eval_program(program: Program) -> Object:
+    result = None
+    for statement in program.statements:
+        result = Eval(statement)
+        if isinstance(result, ReturnValue):
+            return result.value
+    return result
+
+
+def eval_block_statement(block: BlockStatement) -> Object:
+    result = None
+    for statement in block.statements:
+        result = Eval(statement)
+        if result is not None and (result.type() == RETURN_VALUE_OBJ):
+            return result
+    return result
 
 def eval_statements(statements: List[Statement]) -> Object:
     result = None
     for statement in statements:
         result = Eval(statement)
+        if isinstance(result, ReturnValue):
+            return result.value
     return result
 
 def eval_prefix_expression(operator: str, right: Object) -> Object:

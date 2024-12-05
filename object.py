@@ -5,6 +5,7 @@ ObjectType = str
 INTEGER_OBJ = "INTEGER"
 BOOLEAN_OBJ = "BOOLEAN"
 NULL_OBJ = "NULL"
+RETURN_VALUE_OBJ = "RETURN_VALUE"
 
 class Object(abc.ABC):
     @abc.abstractmethod
@@ -41,3 +42,13 @@ class Null(Object):
     
     def inspect(self) -> str:
         return "null"
+    
+class ReturnValue(Object):
+    def __init__(self, value: Object):
+        self.value = value
+
+    def type(self) -> ObjectType:
+        return RETURN_VALUE_OBJ
+
+    def inspect(self) -> str:
+        return self.value.inspect()

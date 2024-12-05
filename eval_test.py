@@ -122,6 +122,19 @@ class TestObject(unittest.TestCase):
                 else:
                     test_integer_object(self, evaluated, Integer(expected))
 
+    def test_return_statements(self):
+        tests = [
+            ("return 10;", 10),
+            ("return 10; 9;", 10),
+            ("return 2 * 5; 9;", 10),
+            ("9; return 2 * 5; 9;", 10),
+            ("if (10 > 1) { return 10; }", 10),
+            ("if (10 > 1) { if (10 > 1) { return 10; } return 1; }", 10),
+        ]
+        for (input, expected) in tests:
+            with self.subTest(input=input):
+                evaluated = test_eval(input)
+                test_integer_object(self, evaluated, Integer(expected))
 
 if __name__ == "__main__":
     unittest.main()
