@@ -55,7 +55,7 @@ class Identifier(Expression):
     def string(self) -> str:
         return self.value
 
-class Boolean(Expression):
+class BooleanLiteral(Expression):
     """Represents a boolean literal"""
     def __init__(self, token: Token, value: bool):
         self.token = token

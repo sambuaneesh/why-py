@@ -10,7 +10,7 @@ from ast1 import (
     ExpressionStatement,
     Identifier, 
     IntegerLiteral,
-    Boolean,
+    BooleanLiteral,
     PrefixExpression,
     InfixExpression,
     GroupedExpression,
@@ -310,9 +310,9 @@ class Parser:
 
         return expression
 
-    def parse_boolean(self) -> Boolean:
+    def parse_boolean(self) -> BooleanLiteral:
         """Parse a boolean literal"""
-        return Boolean(
+        return BooleanLiteral(
             token=self.cur_token, 
             value=self.cur_token_is(TokenType.TRUE)
         )
@@ -555,7 +555,7 @@ def print_ast(program: Program):
         elif isinstance(node, IntegerLiteral):
             print(f"{prefix}{connector}IntegerLiteral: {node.value}")
         
-        elif isinstance(node, Boolean):
+        elif isinstance(node, BooleanLiteral):
             print(f"{prefix}{connector}Boolean: {node.value}")
         
         elif isinstance(node, PrefixExpression):

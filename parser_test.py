@@ -135,7 +135,7 @@ return 69;
         return False
 
     def _test_boolean_literal(self, exp: Expression, value: bool) -> bool:
-        if not isinstance(exp, Boolean):
+        if not isinstance(exp, BooleanLiteral):
             self.fail(f"exp not Boolean. got={type(exp)}")
             return False
         
