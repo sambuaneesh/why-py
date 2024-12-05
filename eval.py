@@ -48,6 +48,10 @@ def Eval(node: Node, env: Environment) -> Object:
         env.set(node.name.value, val)
     elif isinstance(node, Identifier):
         return eval_identifier(node, env)
+    elif isinstance(node, FunctionLiteral):
+        params = node.parameters
+        body = node.body
+        return Function(params, body, env)
     else:
         return NULL
 

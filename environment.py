@@ -1,4 +1,4 @@
-from object import *
+from object import Object
 
 class Environment:
     def __init__(self, store: dict[str, Object] = None):

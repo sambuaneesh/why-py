@@ -1,4 +1,4 @@
-from object import Integer, Boolean, Null, Error
+from object import Integer, Boolean, Null, Error, Function
 import unittest
 from lexer import Lexer
 from parser import Parser
@@ -172,6 +172,22 @@ if (10 > 1) {
             with self.subTest(input=input):
                 evaluated = test_eval(input)
                 test_integer_object(self, evaluated, Integer(expected))
+
+    def test_function_object(self):
+        input = "fn(x) { x + 2; };"
+        evaluated = test_eval(input)
+        self.assertIsInstance(evaluated, Function)
+        fn = evaluated
+        
+        self.assertEqual(len(fn.parameters), 1, 
+            f"function has wrong parameters. Parameters={fn.parameters}")
+            
+        self.assertEqual(fn.parameters[0].token_literal(), "x",
+            f"parameter is not 'x'. got={fn.parameters[0].token_literal()}")
+            
+        expected_body = "(x + 2)"
+        self.assertEqual(fn.body.string(), expected_body,
+            f"body is not {expected_body}. got={fn.body.string()}")
 
 if __name__ == "__main__":
     unittest.main()
