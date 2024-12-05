@@ -369,5 +369,131 @@ return 69;
             if actual != tt.get("expected"):
                 self.fail(f"expected={tt.get('expected')}, got={actual}")
 
+    def test_if_expression(self):
+        input = "if (x < y) { x }"
+        lexer = Lexer(input)
+        parser = Parser(lexer)
+        program = parser.parse_program()
+        self._check_parser_errors(parser)
+
+        if len(program.statements) != 1:
+            self.fail(f"program.statements does not contain 1 statements. got={len(program.statements)}")
+
+        stmt = program.statements[0]
+        if not isinstance(stmt, ExpressionStatement):
+            self.fail(f"program.statements[0] is not ExpressionStatement. got={type(stmt)}")
+
+        exp = stmt.expression
+        if not isinstance(exp, IfExpression):
+            self.fail(f"stmt.expression is not IfExpression. got={type(exp)}")
+
+        if not self._test_infix_expression(exp.condition, "x", "<", "y"):
+            return
+
+        if len(exp.consequence.statements) != 1:
+            self.fail(f"consequence is not 1 statements. got={len(exp.consequence.statements)}")
+
+        consequence = exp.consequence.statements[0]
+        if not isinstance(consequence, ExpressionStatement):
+            self.fail(f"statements[0] is not ExpressionStatement. got={type(consequence)}")
+
+        if not self._test_identifier(consequence.expression, "x"):
+            return
+
+        if exp.alternative is not None:
+            self.fail(f"exp.alternative was not None. got={exp.alternative}")
+
+    def test_function_literal_parsing(self):
+        input = "fn(x, y) { x + y; }"
+        lexer = Lexer(input)
+        parser = Parser(lexer)
+        program = parser.parse_program()
+        self._check_parser_errors(parser)
+
+        if len(program.statements) != 1:
+            self.fail(f"program.statements does not contain 1 statements. got={len(program.statements)}")
+
+        stmt = program.statements[0]
+        if not isinstance(stmt, ExpressionStatement):
+            self.fail(f"program.statements[0] is not ExpressionStatement. got={type(stmt)}")
+
+        function = stmt.expression
+        if not isinstance(function, FunctionLiteral):
+            self.fail(f"stmt.expression is not FunctionLiteral. got={type(function)}")
+
+        if len(function.parameters) != 2:
+            self.fail(f"function literal parameters wrong. want 2, got={len(function.parameters)}")
+
+        self._test_literal_expression(function.parameters[0], "x")
+        self._test_literal_expression(function.parameters[1], "y")
+
+        if len(function.body.statements) != 1:
+            self.fail(f"function.body.statements has not 1 statements. got={len(function.body.statements)}")
+
+        body_stmt = function.body.statements[0]
+        if not isinstance(body_stmt, ExpressionStatement):
+            self.fail(f"function body stmt is not ExpressionStatement. got={type(body_stmt)}")
+
+        self._test_infix_expression(body_stmt.expression, "x", "+", "y")
+
+    def test_function_parameter_parsing(self):
+        tests = [
+            {"input": "fn() {};", "expected_params": []},
+            {"input": "fn(x) {};", "expected_params": ["x"]},
+            {"input": "fn(x, y, z) {};", "expected_params": ["x", "y", "z"]},
+        ]
+
+        for test in tests:
+            lexer = Lexer(test["input"])
+            parser = Parser(lexer)
+            program = parser.parse_program()
+            self._check_parser_errors(parser)
+
+            stmt = program.statements[0]
+            if not isinstance(stmt, ExpressionStatement):
+                self.fail(f"program.statements[0] is not ExpressionStatement. got={type(stmt)}")
+
+            function = stmt.expression
+            if not isinstance(function, FunctionLiteral):
+                self.fail(f"stmt.expression is not FunctionLiteral. got={type(function)}")
+
+            if len(function.parameters) != len(test["expected_params"]):
+                self.fail(
+                    f"length parameters wrong. want {len(test['expected_params'])}, "
+                    f"got={len(function.parameters)}"
+                )
+
+            for i, expected_param in enumerate(test["expected_params"]):
+                self._test_literal_expression(function.parameters[i], expected_param)
+
+    def test_call_expression_parsing(self):
+        input_text = "add(1, 2 * 3, 4 + 5);"
+        lexer = Lexer(input_text)
+        parser = Parser(lexer)
+        program = parser.parse_program()
+        self._check_parser_errors(parser)
+
+        if len(program.statements) != 1:
+            self.fail(
+                f"program.statements does not contain 1 statements. got={len(program.statements)}"
+            )
+
+        stmt = program.statements[0]
+        if not isinstance(stmt, ExpressionStatement):
+            self.fail(f"stmt is not ExpressionStatement. got={type(stmt)}")
+
+        exp = stmt.expression
+        if not isinstance(exp, CallExpression):
+            self.fail(f"stmt.expression is not CallExpression. got={type(exp)}")
+
+        self._test_identifier(exp.function, "add")
+
+        if len(exp.arguments) != 3:
+            self.fail(f"wrong length of arguments. got={len(exp.arguments)}")
+
+        self._test_literal_expression(exp.arguments[0], 1)
+        self._test_infix_expression(exp.arguments[1], 2, "*", 3)
+        self._test_infix_expression(exp.arguments[2], 4, "+", 5)
+
 if __name__ == "__main__":
     unittest.main()
