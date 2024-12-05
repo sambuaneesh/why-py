@@ -18,6 +18,10 @@ def Eval(node: Node) -> Object:
     elif isinstance(node, PrefixExpression):
         right = Eval(node.right)
         return eval_prefix_expression(node.operator, right)
+    elif isinstance(node, InfixExpression):
+        left = Eval(node.left)
+        right = Eval(node.right)
+        return eval_infix_expression(node.operator, left, right)
     else:
         return None
 
@@ -46,3 +50,29 @@ def eval_minus_prefix_operator_expression(right: Object) -> Object:
         return NULL
     value = right.value
     return Integer(-value)
+
+def eval_infix_expression(operator: str, left: Object, right: Object) -> Object:
+    if left.type() == INTEGER_OBJ and right.type() == INTEGER_OBJ:
+        return eval_integer_infix_expression(operator, left, right)
+    return NULL
+
+def eval_integer_infix_expression(operator: str, left: Integer, right: Integer) -> Object:
+    left_val = left.value
+    right_val = right.value
+    if operator == "+":
+        return Integer(left_val + right_val)
+    elif operator == "-":
+        return Integer(left_val - right_val)
+    elif operator == "*":
+        return Integer(left_val * right_val)
+    elif operator == "/":
+        return Integer(left_val / right_val)
+    elif operator == "==":
+        return TRUE if left_val == right_val else FALSE
+    elif operator == "!=":
+        return TRUE if left_val != right_val else FALSE
+    elif operator == "<":
+        return TRUE if left_val < right_val else FALSE
+    elif operator == ">":
+        return TRUE if left_val > right_val else FALSE
+    return NULL
