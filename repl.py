@@ -2,6 +2,7 @@ from lexer import Lexer
 from tok import Token, TokenType
 from parser import Parser
 from eval import Eval
+from environment import Environment
 import os
 import platform
 import sys
@@ -23,6 +24,7 @@ def print_parser_errors(errors):
         print(f"{RED}└─ Error: {msg}{RESET}")
 
 def start(in_stream=sys.stdin, out_stream=sys.stdout):
+    env = Environment()
     print(f"{YELLOW}Welcome to PyFly{RESET}", file=out_stream)
     print(f"{CYAN}Type your code below. Use Ctrl+D to exit.{RESET}\n", file=out_stream)
 
@@ -42,7 +44,7 @@ def start(in_stream=sys.stdin, out_stream=sys.stdout):
             print_parser_errors(parser.errors)
             continue
 
-        evaluated = Eval(program)
+        evaluated = Eval(program, env)
         if evaluated is not None:
             print(f"{GREEN}└─ {evaluated.inspect()}{RESET}", file=out_stream)
             print(file=out_stream)
