@@ -1,8 +1,10 @@
 from lexer import Lexer
 from tok import Token, TokenType
 from parser import Parser
+from eval import Eval
 import os
 import platform
+import sys
 
 RESET = "\033[0m"
 GREEN = "\033[32m"
@@ -20,16 +22,16 @@ def print_parser_errors(errors):
     for msg in errors:
         print(f"{RED}└─ Error: {msg}{RESET}")
 
-def start():
-    print(f"{YELLOW}Welcome to PyFly{RESET}")
-    print(f"{CYAN}Type your code below. Use Ctrl+D to exit.{RESET}\n")
+def start(in_stream=sys.stdin, out_stream=sys.stdout):
+    print(f"{YELLOW}Welcome to PyFly{RESET}", file=out_stream)
+    print(f"{CYAN}Type your code below. Use Ctrl+D to exit.{RESET}\n", file=out_stream)
 
     while True:
-        print(prompt1, end="")
+        print(prompt1, end="", file=out_stream)
         try:
             line = input(prompt2)
         except EOFError:
-            print("\nGoodbye!")
+            print("\nGoodbye!", file=out_stream)
             return
 
         lexer = Lexer(line)
@@ -40,5 +42,7 @@ def start():
             print_parser_errors(parser.errors)
             continue
 
-        print(f"{GREEN}└─ {program.string()}{RESET}")
-        print()
+        evaluated = Eval(program)
+        if evaluated is not None:
+            print(f"{GREEN}└─ {evaluated.inspect()}{RESET}", file=out_stream)
+            print(file=out_stream)
