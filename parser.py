@@ -506,123 +506,110 @@ class Parser:
 
 def print_ast(program: Program):
     """
-    Print the Abstract Syntax Tree with indentation
+    Print the Abstract Syntax Tree with a visually appealing tree structure, 
+    avoiding redundant arrows and names.
     
     Args:
-        program (Program): The parsed program to print
+        program (Program): The parsed program to print.
     """
-    def _print_node(node, indent_level=0):
+    def _print_node(node, prefix="", is_last=True):
         """
-        Recursively print nodes with proper indentation
+        Recursively print nodes in a tree-like structure.
         
         Args:
-            node: The AST node to print
-            indent_level (int): Current indentation level
+            node: The AST node to print.
+            prefix (str): The current prefix for tree branches.
+            is_last (bool): Whether this node is the last child of its parent.
         """
-        indent = "  " * indent_level
-        
+        connector = "└── " if is_last else "├── "
         if node is None:
-            print(f"{indent}None")
+            print(f"{prefix}{connector}None")
             return
         
-        # Program node
+        # Print the current node
         if isinstance(node, Program):
-            print(f"{indent}Program:")
-            for stmt in node.statements:
-                _print_node(stmt, indent_level + 1)
+            print(f"{prefix}{connector}Program")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            for i, stmt in enumerate(node.statements):
+                _print_node(stmt, new_prefix, i == len(node.statements) - 1)
         
-        # Let Statement
         elif isinstance(node, LetStatement):
-            print(f"{indent}LetStatement:")
-            print(f"{indent}  Name: {node.name.value}")
-            print(f"{indent}  Value:")
-            _print_node(node.value, indent_level + 2)
+            print(f"{prefix}{connector}LetStatement")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            _print_node(node.name, new_prefix, False)
+            _print_node(node.value, new_prefix, True)
         
-        # Return Statement
         elif isinstance(node, ReturnStatement):
-            print(f"{indent}ReturnStatement:")
-            print(f"{indent}  Return Value:")
-            _print_node(node.return_value, indent_level + 2)
+            print(f"{prefix}{connector}ReturnStatement")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            _print_node(node.return_value, new_prefix, True)
         
-        # Expression Statement
         elif isinstance(node, ExpressionStatement):
-            print(f"{indent}ExpressionStatement:")
-            _print_node(node.expression, indent_level + 1)
+            print(f"{prefix}{connector}ExpressionStatement")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            _print_node(node.expression, new_prefix, True)
         
-        # Identifier
         elif isinstance(node, Identifier):
-            print(f"{indent}Identifier: {node.value}")
+            print(f"{prefix}{connector}Identifier: {node.value}")
         
-        # Integer Literal
         elif isinstance(node, IntegerLiteral):
-            print(f"{indent}IntegerLiteral: {node.value}")
+            print(f"{prefix}{connector}IntegerLiteral: {node.value}")
         
-        # Boolean
         elif isinstance(node, Boolean):
-            print(f"{indent}Boolean: {node.value}")
+            print(f"{prefix}{connector}Boolean: {node.value}")
         
-        # Prefix Expression
         elif isinstance(node, PrefixExpression):
-            print(f"{indent}PrefixExpression:")
-            print(f"{indent}  Operator: {node.operator}")
-            print(f"{indent}  Right:")
-            _print_node(node.right, indent_level + 2)
+            print(f"{prefix}{connector}PrefixExpression")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            print(f"{new_prefix}├── Operator: {node.operator}")
+            _print_node(node.right, new_prefix, True)
         
-        # Infix Expression
         elif isinstance(node, InfixExpression):
-            print(f"{indent}InfixExpression:")
-            print(f"{indent}  Operator: {node.operator}")
-            print(f"{indent}  Left:")
-            _print_node(node.left, indent_level + 2)
-            print(f"{indent}  Right:")
-            _print_node(node.right, indent_level + 2)
-            
-        # Block Statement
+            print(f"{prefix}{connector}InfixExpression")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            print(f"{new_prefix}├── Operator: {node.operator}")
+            _print_node(node.left, new_prefix, False)
+            _print_node(node.right, new_prefix, True)
+        
         elif isinstance(node, BlockStatement):
-            print(f"{indent}BlockStatement:")
-            for stmt in node.statements:
-                _print_node(stmt, indent_level + 1)
-
+            print(f"{prefix}{connector}BlockStatement")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            for i, stmt in enumerate(node.statements):
+                _print_node(stmt, new_prefix, i == len(node.statements) - 1)
         
-        # If Expression
         elif isinstance(node, IfExpression):
-            print(f"{indent}IfExpression:")
-            print(f"{indent}  Condition:")
-            _print_node(node.condition, indent_level + 2)
-            print(f"{indent}  Consequence:")
-            _print_node(node.consequence, indent_level + 2)
+            print(f"{prefix}{connector}IfExpression")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            _print_node(node.condition, new_prefix, False)
+            _print_node(node.consequence, new_prefix, False)
             if node.alternative:
-                print(f"{indent}  Alternative:")
-                _print_node(node.alternative, indent_level + 2)
+                _print_node(node.alternative, new_prefix, True)
         
-        # Function Literal
         elif isinstance(node, FunctionLiteral):
-            print(f"{indent}FunctionLiteral:")
-            # Print parameters
-            print(f"{indent}  Parameters:")
-            for param in node.parameters:
-                print(f"{indent}    {param.value}")
-            
-            # Print body
-            print(f"{indent}  Body:")
-            _print_node(node.body, indent_level + 2)
+            print(f"{prefix}{connector}FunctionLiteral")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            print(f"{new_prefix}├── Parameters:")
+            params_prefix = new_prefix + ("    " if len(node.parameters) > 0 else "")
+            for i, param in enumerate(node.parameters):
+                print(f"{params_prefix}└── {param.value}" if i == len(node.parameters) - 1 else f"{params_prefix}├── {param.value}")
+            _print_node(node.body, new_prefix, True)
         
-        # Call Expression
         elif isinstance(node, CallExpression):
-            print(f"{indent}CallExpression:")
-            print(f"{indent}  Function:")
-            _print_node(node.function, indent_level + 2)
-            print(f"{indent}  Arguments:")
-            for arg in node.arguments:
-                _print_node(arg, indent_level + 2)
+            print(f"{prefix}{connector}CallExpression")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            _print_node(node.function, new_prefix, False)
+            print(f"{new_prefix}└── Arguments:")
+            args_prefix = new_prefix + ("    " if len(node.arguments) > 0 else "")
+            for i, arg in enumerate(node.arguments):
+                _print_node(arg, args_prefix, i == len(node.arguments) - 1)
         
-        # Grouped Expression
         elif isinstance(node, GroupedExpression):
-            print(f"{indent}GroupedExpression:")
-            _print_node(node.expression, indent_level + 1)
+            print(f"{prefix}{connector}GroupedExpression")
+            new_prefix = prefix + ("    " if is_last else "│   ")
+            _print_node(node.expression, new_prefix, True)
         
         else:
-            print(f"{indent}Unknown Node Type: {type(node)}")
+            print(f"{prefix}{connector}Unknown Node Type: {type(node)}")
 
     print("Abstract Syntax Tree:")
     _print_node(program)
@@ -637,8 +624,8 @@ def main():
     5 - 5;
     5 * 5;
     5 / 5;
-    5 > 5;
-    5 < 5;
+    2 > 3;
+    3 < 2;
     !true;
     -5;
     let add = fn(x, y) { 
