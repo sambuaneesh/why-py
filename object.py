@@ -6,6 +6,7 @@ INTEGER_OBJ = "INTEGER"
 BOOLEAN_OBJ = "BOOLEAN"
 NULL_OBJ = "NULL"
 RETURN_VALUE_OBJ = "RETURN_VALUE"
+ERROR_OBJ = "ERROR"
 
 class Object(abc.ABC):
     @abc.abstractmethod
@@ -52,3 +53,13 @@ class ReturnValue(Object):
 
     def inspect(self) -> str:
         return self.value.inspect()
+
+class Error(Object):
+    def __init__(self, message: str):
+        self.message = message
+
+    def type(self) -> ObjectType:
+        return ERROR_OBJ
+
+    def inspect(self) -> str:
+        return f"ERROR: {self.message}"

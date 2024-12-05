@@ -1,4 +1,4 @@
-from object import Integer, Boolean, Null
+from object import Integer, Boolean, Null, Error
 import unittest
 from lexer import Lexer
 from parser import Parser
@@ -108,7 +108,7 @@ class TestObject(unittest.TestCase):
         tests = [
             ("if (true) { 10 }", 10),
             ("if (false) { 10 }", None),
-            ("if (1) { 10 }", None),
+            ("if (1) { 10 }", 10),
             ("if (1 < 2) { 10 }", 10),
             ("if (1 > 2) { 10 }", None),
             ("if (1 > 2) { 10 } else { 20 }", 20),
@@ -135,6 +135,30 @@ class TestObject(unittest.TestCase):
             with self.subTest(input=input):
                 evaluated = test_eval(input)
                 test_integer_object(self, evaluated, Integer(expected))
+
+    def test_error_handling(self):
+        tests = [
+            ("5 + true;", "type mismatch: INTEGER + BOOLEAN"),
+            ("5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"), 
+            ("-true", "unknown operator: -BOOLEAN"),
+            ("true + false;", "unknown operator: BOOLEAN + BOOLEAN"),
+            ("5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"),
+            ("if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"),
+            ("""
+if (10 > 1) {
+    if (10 > 1) {
+        return true + false;
+    }
+    return 1;
+}
+""", "unknown operator: BOOLEAN + BOOLEAN"),
+        ]
+
+        for (input, expected_message) in tests:
+            with self.subTest(input=input):
+                evaluated = test_eval(input)
+                self.assertIsInstance(evaluated, Error)
+                self.assertEqual(evaluated.message, expected_message)
 
 if __name__ == "__main__":
     unittest.main()
