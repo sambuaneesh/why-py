@@ -7,7 +7,7 @@ class TestAST(unittest.TestCase):
         program = Program(
             statements=[
                 LetStatement(
-                    token=Token(type=TokenType.LET, literal="let"),
+                    token=Token(type=TokenType.LET, literal="manifest"),
                     name=Identifier(
                         token=Token(type=TokenType.IDENT, literal="xy"),
                         value="xy"
@@ -20,7 +20,7 @@ class TestAST(unittest.TestCase):
             ]
         )
 
-        expected = "let xy = 69;"
+        expected = "manifest xy with 69 seal"
         if program.string() != expected:
             print(f"program.string() wrong. got={program.string()}")
             assert False
