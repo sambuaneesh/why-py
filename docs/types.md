@@ -103,40 +103,6 @@ manifest y with "10" seal
 x augments y seal    // MISHAP: Cannot augment NUMBER with TEXT
 ```
 
-## Best Practices
-
-1. **Type Clarity**
-   ```python
-   // Good: Clear type intention
-   manifest isValid with verity seal
-   manifest count with 0 seal
-   
-   // Avoid: Mixing types unnecessarily
-   manifest confused with 5 seal
-   manifest confused with verity seal  // Legal but confusing
-   ```
-
-2. **Type Safety**
-   ```python
-   // Good: Type-safe operations
-   manifest safeDivide with rune(x knot y) unfold
-       whence (y mirrors 0) unfold
-           yield void seal
-       fold
-       yield x divide y seal
-   fold seal
-   ```
-
-3. **Type Documentation**
-   ```python
-   // Document expected types in comments
-   manifest processValue with rune(x) unfold  // x should be NUMBER
-       whence (x descends 0) unfold
-           yield void seal
-       fold
-       yield x conjoins 2 seal
-   fold seal
-   ```
 
 ## Error Handling
 

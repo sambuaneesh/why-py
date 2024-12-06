@@ -13,17 +13,18 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Getting Started',
-						items: [
-							{ label: 'Introduction', slug: 'getting-started/introduction' },
-							{ label: 'Installation', slug: 'getting-started/installation' },
-							{ label: 'Quick Start', slug: 'getting-started/quick-start' },
-						],
+					items: [
+						{ label: 'Introduction', slug: 'getting-started/introduction' },
+						{ label: 'Installation', slug: 'getting-started/installation' },
+						{ label: 'Quick Start', slug: 'getting-started/quick-start' },
+					],
 				},
 				{
 					label: 'Language Guide',
 					items: [
 						{ label: 'Syntax Overview', slug: 'language-guide/syntax-overview' },
 						{ label: 'Data Types', slug: 'language-guide/data-types' },
+						{ label: 'Esoteric Semantics', slug: 'language-guide/esoteric-semantics' },
 					],
 				},
 				{
@@ -32,6 +33,15 @@ export default defineConfig({
 						{ label: 'Lexer', slug: 'implementation/lexer' },
 						{ label: 'Parser', slug: 'implementation/parser' },
 						{ label: 'AST', slug: 'implementation/ast' },
+						{ label: 'Interpreter', slug: 'implementation/interpreter' },
+					],
+				},
+				{
+					label: 'Examples',
+					items: [
+						{ label: 'Basic Examples', slug: 'examples/basic' },
+						{ label: 'Advanced Examples', slug: 'examples/advanced' },
+						{ label: 'Design Patterns', slug: 'examples/patterns' },
 					],
 				},
 			],

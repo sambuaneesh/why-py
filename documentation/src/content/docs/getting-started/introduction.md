@@ -1,50 +1,57 @@
 ---
-title: Introduction to PyFly
-description: A comprehensive guide to PyFly - a custom programming language interpreter written in Python
+title: Introduction to WhyPy
+description: A mystical journey into the world of esoteric programming
 ---
 
-# Welcome to PyFly
+# Introduction to WhyPy
 
-PyFly is a custom programming language interpreter written in Python that implements a simple yet powerful programming language. It features a clean syntax inspired by modern programming languages while maintaining simplicity and ease of use.
+Welcome to WhyPy, a programming language that dares to question the very nature of computation. In a world saturated with pragmatic programming languages, WhyPy chooses the path less traveled – the path of mystical computing.
+
+## Why WhyPy?
+
+WhyPy was born from a simple question: "Why not make programming more philosophically challenging?" While other languages focus on being practical, WhyPy focuses on being existential. Here's what makes WhyPy unique:
+
+- **Mystical Syntax**: Replace mundane keywords with arcane incantations
+- **Philosophical Types**: Where booleans become truth values of 'verity' and 'fallacy'
+- **Ritual-Based Functions**: Don't just call functions, perform mystical rituals
+- **Sealed Statements**: Every statement must be sealed to contain its mystical energy
+
+## Core Philosophy
+
+WhyPy embraces these fundamental principles:
+
+1. **Question Everything**: Even the most basic programming concepts deserve philosophical scrutiny
+2. **Embrace Obscurity**: Clear code is overrated; mystical code is enlightening
+3. **Seal Your Statements**: Unsealed statements leak mystical energy
+4. **Think in Rituals**: Functions are more than mere abstractions; they are mystical ceremonies
+
+## A Taste of WhyPy
+
+Here's a glimpse into the mystical world of WhyPy:
+
+```python
+// Traditional programming:
+let x = 5;
+let y = 10;
+let sum = x + y;
+
+// WhyPy's mystical approach:
+manifest x with 5 seal
+manifest y with 10 seal
+manifest sum with x augments y seal
+```
 
 ## Features
 
-- **Clean Syntax**: Simple and intuitive syntax that's easy to learn
-- **Static Typing**: Basic type system with integers, booleans, and functions
-- **First-class Functions**: Functions are first-class citizens
-- **Control Flow**: Support for if-else statements and basic control structures
-- **Modern Parser**: Recursive descent parser with Pratt parsing for expressions
+- **Esoteric Keywords**: 'manifest' instead of 'let', 'unfold' instead of '{', 'seal' instead of ';'
+- **Mystical Operators**: 'augments' for addition, 'diminishes' for subtraction
+- **Truth Values**: 'verity' and 'fallacy' instead of 'true' and 'false'
+- **Ritual Definitions**: Functions are defined as 'rune' and parameters are bound with 'knot'
 
-## Architecture
+## Next Steps
 
-PyFly is built with a modular architecture consisting of three main components:
-
-1. **Lexer**: Transforms source code into tokens
-2. **Parser**: Converts tokens into an Abstract Syntax Tree (AST)
-3. **AST**: Represents the program structure in memory
-
-## Example
-
-Here's a simple example of PyFly code:
-
-```python
-let add = fn(x, y) {
-    return x + y;
-};
-
-let result = add(5, 10);
-```
-
-## Project Status
-
-PyFly is currently under active development. The core features are implemented and working, including:
-
-- Lexical analysis
-- Parsing
-- Basic expression evaluation
-- Function definitions
-- Control flow statements
-
-## Getting Started
-
-To get started with PyFly, check out the [Installation](/getting-started/installation/) guide and then move on to the [Quick Start](/getting-started/quick-start/) tutorial. 
+Ready to begin your mystical journey?
+- [Installation Guide](installation.md) - Summon WhyPy into your development realm
+- [Quick Start Guide](quick-start.md) - Cast your first mystical programs
+- [Language Guide](/language-guide/syntax-overview) - Master the arcane syntax
+  

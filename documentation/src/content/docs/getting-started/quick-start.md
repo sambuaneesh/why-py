@@ -1,136 +1,128 @@
 ---
 title: Quick Start Guide
-description: Get started with PyFly by writing your first program
+description: Begin your journey into mystical computing with WhyPy
 ---
 
 # Quick Start Guide
 
-This guide will help you write your first PyFly program and understand the basics of the language.
+Welcome, seeker of arcane knowledge! This guide will help you cast your first mystical programs in WhyPy.
 
-## Your First PyFly Program
+## Your First Incantation
 
-Let's start with a simple program that defines a function to calculate the factorial of a number:
-
-```python
-let factorial = fn(n) {
-    if (n < 2) {
-        return 1;
-    } else {
-        return n * factorial(n - 1);
-    }
-};
-
-let result = factorial(5);
-```
-
-Let's break down the key elements of this program:
-
-1. `let` keyword declares variables
-2. `fn` creates a function
-3. `if/else` provides conditional execution
-4. Function calls work as expected
-5. Basic arithmetic operations are supported
-
-## Basic Language Features
-
-### 1. Variables
-
-Variables are declared using the `let` keyword:
+Open the WhyPy REPL and type your first mystical program:
 
 ```python
-let x = 5;
-let y = 10;
-let name = "PyFly";
+manifest greeting with "Greetings, seeker of truth" seal
 ```
 
-### 2. Functions
+The REPL will respond with the mystical value you've manifested.
 
-Functions are first-class citizens in PyFly:
+## Basic Arithmetic Rituals
+
+WhyPy uses mystical operators for arithmetic:
 
 ```python
-let add = fn(x, y) {
-    return x + y;
-};
+manifest x with 5 seal
+manifest y with 10 seal
 
-let multiply = fn(x, y) {
-    return x * y;
-};
+// Addition
+manifest sum with x augments y seal
+
+// Subtraction
+manifest difference with x diminishes y seal
+
+// Multiplication
+manifest product with x conjoins y seal
+
+// Division
+manifest quotient with x divide y seal
 ```
 
-### 3. Control Flow
+## Truth Values and Comparisons
 
-PyFly supports if-else statements:
+In WhyPy, we deal with 'verity' and 'fallacy' instead of mere true/false:
 
 ```python
-let max = fn(x, y) {
-    if (x > y) {
-        return x;
-    } else {
-        return y;
-    }
-};
+manifest isTrue with verity seal
+manifest isFalse with fallacy seal
+
+// Comparisons
+manifest isGreater with 5 ascends 3 seal      // verity
+manifest isLesser with 10 descends 20 seal    // verity
+manifest isEqual with 5 mirrors 5 seal        // verity
+manifest isDifferent with 6 diverges 7 seal   // verity
 ```
 
-### 4. Operators
+## Defining Rituals (Functions)
 
-PyFly supports common operators:
+Rituals are defined using the 'rune' keyword:
 
-- Arithmetic: `+`, `-`, `*`, `/`
-- Comparison: `<`, `>`, `==`, `!=`
-- Logical: `!` (not)
+```python
+manifest add with rune(x knot y) unfold
+    yield x augments y seal
+fold seal
 
-## Running Your Code
+// Using the ritual
+manifest result with add(5 knot 3) seal
+```
 
-To run your PyFly code, save it in a file (e.g., `example.pf`) and use the interpreter:
+## Conditional Incantations
+
+Use 'whence' for conditional logic:
+
+```python
+manifest checkAge with rune(age) unfold
+    whence (age ascends 18) unfold
+        yield "You are wise enough" seal
+    fold elsewise unfold
+        yield "Seek more wisdom" seal
+    fold
+fold seal
+
+manifest result with checkAge(20) seal
+```
+
+## Multi-line Rituals
+
+WhyPy supports multi-line input in the REPL. Press Enter after each line and complete with 'fold seal':
+
+```python
+manifest factorial with rune(n) unfold
+    whence (n descends 2) unfold
+        yield 1 seal
+    fold
+    yield n conjoins factorial(n diminishes 1) seal
+fold seal
+```
+
+## Running Programs from Files
+
+Save your mystical code in a file with the `.why` extension:
+
+```python
+// mystical_program.why
+manifest fibonacci with rune(n) unfold
+    whence (n descends 2) unfold
+        yield n seal
+    fold
+    yield fibonacci(n diminishes 1) augments fibonacci(n diminishes 2) seal
+fold seal
+
+manifest result with fibonacci(10) seal
+```
+
+Run it using:
 
 ```bash
-python pyfly.py example.pf
+python repl.py < mystical_program.why
 ```
 
 ## Next Steps
 
-Now that you've written your first PyFly program, you can:
+Now that you've begun your mystical journey, explore:
 
-1. Learn more about [PyFly's syntax](/language-guide/syntax-overview/)
-2. Explore [data types](/language-guide/data-types/)
-3. Understand [functions in depth](/language-guide/functions/)
-4. Learn about [control flow](/language-guide/control-flow/)
+1. [Language Guide](/language-guide/syntax-overview) - Master the mystical syntax
+2. [Basic Examples](/examples/basic) - Study simple incantations
+3. [Advanced Examples](/examples/advanced) - Delve into complex rituals
 
-## Common Patterns
-
-Here are some common patterns you'll use in PyFly:
-
-### Higher-Order Functions
-
-```python
-let apply = fn(f, x) {
-    return f(x);
-};
-
-let double = fn(x) {
-    return x * 2;
-};
-
-let result = apply(double, 5);  // Returns 10
-```
-
-### Recursion
-
-```python
-let sum = fn(n) {
-    if (n == 0) {
-        return 0;
-    }
-    return n + sum(n - 1);
-};
-```
-
-## Tips and Best Practices
-
-1. Always terminate statements with semicolons
-2. Use meaningful variable names
-3. Break complex functions into smaller ones
-4. Use proper indentation for readability
-5. Comment your code when necessary
-
-Remember that PyFly is designed to be simple and intuitive. If you're familiar with languages like Python or JavaScript, you'll find many similarities in PyFly's syntax and features. 
+Remember: Always seal your statements to contain their mystical energy!

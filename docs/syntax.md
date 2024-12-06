@@ -71,15 +71,6 @@ manifest ritual with rune() unfold
 fold seal
 ```
 
-## Comments
-
-Comments are marked with `//`:
-
-```python
-// This is a mystical comment
-manifest x with 42 seal  // The answer to everything
-```
-
 ## Error Handling
 
 Errors are treated as mishaps in the flow of mystical energy:
