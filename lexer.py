@@ -1,21 +1,44 @@
 from tok import Token, TokenType
 
-# Keywords dictionary
+# Keywords dictionary with esoteric mappings
 KEYWORDS = {
-    'fn': TokenType.FUNCTION,
-    'let': TokenType.LET,
-    'true': TokenType.TRUE,
-    'false': TokenType.FALSE,
-    'if': TokenType.IF,
-    'else': TokenType.ELSE,
-    'return': TokenType.RETURN
+    'rune': TokenType.FUNCTION,
+    'manifest': TokenType.LET,
+    'verity': TokenType.TRUE,
+    'fallacy': TokenType.FALSE,
+    'whence': TokenType.IF,
+    'elsewise': TokenType.ELSE,
+    'yield': TokenType.RETURN
+}
+
+# Operator mappings for string literals
+OPERATORS = {
+    'with': TokenType.ASSIGN,
+    'augments': TokenType.PLUS,
+    'diminishes': TokenType.MINUS,
+    'negate': TokenType.BANG,
+    'conjoins': TokenType.ASTERISK,
+    'divide': TokenType.SLASH,
+    'descends': TokenType.LT,
+    'ascends': TokenType.GT,
+    'mirrors': TokenType.EQ,
+    'diverges': TokenType.NOT_EQ,
+    'knot': TokenType.COMMA,
+    'seal': TokenType.SEMICOLON,
+    'unfold': TokenType.LBRACE,
+    'fold': TokenType.RBRACE
 }
 
 def lookup_ident(literal: str) -> TokenType:
     """
-    Check if the literal is a keyword, otherwise return IDENT
+    Check if the literal is a keyword or operator, otherwise return IDENT
     """
-    return KEYWORDS.get(literal, TokenType.IDENT)
+    if literal in KEYWORDS:
+        return KEYWORDS[literal]
+    if literal in OPERATORS:
+        return OPERATORS[literal]
+    return TokenType.IDENT
+
 class Lexer:
     def __init__(self, input: str):
         self.input = input
@@ -52,7 +75,7 @@ class Lexer:
 
     def read_identifier(self) -> str:
         """
-        Read and return a complete identifier
+        Read and return a complete identifier or keyword
         """
         position = self.position
         while self._is_letter(self.ch):
@@ -78,30 +101,16 @@ class Lexer:
             return Token(TokenType.EOF, "")
 
         token = None
-        # Single character tokens
-        token_map = {
-            '=': self._handle_equal,
-            '+': lambda: Token(TokenType.PLUS, self.ch),
-            '-': lambda: Token(TokenType.MINUS, self.ch),
-            '!': self._handle_bang,
-            '/': lambda: Token(TokenType.SLASH, self.ch),
-            '*': lambda: Token(TokenType.ASTERISK, self.ch),
-            '<': lambda: Token(TokenType.LT, self.ch),
-            '>': lambda: Token(TokenType.GT, self.ch),
-            ';': lambda: Token(TokenType.SEMICOLON, self.ch),
-            ',': lambda: Token(TokenType.COMMA, self.ch),
-            '{': lambda: Token(TokenType.LBRACE, self.ch),
-            '}': lambda: Token(TokenType.RBRACE, self.ch),
-            '(': lambda: Token(TokenType.LPAREN, self.ch),
-            ')': lambda: Token(TokenType.RPAREN, self.ch)
-        }
-
-        if self.ch in token_map:
-            token = token_map[self.ch]()
+        # Handle parentheses as they remain unchanged
+        if self.ch == '(':
+            token = Token(TokenType.LPAREN, self.ch)
+        elif self.ch == ')':
+            token = Token(TokenType.RPAREN, self.ch)
         elif self._is_letter(self.ch):
-            # Handle identifiers and keywords
+            # Handle identifiers, keywords, and word operators
             literal = self.read_identifier()
-            return Token(lookup_ident(literal), literal)
+            token_type = lookup_ident(literal)
+            return Token(token_type, literal)
         elif self._is_digit(self.ch):
             # Handle numbers
             literal = self.read_number()
@@ -109,30 +118,11 @@ class Lexer:
         else:
             token = Token(TokenType.ILLEGAL, self.ch)
 
+        if token is None:
+            token = Token(TokenType.ILLEGAL, self.ch)
+
         self.read_char()
         return token
-
-    def _handle_equal(self) -> Token:
-        """
-        Handle both single '=' and '==' tokens
-        """
-        if self.peek_char() == '=':
-            ch = self.ch
-            self.read_char()
-            literal = ch + self.ch
-            return Token(TokenType.EQ, literal)
-        return Token(TokenType.ASSIGN, self.ch)
-
-    def _handle_bang(self) -> Token:
-        """
-        Handle both single '!' and '!=' tokens
-        """
-        if self.peek_char() == '=':
-            ch = self.ch
-            self.read_char()
-            literal = ch + self.ch
-            return Token(TokenType.NOT_EQ, literal)
-        return Token(TokenType.BANG, self.ch)
 
     @staticmethod
     def _is_letter(ch: str) -> bool:
@@ -154,12 +144,12 @@ class Lexer:
 
 # Example usage
 def main():
-    # Test the lexer
+    # Test the lexer with esoteric syntax
     input_code = '''
-    let add = fn(x, y) { 
-        return x + y; 
-    }; 
-    add(5, 10);
+    manifest add with rune(x knot y) unfold 
+        yield x augments y seal 
+    fold seal 
+    add(5 knot 10) seal
     '''
     lexer = Lexer(input_code)
     

@@ -3,101 +3,101 @@ from lexer import Lexer, TokenType
 
 class TestLexer(unittest.TestCase):
     def test_next_token(self):
-        input_code = '''let five = 5;
-let ten = 10;
+        input_code = '''manifest five with 5 seal
+manifest ten with 10 seal
 
-let add = fn(x, y) {
-  x + y;
-};
+manifest add with rune(x knot y) unfold
+  x augments y seal
+fold seal
 
-let result = add(five, ten);
-!-/*5;
-5 < 10 > 5;
+manifest result with add(five knot ten) seal
+negate diminishes divide conjoins 5 seal
+5 descends 10 ascends 5 seal
 
-if (5 < 10) {
-	return true;
-} else {
-	return false;
-}
+whence (5 descends 10) unfold
+    yield verity seal
+fold elsewise unfold
+    yield fallacy seal
+fold
 
-10 == 10;
-10 != 9;
+10 mirrors 10 seal
+10 diverges 9 seal
 '''
 
         tests = [
-            (TokenType.LET, "let"),
+            (TokenType.LET, "manifest"),
             (TokenType.IDENT, "five"),
-            (TokenType.ASSIGN, "="),
+            (TokenType.ASSIGN, "with"),
             (TokenType.INT, "5"),
-            (TokenType.SEMICOLON, ";"),
-            (TokenType.LET, "let"),
+            (TokenType.SEMICOLON, "seal"),
+            (TokenType.LET, "manifest"),
             (TokenType.IDENT, "ten"),
-            (TokenType.ASSIGN, "="),
+            (TokenType.ASSIGN, "with"),
             (TokenType.INT, "10"),
-            (TokenType.SEMICOLON, ";"),
-            (TokenType.LET, "let"),
+            (TokenType.SEMICOLON, "seal"),
+            (TokenType.LET, "manifest"),
             (TokenType.IDENT, "add"),
-            (TokenType.ASSIGN, "="),
-            (TokenType.FUNCTION, "fn"),
+            (TokenType.ASSIGN, "with"),
+            (TokenType.FUNCTION, "rune"),
             (TokenType.LPAREN, "("),
             (TokenType.IDENT, "x"),
-            (TokenType.COMMA, ","),
+            (TokenType.COMMA, "knot"),
             (TokenType.IDENT, "y"),
             (TokenType.RPAREN, ")"),
-            (TokenType.LBRACE, "{"),
+            (TokenType.LBRACE, "unfold"),
             (TokenType.IDENT, "x"),
-            (TokenType.PLUS, "+"),
+            (TokenType.PLUS, "augments"),
             (TokenType.IDENT, "y"),
-            (TokenType.SEMICOLON, ";"),
-            (TokenType.RBRACE, "}"),
-            (TokenType.SEMICOLON, ";"),
-            (TokenType.LET, "let"),
+            (TokenType.SEMICOLON, "seal"),
+            (TokenType.RBRACE, "fold"),
+            (TokenType.SEMICOLON, "seal"),
+            (TokenType.LET, "manifest"),
             (TokenType.IDENT, "result"),
-            (TokenType.ASSIGN, "="),
+            (TokenType.ASSIGN, "with"),
             (TokenType.IDENT, "add"),
             (TokenType.LPAREN, "("),
             (TokenType.IDENT, "five"),
-            (TokenType.COMMA, ","),
+            (TokenType.COMMA, "knot"),
             (TokenType.IDENT, "ten"),
             (TokenType.RPAREN, ")"),
-            (TokenType.SEMICOLON, ";"),
-            (TokenType.BANG, "!"),
-            (TokenType.MINUS, "-"),
-            (TokenType.SLASH, "/"),
-            (TokenType.ASTERISK, "*"),
+            (TokenType.SEMICOLON, "seal"),
+            (TokenType.BANG, "negate"),
+            (TokenType.MINUS, "diminishes"),
+            (TokenType.SLASH, "divide"),
+            (TokenType.ASTERISK, "conjoins"),
             (TokenType.INT, "5"),
-            (TokenType.SEMICOLON, ";"),
+            (TokenType.SEMICOLON, "seal"),
             (TokenType.INT, "5"),
-            (TokenType.LT, "<"),
+            (TokenType.LT, "descends"),
             (TokenType.INT, "10"),
-            (TokenType.GT, ">"),
+            (TokenType.GT, "ascends"),
             (TokenType.INT, "5"),
-            (TokenType.SEMICOLON, ";"),
-            (TokenType.IF, "if"),
+            (TokenType.SEMICOLON, "seal"),
+            (TokenType.IF, "whence"),
             (TokenType.LPAREN, "("),
             (TokenType.INT, "5"),
-            (TokenType.LT, "<"),
+            (TokenType.LT, "descends"),
             (TokenType.INT, "10"),
             (TokenType.RPAREN, ")"),
-            (TokenType.LBRACE, "{"),
-            (TokenType.RETURN, "return"),
-            (TokenType.TRUE, "true"),
-            (TokenType.SEMICOLON, ";"),
-            (TokenType.RBRACE, "}"),
-            (TokenType.ELSE, "else"),
-            (TokenType.LBRACE, "{"),
-            (TokenType.RETURN, "return"),
-            (TokenType.FALSE, "false"),
-            (TokenType.SEMICOLON, ";"),
-            (TokenType.RBRACE, "}"),
+            (TokenType.LBRACE, "unfold"),
+            (TokenType.RETURN, "yield"),
+            (TokenType.TRUE, "verity"),
+            (TokenType.SEMICOLON, "seal"),
+            (TokenType.RBRACE, "fold"),
+            (TokenType.ELSE, "elsewise"),
+            (TokenType.LBRACE, "unfold"),
+            (TokenType.RETURN, "yield"),
+            (TokenType.FALSE, "fallacy"),
+            (TokenType.SEMICOLON, "seal"),
+            (TokenType.RBRACE, "fold"),
             (TokenType.INT, "10"),
-            (TokenType.EQ, "=="),
+            (TokenType.EQ, "mirrors"),
             (TokenType.INT, "10"),
-            (TokenType.SEMICOLON, ";"),
+            (TokenType.SEMICOLON, "seal"),
             (TokenType.INT, "10"),
-            (TokenType.NOT_EQ, "!="),
+            (TokenType.NOT_EQ, "diverges"),
             (TokenType.INT, "9"),
-            (TokenType.SEMICOLON, ";"),
+            (TokenType.SEMICOLON, "seal"),
             (TokenType.EOF, ""),
         ]
 
