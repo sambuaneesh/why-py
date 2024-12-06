@@ -20,15 +20,40 @@ from ast1 import (
     CallExpression
 )
 
+# Esoteric operator mappings
+OPERATOR_LITERALS = {
+    TokenType.ASSIGN: "with",
+    TokenType.PLUS: "augments",
+    TokenType.MINUS: "diminishes",
+    TokenType.BANG: "negate",
+    TokenType.ASTERISK: "conjoins",
+    TokenType.SLASH: "divide",
+    TokenType.LT: "descends",
+    TokenType.GT: "ascends",
+    TokenType.EQ: "mirrors",
+    TokenType.NOT_EQ: "diverges",
+    TokenType.COMMA: "knot",
+    TokenType.SEMICOLON: "seal",
+    TokenType.LBRACE: "unfold",
+    TokenType.RBRACE: "fold",
+    TokenType.FUNCTION: "rune",
+    TokenType.LET: "manifest",
+    TokenType.TRUE: "verity",
+    TokenType.FALSE: "fallacy",
+    TokenType.IF: "whence",
+    TokenType.ELSE: "elsewise",
+    TokenType.RETURN: "yield"
+}
+
 # Precedence levels
 class Precedence(Enum):
     LOWEST = auto()
-    EQUALS = auto()      # ==
-    LESSGREATER = auto() # > or <
-    SUM = auto()         # +
-    PRODUCT = auto()     # *
-    PREFIX = auto()      # -X or !X
-    CALL = auto()        # myFunction(X)
+    EQUALS = auto()      # mirrors, diverges
+    LESSGREATER = auto() # ascends, descends
+    SUM = auto()         # augments, diminishes
+    PRODUCT = auto()     # conjoins, divide
+    PREFIX = auto()      # negate, diminishes
+    CALL = auto()        # function(x)
 
 # Precedence mapping
 PRECEDENCES = {
@@ -58,13 +83,11 @@ class Parser:
         self.prefix_parse_fns: Dict[TokenType, Callable[[], Optional[Expression]]] = {}
         self.infix_parse_fns: Dict[TokenType, Callable[[Expression], Optional[Expression]]] = {}
         
-        # Register prefix parse functions
+        # Register parsing functions
         self._register_prefix_fns()
-        
-        # Register infix parse functions
         self._register_infix_fns()
         
-        # Advance tokens twice to set both current and peek tokens
+        # Initialize tokens
         self.next_token()
         self.next_token()
         
@@ -123,10 +146,18 @@ class Parser:
 
     def peek_error(self, token_type: TokenType):
         """Add an error message about unexpected token type"""
+        expected_literal = OPERATOR_LITERALS.get(token_type, str(token_type))
+        got_literal = OPERATOR_LITERALS.get(self.peek_token.type, str(self.peek_token.type))
         error_msg = (
-            f"expected next token to be {token_type}, "
-            f"got {self.peek_token.type} instead"
+            f"expected next token to be {expected_literal}, "
+            f"got {got_literal} instead"
         )
+        self.errors.append(error_msg)
+
+    def no_prefix_parse_fn_error(self, token_type: TokenType):
+        """Add an error message when no prefix parse function exists"""
+        token_literal = OPERATOR_LITERALS.get(token_type, str(token_type))
+        error_msg = f"no prefix parse function for {token_literal} found"
         self.errors.append(error_msg)
 
     def peek_precedence(self) -> Precedence:
@@ -247,8 +278,6 @@ class Parser:
 
             # Move to the infix token
             self.next_token()
-
-            # Parse the infix expression
             left_exp = infix_fn(left_exp)
 
         return left_exp
@@ -317,11 +346,6 @@ class Parser:
             value=self.cur_token_is(TokenType.TRUE)
         )
 
-    def no_prefix_parse_fn_error(self, token_type: TokenType):
-        """Add an error for missing prefix parse function"""
-        error_msg = f"no prefix parse function for {token_type} found"
-        self.errors.append(error_msg)
-        
     def parse_grouped_expression(self) -> Optional[Expression]:
         """Parse an expression within parentheses"""
         # Move past the left parenthesis

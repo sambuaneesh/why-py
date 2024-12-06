@@ -7,9 +7,9 @@ import unittest
 class TestParser(unittest.TestCase):
     def test_let_statements(self):
         input = """
-let x = 6;
-let y = 9;
-let xy = 69;
+manifest x with 6 seal
+manifest y with 9 seal
+manifest xy with 69 seal
 """
         lexer = Lexer(input)
         parser = Parser(lexer)
@@ -43,8 +43,8 @@ let xy = 69;
         self.fail("parser had errors")
 
     def _test_let_statement(self, stmt: LetStatement, name: str) -> bool:
-        if stmt.token_literal() != "let":
-            self.fail(f"stmt.token_literal not 'let'. got={stmt.token_literal()}")
+        if stmt.token_literal() != "manifest":
+            self.fail(f"stmt.token_literal not 'manifest'. got={stmt.token_literal()}")
             return False
 
         if not isinstance(stmt, LetStatement):
@@ -63,9 +63,9 @@ let xy = 69;
     
     def test_return_statements(self):
         input = """
-return 6;
-return 9;
-return 69;
+yield 6 seal
+yield 9 seal
+yield 69 seal
 """
         lexer = Lexer(input)
         parser = Parser(lexer)
@@ -80,11 +80,11 @@ return 69;
                 self.fail(f"stmt not ReturnStatement. got={type(stmt)}")
                 continue
 
-            if stmt.token_literal() != "return":
-                self.fail(f"returnStmt.token_literal not 'return', got {stmt.token_literal()}")
+            if stmt.token_literal() != "yield":
+                self.fail(f"returnStmt.token_literal not 'yield', got {stmt.token_literal()}")
 
     def test_identifier_expression(self):
-        input = "sixtynine;"
+        input = "sixtynine seal"
         
         lexer = Lexer(input)
         parser = Parser(lexer)
@@ -109,7 +109,7 @@ return 69;
             self.fail(f"ident.token_literal not sixtynine. got={ident.token_literal()}")
 
     def test_integer_literal_expression(self):
-        input = "69;"
+        input = "69 seal"
         
         lexer = Lexer(input)
         parser = Parser(lexer)
@@ -143,16 +143,17 @@ return 69;
             self.fail(f"bo.value not {value}. got={exp.value}")
             return False
 
-        if exp.token_literal() != str(value).lower():
-            self.fail(f"bo.token_literal not {value}. got={exp.token_literal()}")
+        expected_literal = "verity" if value else "fallacy"
+        if exp.token_literal() != expected_literal:
+            self.fail(f"bo.token_literal not {expected_literal}. got={exp.token_literal()}")
             return False
 
         return True
 
     def test_parsing_prefix_expressions(self):
         prefix_tests = [
-            ("!69;", "!", 69),
-            ("-169;", "-", 169),
+            ("negate 69 seal", "negate", 69),
+            ("diminishes 169 seal", "diminishes", 169),
         ]
 
         for input, operator, integer_value in prefix_tests:
@@ -235,14 +236,14 @@ return 69;
     
     def test_parsing_infix_expressions(self):
         infix_tests = [
-            ("69 + 69;", 69, "+", 69),
-            ("69 - 69;", 69, "-", 69), 
-            ("69 * 69;", 69, "*", 69),
-            ("69 / 69;", 69, "/", 69),
-            ("69 > 69;", 69, ">", 69),
-            ("69 < 69;", 69, "<", 69),
-            ("69 == 69;", 69, "==", 69),
-            ("69 != 69;", 69, "!=", 69),
+            ("69 augments 69 seal", 69, "augments", 69),
+            ("69 diminishes 69 seal", 69, "diminishes", 69), 
+            ("69 conjoins 69 seal", 69, "conjoins", 69),
+            ("69 divide 69 seal", 69, "divide", 69),
+            ("69 ascends 69 seal", 69, "ascends", 69),
+            ("69 descends 69 seal", 69, "descends", 69),
+            ("69 mirrors 69 seal", 69, "mirrors", 69),
+            ("69 diverges 69 seal", 69, "diverges", 69),
         ]
 
         for input, left_value, operator, right_value in infix_tests:
@@ -274,88 +275,88 @@ return 69;
     def test_operator_precedence_parsing(self):
         tests = [
             {
-                "input": "-a * b",
-                "expected": "((-a) * b)"
+                "input": "diminishes a conjoins b",
+                "expected": "((diminishes a) conjoins b)"
             },
             {
-                "input": "!-a",
-                "expected": "(!(-a))"
+                "input": "negate diminishes a",
+                "expected": "(negate (diminishes a))"
             },
             {
-                "input": "a + b + c",
-                "expected": "((a + b) + c)"
+                "input": "a augments b augments c",
+                "expected": "((a augments b) augments c)"
             },
             {
-                "input": "a + b - c", 
-                "expected": "((a + b) - c)"
+                "input": "a augments b diminishes c", 
+                "expected": "((a augments b) diminishes c)"
             },
             {
-                "input": "a * b * c",
-                "expected": "((a * b) * c)"
+                "input": "a conjoins b conjoins c",
+                "expected": "((a conjoins b) conjoins c)"
             },
             {
-                "input": "a * b / c",
-                "expected": "((a * b) / c)"
+                "input": "a conjoins b divide c",
+                "expected": "((a conjoins b) divide c)"
             },
             {
-                "input": "a + b / c",
-                "expected": "(a + (b / c))"
+                "input": "a augments b divide c",
+                "expected": "(a augments (b divide c))"
             },
             {
-                "input": "a + b * c + d / e - f",
-                "expected": "(((a + (b * c)) + (d / e)) - f)"
+                "input": "a augments b conjoins c augments d divide e diminishes f",
+                "expected": "(((a augments (b conjoins c)) augments (d divide e)) diminishes f)"
             },
             {
-                "input": "3 + 4; -5 * 5",
-                "expected": "(3 + 4)((-5) * 5)"
+                "input": "3 augments 4 seal diminishes 5 conjoins 5",
+                "expected": "(3 augments 4)((diminishes 5) conjoins 5)"
             },
             {
-                "input": "5 > 4 == 3 < 4",
-                "expected": "((5 > 4) == (3 < 4))"
+                "input": "5 ascends 4 mirrors 3 descends 4",
+                "expected": "((5 ascends 4) mirrors (3 descends 4))"
             },
             {
-                "input": "5 < 4 != 3 > 4",
-                "expected": "((5 < 4) != (3 > 4))"
+                "input": "5 descends 4 diverges 3 ascends 4",
+                "expected": "((5 descends 4) diverges (3 ascends 4))"
             },
             {
-                "input": "3 + 4 * 5 == 3 * 1 + 4 * 5",
-                "expected": "((3 + (4 * 5)) == ((3 * 1) + (4 * 5)))"
+                "input": "3 augments 4 conjoins 5 mirrors 3 conjoins 1 augments 4 conjoins 5",
+                "expected": "((3 augments (4 conjoins 5)) mirrors ((3 conjoins 1) augments (4 conjoins 5)))"
             },
             {
-                "input": "true",
-                "expected": "true"
+                "input": "verity",
+                "expected": "verity"
             },
             {
-                "input": "false", 
-                "expected": "false"
+                "input": "fallacy", 
+                "expected": "fallacy"
             },
             {
-                "input": "3 > 5 == false",
-                "expected": "((3 > 5) == false)"
+                "input": "3 ascends 5 mirrors fallacy",
+                "expected": "((3 ascends 5) mirrors fallacy)"
             },
             {
-                "input": "3 < 5 == true",
-                "expected": "((3 < 5) == true)"
+                "input": "3 descends 5 mirrors verity",
+                "expected": "((3 descends 5) mirrors verity)"
             },
             {
-                "input": "1 + (2 + 3) + 4",
-                "expected": "((1 + (2 + 3)) + 4)"
+                "input": "1 augments (2 augments 3) augments 4",
+                "expected": "((1 augments (2 augments 3)) augments 4)"
             },
             {
-                "input": "(5 + 5) * 2",
-                "expected": "((5 + 5) * 2)"
+                "input": "(5 augments 5) conjoins 2",
+                "expected": "((5 augments 5) conjoins 2)"
             },
             {
-                "input": "2 / (5 + 5)",
-                "expected": "(2 / (5 + 5))"
+                "input": "2 divide (5 augments 5)",
+                "expected": "(2 divide (5 augments 5))"
             },
             {
-                "input": "-(5 + 5)",
-                "expected": "(-(5 + 5))"
+                "input": "diminishes (5 augments 5)",
+                "expected": "(diminishes (5 augments 5))"
             },
             {
-                "input": "!(true == true)",
-                "expected": "(!(true == true))"
+                "input": "negate (verity mirrors verity)",
+                "expected": "(negate (verity mirrors verity))"
             }
         ]
 
@@ -370,7 +371,7 @@ return 69;
                 self.fail(f"expected={tt.get('expected')}, got={actual}")
 
     def test_if_expression(self):
-        input = "if (x < y) { x }"
+        input = "whence (x descends y) unfold x fold"
         lexer = Lexer(input)
         parser = Parser(lexer)
         program = parser.parse_program()
@@ -387,7 +388,7 @@ return 69;
         if not isinstance(exp, IfExpression):
             self.fail(f"stmt.expression is not IfExpression. got={type(exp)}")
 
-        if not self._test_infix_expression(exp.condition, "x", "<", "y"):
+        if not self._test_infix_expression(exp.condition, "x", "descends", "y"):
             return
 
         if len(exp.consequence.statements) != 1:
@@ -404,7 +405,7 @@ return 69;
             self.fail(f"exp.alternative was not None. got={exp.alternative}")
 
     def test_function_literal_parsing(self):
-        input = "fn(x, y) { x + y; }"
+        input = "rune(x knot y) unfold x augments y seal fold"
         lexer = Lexer(input)
         parser = Parser(lexer)
         program = parser.parse_program()
@@ -434,13 +435,13 @@ return 69;
         if not isinstance(body_stmt, ExpressionStatement):
             self.fail(f"function body stmt is not ExpressionStatement. got={type(body_stmt)}")
 
-        self._test_infix_expression(body_stmt.expression, "x", "+", "y")
+        self._test_infix_expression(body_stmt.expression, "x", "augments", "y")
 
     def test_function_parameter_parsing(self):
         tests = [
-            {"input": "fn() {};", "expected_params": []},
-            {"input": "fn(x) {};", "expected_params": ["x"]},
-            {"input": "fn(x, y, z) {};", "expected_params": ["x", "y", "z"]},
+            {"input": "rune() unfold fold seal", "expected_params": []},
+            {"input": "rune(x) unfold fold seal", "expected_params": ["x"]},
+            {"input": "rune(x knot y knot z) unfold fold seal", "expected_params": ["x", "y", "z"]},
         ]
 
         for test in tests:
@@ -467,7 +468,7 @@ return 69;
                 self._test_literal_expression(function.parameters[i], expected_param)
 
     def test_call_expression_parsing(self):
-        input_text = "add(1, 2 * 3, 4 + 5);"
+        input_text = "add(1 knot 2 conjoins 3 knot 4 augments 5) seal"
         lexer = Lexer(input_text)
         parser = Parser(lexer)
         program = parser.parse_program()
@@ -492,8 +493,8 @@ return 69;
             self.fail(f"wrong length of arguments. got={len(exp.arguments)}")
 
         self._test_literal_expression(exp.arguments[0], 1)
-        self._test_infix_expression(exp.arguments[1], 2, "*", 3)
-        self._test_infix_expression(exp.arguments[2], 4, "+", 5)
+        self._test_infix_expression(exp.arguments[1], 2, "conjoins", 3)
+        self._test_infix_expression(exp.arguments[2], 4, "augments", 5)
 
 if __name__ == "__main__":
     unittest.main()
