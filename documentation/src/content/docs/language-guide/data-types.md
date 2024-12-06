@@ -1,11 +1,11 @@
 ---
 title: Data Types
-description: Overview of PyFly's data types and type system
+description: Overview of our interpreter's data types and object system
 ---
 
 # Data Types
 
-PyFly has a simple but effective type system that includes basic data types common in most programming languages.
+Our interpreter implements a simple but effective object system with basic data types common in most programming languages.
 
 ## Basic Types
 
@@ -19,6 +19,13 @@ let y = -17;
 let z = 0;
 ```
 
+Operations on integers:
+- Addition: `5 + 3`
+- Subtraction: `10 - 4`
+- Multiplication: `6 * 7`
+- Division: `15 / 3`
+- Comparison: `5 < 10`, `7 > 3`, `5 == 5`, `6 != 4`
+
 ### Boolean
 
 Boolean values can be either `true` or `false`:
@@ -29,47 +36,93 @@ let isFalse = false;
 let result = 5 > 3;  // evaluates to true
 ```
 
+Operations on booleans:
+- Logical NOT: `!true` evaluates to `false`
+- Equality: `true == true`, `false != true`
+
 ### Function
 
-Functions are first-class citizens in PyFly:
+Functions are first-class values in our language:
 
 ```python
+// Simple function
 let add = fn(x, y) {
     return x + y;
 };
 
-let multiply = fn(x, y) {
-    return x * y;
+// Function with multiple statements
+let max = fn(x, y) {
+    if (x > y) {
+        return x;
+    } else {
+        return y;
+    }
 };
+
+// Function that returns a function
+let makeAdder = fn(x) {
+    return fn(y) {
+        return x + y;
+    };
+};
+```
+
+## Object System
+
+The interpreter uses a simple object system defined in `object.py`:
+
+### Integer Objects
+
+```python
+class Integer:
+    def __init__(self, value: int):
+        self.value = value
+
+    def type(self) -> str:
+        return INTEGER_OBJ
+```
+
+### Boolean Objects
+
+```python
+class Boolean:
+    def __init__(self, value: bool):
+        self.value = value
+
+    def type(self) -> str:
+        return BOOLEAN_OBJ
+```
+
+### Function Objects
+
+```python
+class Function:
+    def __init__(self, parameters: List[Identifier], 
+                 body: BlockStatement, 
+                 env: Environment):
+        self.parameters = parameters
+        self.body = body
+        self.env = env
+
+    def type(self) -> str:
+        return FUNCTION_OBJ
 ```
 
 ## Type System
 
-PyFly uses a static type system where types are inferred from the values and operations:
+The interpreter uses dynamic typing where types are determined at runtime:
 
 ```python
-let x = 5;              // inferred as integer
-let isValid = true;     // inferred as boolean
-let add = fn(x, y) {    // inferred as function
+let x = 5;              // Integer
+let isValid = true;     // Boolean
+let add = fn(x, y) {    // Function
     return x + y;
 };
 ```
 
-## Type Operations
-
-### Type Coercion
-
-PyFly does not perform implicit type coercion. Operations must be performed between values of the same type:
-
-```python
-let x = 5;
-let y = true;
-// x + y would result in an error
-```
-
 ### Type Checking
 
-Type checking is performed at runtime:
+Type checking is performed at runtime during evaluation:
 
 ```python
 let x = 5;
@@ -77,88 +130,59 @@ let y = 10;
 x + y;    // valid: both are integers
 
 let z = true;
-x + z;    // invalid: cannot add integer and boolean
+x + z;    // runtime error: type mismatch
 ```
 
-## Working with Types
+## Error Handling
 
-### Function Types
-
-Functions can take any type as arguments and return any type:
+The interpreter includes error handling for type-related issues:
 
 ```python
-// Function that takes two integers and returns an integer
-let add = fn(x, y) {
-    return x + y;
-};
+class Error:
+    def __init__(self, message: str):
+        self.message = message
 
-// Function that takes a boolean and returns a boolean
-let not = fn(x) {
-    return !x;
-};
+    def type(self) -> str:
+        return ERROR_OBJ
 ```
 
-### Type Composition
-
-You can create more complex types by composing functions:
-
-```python
-// Higher-order function that returns a function
-let makeAdder = fn(x) {
-    return fn(y) {
-        return x + y;
-    };
-};
-
-let addFive = makeAdder(5);
-let result = addFive(10);  // returns 15
-```
+Common error cases:
+- Type mismatches in operations
+- Unknown operators for types
+- Undefined variables
+- Invalid function calls
 
 ## Best Practices
 
-1. Be explicit about the types you expect in function parameters
-2. Use meaningful variable names that indicate the type
-3. Keep type conversions explicit
-4. Document expected types in comments for complex functions
+1. Use consistent types in operations
+2. Handle potential type errors in your code
+3. Use meaningful variable names that indicate the type
+4. Keep functions type-consistent
+5. Document expected types in complex functions
 
-## Common Patterns
-
-### Type Guards
-
-When working with different types, use if statements as type guards:
-
-```python
-let processValue = fn(x) {
-    if (isNumber(x)) {
-        return x + 1;
-    } else if (isBoolean(x)) {
-        return !x;
-    } else {
-        return x;
-    }
-};
-```
+## Examples
 
 ### Type-Safe Operations
 
-Always ensure operations are performed between compatible types:
-
 ```python
-let safeAdd = fn(x, y) {
-    if (isNumber(x) && isNumber(y)) {
-        return x + y;
-    } else {
-        return null;
+let divide = fn(x, y) {
+    if (y == 0) {
+        return false;  // Error case
     }
+    return x / y;
 };
 ```
 
-## Future Extensions
+### Function Composition
 
-The type system is designed to be extensible. Future versions of PyFly may include:
+```python
+let compose = fn(f, g) {
+    return fn(x) {
+        return f(g(x));
+    };
+};
 
-1. String type
-2. Array type
-3. Custom user-defined types
-4. Type annotations
-5. Compile-time type checking 
+let addOne = fn(x) { return x + 1; };
+let double = fn(x) { return x * 2; };
+let addOneThenDouble = compose(double, addOne);
+```

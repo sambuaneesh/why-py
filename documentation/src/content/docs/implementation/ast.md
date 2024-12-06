@@ -1,20 +1,21 @@
 ---
 title: Abstract Syntax Tree Implementation
-description: Detailed explanation of PyFly's Abstract Syntax Tree (AST) implementation
+description: Detailed explanation of the custom interpreter's Abstract Syntax Tree (AST) implementation
 ---
 
 # Abstract Syntax Tree Implementation
 
-The Abstract Syntax Tree (AST) is the core data structure that represents the syntactic structure of PyFly programs. It's implemented in `ast1.py` and provides a hierarchical representation of the program's syntax.
+The Abstract Syntax Tree (AST) is the core data structure that represents the syntactic structure of our interpreter's programs. It's implemented in `ast1.py` and provides a hierarchical representation of the program's syntax.
 
 ## Overview
 
 The AST implementation consists of several key components:
 
 1. Base node interfaces
-2. Statement nodes
-3. Expression nodes
-4. Program root node
+2. Program root node
+3. Statement nodes
+4. Expression nodes
+5. Function and control flow nodes
 
 ## Base Node Interfaces
 
@@ -47,7 +48,7 @@ class Expression(Node):
 
 ## Program Node
 
-The root node of every AST:
+The root node that contains all statements:
 
 ```python
 class Program:
@@ -55,7 +56,9 @@ class Program:
         self.statements = statements
 
     def token_literal(self) -> str:
-        return self.statements[0].token_literal() if self.statements else ""
+        if len(self.statements) > 0:
+            return self.statements[0].token_literal()
+        return ""
 
     def string(self) -> str:
         return "".join(stmt.string() for stmt in self.statements)
@@ -69,10 +72,10 @@ Represents variable declarations:
 
 ```python
 class LetStatement(Statement):
-    def __init__(self, token: Token, name: Identifier, value: Optional[Expression]):
-        self.token = token  # The LET token
-        self.name = name
-        self.value = value
+    def __init__(self, token: Token, name: Optional[Identifier], value: Optional[Expression]):
+        self.token = token  # The 'let' token
+        self.name = name    # The identifier being bound
+        self.value = value  # The value expression
 
     def statement_node(self):
         pass
@@ -81,7 +84,11 @@ class LetStatement(Statement):
         return self.token.literal
 
     def string(self) -> str:
-        return f"{self.token_literal()} {self.name.string()} = {self.value.string()};"
+        out = f"{self.token_literal()} {self.name.string()} = "
+        if self.value:
+            out += self.value.string()
+        out += ";"
+        return out
 ```
 
 ### Return Statement
@@ -101,12 +108,16 @@ class ReturnStatement(Statement):
         return self.token.literal
 
     def string(self) -> str:
-        return f"{self.token_literal()} {self.return_value.string()};"
+        out = self.token_literal()
+        if self.return_value:
+            out += f" {self.return_value.string()}"
+        out += ";"
+        return out
 ```
 
 ### Expression Statement
 
-Wraps expressions that are used as statements:
+Wraps expressions that can be used as statements:
 
 ```python
 class ExpressionStatement(Statement):
@@ -121,14 +132,16 @@ class ExpressionStatement(Statement):
         return self.token.literal
 
     def string(self) -> str:
-        return self.expression.string() if self.expression else ""
+        if self.expression:
+            return self.expression.string()
+        return ""
 ```
 
 ## Expression Nodes
 
 ### Identifier
 
-Represents variable names:
+Represents variable names and references:
 
 ```python
 class Identifier(Expression):
@@ -146,9 +159,9 @@ class Identifier(Expression):
         return self.value
 ```
 
-### Integer Literal
+### Literals
 
-Represents numeric values:
+Various literal types supported by the interpreter:
 
 ```python
 class IntegerLiteral(Expression):
@@ -164,14 +177,8 @@ class IntegerLiteral(Expression):
 
     def string(self) -> str:
         return self.token.literal
-```
 
-### Boolean Literal
-
-Represents boolean values:
-
-```python
-class Boolean(Expression):
+class BooleanLiteral(Expression):
     def __init__(self, token: Token, value: bool):
         self.token = token
         self.value = value
@@ -186,16 +193,16 @@ class Boolean(Expression):
         return self.token.literal
 ```
 
-## Complex Expressions
+### Operator Expressions
 
-### Prefix Expression
+#### Prefix Expression
 
 Represents unary operations:
 
 ```python
 class PrefixExpression(Expression):
-    def __init__(self, token: Token, operator: str, right: Expression):
-        self.token = token
+    def __init__(self, token: Token, operator: str, right: Optional[Expression]):
+        self.token = token      # The prefix token (!, -)
         self.operator = operator
         self.right = right
 
@@ -209,14 +216,14 @@ class PrefixExpression(Expression):
         return f"({self.operator}{self.right.string()})"
 ```
 
-### Infix Expression
+#### Infix Expression
 
 Represents binary operations:
 
 ```python
 class InfixExpression(Expression):
     def __init__(self, token: Token, left: Expression, operator: str, right: Expression):
-        self.token = token
+        self.token = token      # The operator token
         self.left = left
         self.operator = operator
         self.right = right
@@ -233,9 +240,7 @@ class InfixExpression(Expression):
 
 ## Function-Related Nodes
 
-### Function Literal
-
-Represents function definitions:
+### Function Definition and Calls
 
 ```python
 class FunctionLiteral(Expression):
@@ -253,17 +258,11 @@ class FunctionLiteral(Expression):
     def string(self) -> str:
         params = ", ".join(param.string() for param in self.parameters)
         return f"{self.token_literal()}({params}) {self.body.string()}"
-```
 
-### Call Expression
-
-Represents function calls:
-
-```python
 class CallExpression(Expression):
     def __init__(self, token: Token, function: Expression, arguments: List[Expression]):
-        self.token = token
-        self.function = function
+        self.token = token      # The '(' token
+        self.function = function # The identifier or function literal
         self.arguments = arguments
 
     def expression_node(self):
@@ -275,6 +274,54 @@ class CallExpression(Expression):
     def string(self) -> str:
         args = ", ".join(arg.string() for arg in self.arguments)
         return f"{self.function.string()}({args})"
+```
+
+## Block Statement
+
+Represents a sequence of statements:
+
+```python
+class BlockStatement(Statement):
+    def __init__(self, token: Token, statements: List[Statement]):
+        self.token = token
+        self.statements = statements
+
+    def statement_node(self):
+        pass
+
+    def token_literal(self) -> str:
+        return self.token.literal
+
+    def string(self) -> str:
+        return "".join(stmt.string() for stmt in self.statements)
+```
+
+## Control Flow and Functions
+
+### If Expression
+
+Represents conditional expressions:
+
+```python
+class IfExpression(Expression):
+    def __init__(self, token: Token, condition: Expression, 
+                 consequence: BlockStatement, alternative: Optional[BlockStatement]):
+        self.token = token
+        self.condition = condition
+        self.consequence = consequence
+        self.alternative = alternative
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self) -> str:
+        return self.token.literal
+
+    def string(self) -> str:
+        out = f"if{self.condition.string()} {self.consequence.string()}"
+        if self.alternative:
+            out += f"else {self.alternative.string()}"
+        return out
 ```
 
 ## Best Practices

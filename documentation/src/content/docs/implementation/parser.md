@@ -1,18 +1,19 @@
 ---
 title: Parser Implementation
-description: Detailed explanation of PyFly's parser implementation using recursive descent and Pratt parsing
+description: Detailed explanation of the custom interpreter's parser implementation using recursive descent and Pratt parsing
 ---
 
 # Parser Implementation
 
-The parser is the second phase of the PyFly interpreter. It takes the tokens produced by the lexer and constructs an Abstract Syntax Tree (AST) that represents the program's structure.
+The parser is the second phase of our interpreter. It takes the tokens produced by the lexer and constructs an Abstract Syntax Tree (AST) that represents the program's structure.
 
 ## Overview
 
-PyFly's parser is implemented using a combination of:
+Our parser is implemented using a combination of:
 
 1. Recursive Descent Parsing for statements
 2. Pratt Parsing for expressions
+3. Operator precedence parsing for mathematical operations
 
 ## Parser Structure
 
@@ -29,11 +30,8 @@ class Precedence(Enum):
     PRODUCT = auto()     # *
     PREFIX = auto()      # -X or !X
     CALL = auto()        # myFunction(X)
-```
 
-### Precedence Table
-
-```python
+# Precedence mapping
 PRECEDENCES = {
     TokenType.EQ: Precedence.EQUALS,
     TokenType.NOT_EQ: Precedence.EQUALS,
@@ -59,16 +57,67 @@ class Parser:
         self.peek_token = None
         self.errors: List[str] = []
         
-        # Register parsing functions
-        self.prefix_parse_fns = {}
-        self.infix_parse_fns = {}
+        # Prefix and infix parse function registries
+        self.prefix_parse_fns: Dict[TokenType, Callable[[], Optional[Expression]]] = {}
+        self.infix_parse_fns: Dict[TokenType, Callable[[Expression], Optional[Expression]]] = {}
         
+        # Register parsing functions
         self._register_prefix_fns()
         self._register_infix_fns()
         
         # Initialize tokens
         self.next_token()
         self.next_token()
+```
+
+### Parse Function Registration
+
+```python
+def _register_prefix_fns(self):
+    """Register prefix parse functions"""
+    self.prefix_parse_fns = {
+        TokenType.IDENT: self.parse_identifier,
+        TokenType.INT: self.parse_integer_literal,
+        TokenType.BANG: self.parse_prefix_expression,
+        TokenType.MINUS: self.parse_prefix_expression,
+        TokenType.TRUE: self.parse_boolean,
+        TokenType.FALSE: self.parse_boolean,
+        TokenType.LPAREN: self.parse_grouped_expression,
+        TokenType.IF: self.parse_if_expression,
+        TokenType.FUNCTION: self.parse_function_literal,
+    }
+
+def _register_infix_fns(self):
+    """Register infix parse functions"""
+    self.infix_parse_fns = {
+        TokenType.PLUS: self.parse_infix_expression,
+        TokenType.MINUS: self.parse_infix_expression,
+        TokenType.SLASH: self.parse_infix_expression,
+        TokenType.ASTERISK: self.parse_infix_expression,
+        TokenType.EQ: self.parse_infix_expression,
+        TokenType.NOT_EQ: self.parse_infix_expression,
+        TokenType.LT: self.parse_infix_expression,
+        TokenType.GT: self.parse_infix_expression,
+        TokenType.LPAREN: self.parse_call_expression,
+    }
+```
+
+## Program Parsing
+
+The main parsing function that processes the entire program:
+
+```python
+def parse_program(self) -> Program:
+    """Parse the entire program, collecting statements"""
+    program = Program(statements=[])
+
+    while not self.cur_token_is(TokenType.EOF):
+        stmt = self.parse_statement()
+        if stmt:
+            program.statements.append(stmt)
+        self.next_token()
+
+    return program
 ```
 
 ## Statement Parsing
@@ -79,25 +128,30 @@ The parser handles different types of statements:
 
 ```python
 def parse_let_statement(self) -> Optional[LetStatement]:
-    stmt = LetStatement(token=self.cur_token, name=None, value=None)
-    
+    """Parse a let statement"""
+    stmt = LetStatement(
+        token=self.cur_token,
+        name=None,
+        value=None
+    )
+
     if not self.expect_peek(TokenType.IDENT):
         return None
-        
+
     stmt.name = Identifier(
         token=self.cur_token,
         value=self.cur_token.literal
     )
-    
+
     if not self.expect_peek(TokenType.ASSIGN):
         return None
-        
+
     self.next_token()
     stmt.value = self.parse_expression(Precedence.LOWEST)
-    
+
     if self.peek_token_is(TokenType.SEMICOLON):
         self.next_token()
-        
+
     return stmt
 ```
 
@@ -105,80 +159,84 @@ def parse_let_statement(self) -> Optional[LetStatement]:
 
 ```python
 def parse_return_statement(self) -> Optional[ReturnStatement]:
-    stmt = ReturnStatement(token=self.cur_token, return_value=None)
-    
+    """Parse a return statement"""
+    stmt = ReturnStatement(
+        token=self.cur_token,
+        return_value=None
+    )
+
     self.next_token()
     stmt.return_value = self.parse_expression(Precedence.LOWEST)
-    
+
     if self.peek_token_is(TokenType.SEMICOLON):
         self.next_token()
-        
+
     return stmt
 ```
 
 ## Expression Parsing
 
-PyFly uses Pratt parsing for expressions, which associates parsing functions with token types:
+The parser uses Pratt parsing for expressions, with specialized handlers for different types:
 
-### Prefix Expressions
+### Expression Parsing Core
 
 ```python
-def parse_prefix_expression(self) -> Optional[Expression]:
-    expression = PrefixExpression(
-        token=self.cur_token,
-        operator=self.cur_token.literal,
-        right=None
-    )
-    
-    self.next_token()
-    expression.right = self.parse_expression(Precedence.PREFIX)
-    
-    return expression
+def parse_expression(self, precedence: Precedence) -> Optional[Expression]:
+    """Parse an expression with given precedence"""
+    # Find the prefix parse function for the current token
+    prefix_fn = self.prefix_parse_fns.get(self.cur_token.type)
+    if not prefix_fn:
+        self.no_prefix_parse_fn_error(self.cur_token.type)
+        return None
+
+    # Parse the left expression
+    left_exp = prefix_fn()
+
+    # Continue parsing infix expressions while precedence allows
+    while (not self.peek_token_is(TokenType.SEMICOLON) and 
+           precedence.value < self.peek_precedence().value):
+        infix_fn = self.infix_parse_fns.get(self.peek_token.type)
+        if not infix_fn:
+            return left_exp
+
+        self.next_token()
+        left_exp = infix_fn(left_exp)
+
+    return left_exp
 ```
 
-### Infix Expressions
+### Function Literals and Calls
 
 ```python
-def parse_infix_expression(self, left: Expression) -> Optional[Expression]:
-    expression = InfixExpression(
-        token=self.cur_token,
-        operator=self.cur_token.literal,
-        left=left,
-        right=None
-    )
-    
-    precedence = self.cur_precedence()
-    self.next_token()
-    expression.right = self.parse_expression(precedence)
-    
-    return expression
-```
-
-## Function Parsing
-
-The parser handles function literals and calls:
-
-### Function Literals
-
-```python
-def parse_function_literal(self) -> Optional[Expression]:
+def parse_function_literal(self) -> Optional[FunctionLiteral]:
+    """Parse a function literal"""
     lit = FunctionLiteral(
         token=self.cur_token,
         parameters=[],
         body=None
     )
-    
+
     if not self.expect_peek(TokenType.LPAREN):
         return None
-        
+
     lit.parameters = self.parse_function_parameters()
-    
+
     if not self.expect_peek(TokenType.LBRACE):
         return None
-        
+
     lit.body = self.parse_block_statement()
-    
+
     return lit
+
+def parse_call_expression(self, function: Expression) -> Optional[CallExpression]:
+    """Parse a function call expression"""
+    exp = CallExpression(
+        token=self.cur_token,
+        function=function,
+        arguments=[]
+    )
+    exp.arguments = self.parse_call_arguments()
+    return exp
 ```
 
 ## Error Handling
@@ -187,10 +245,16 @@ The parser maintains a list of errors and provides detailed error messages:
 
 ```python
 def peek_error(self, token_type: TokenType):
+    """Add an error message about unexpected token type"""
     error_msg = (
         f"expected next token to be {token_type}, "
         f"got {self.peek_token.type} instead"
     )
+    self.errors.append(error_msg)
+
+def no_prefix_parse_fn_error(self, token_type: TokenType):
+    """Add an error message when no prefix parse function exists"""
+    error_msg = f"no prefix parse function for {token_type} found"
     self.errors.append(error_msg)
 ```
 
@@ -199,58 +263,8 @@ def peek_error(self, token_type: TokenType):
 The parser implementation follows these best practices:
 
 1. Clear separation between statement and expression parsing
-2. Proper error handling and recovery
-3. Modular design with separate parsing functions
-4. Strong typing using Python type hints
-5. Comprehensive test coverage
-
-## Performance Considerations
-
-The parser is optimized for:
-
-1. Single-pass parsing
-2. Efficient token handling
-3. Minimal backtracking
-4. Memory-efficient AST construction
-
-## Testing
-
-The parser is tested for:
-
-1. Statement parsing
-2. Expression parsing
-3. Operator precedence
-4. Error handling
-5. Edge cases
-
-## Example Usage
-
-Here's how to use the parser:
-
-```python
-# Create lexer and parser
-input_code = "let x = 5 + 10;"
-lexer = Lexer(input_code)
-parser = Parser(lexer)
-
-# Parse the program
-program = parser.parse_program()
-
-# Check for errors
-if parser.errors:
-    print("Parsing errors:")
-    for error in parser.errors:
-        print(f"  {error}")
-else:
-    print(program.string())
-```
-
-## Advanced Features
-
-The parser supports advanced features like:
-
-1. Nested expressions
-2. Function calls
-3. If-else expressions
-4. Grouped expressions
-5. Complex operator precedence 
+2. Type-safe function registries using Python's type hints
+3. Comprehensive error handling with detailed messages
+4. Efficient token handling with peek and current token tracking
+5. Clean separation of parsing responsibilities
+6. Memory-efficient AST construction using minimal object allocation
