@@ -1,164 +1,151 @@
 ---
 title: Data Types
-description: Overview of PyFly's data types and type system
+description: Understanding the mystical types that flow through WhyPY
 ---
 
 # Data Types
 
-PyFly has a simple but effective type system that includes basic data types common in most programming languages.
+WhyPY implements a mystical object system with fundamental types that represent the basic building blocks of computational reality.
 
 ## Basic Types
 
-### Integer
+### NUMBER (Integer)
 
-Integers are whole numbers:
+Numbers represent the quantifiable essence of reality:
 
 ```python
-let x = 42;
-let y = -17;
-let z = 0;
+manifest x with 42 seal
+manifest y with diminishes 17 seal
+manifest z with 0 seal
 ```
 
-### Boolean
+Operations on numbers:
+- Augmentation: `5 augments 3`
+- Diminishment: `10 diminishes 4`
+- Conjunction: `6 conjoins 7`
+- Division: `15 divide 3`
+- Comparison: `5 descends 10`, `7 ascends 3`, `5 mirrors 5`, `6 diverges 4`
 
-Boolean values can be either `true` or `false`:
+### TRUTH (Boolean)
+
+Truth values represent the duality of existence:
 
 ```python
-let isTrue = true;
-let isFalse = false;
-let result = 5 > 3;  // evaluates to true
+manifest isTrue with verity seal
+manifest isFalse with fallacy seal
+manifest result with 5 descends 3 seal  // evaluates to fallacy
 ```
 
-### Function
+Operations on truth values:
+- Negation: `negate verity` evaluates to `fallacy`
+- Equality: `verity mirrors verity`, `fallacy diverges verity`
 
-Functions are first-class citizens in PyFly:
+### RITUAL (Function)
+
+Rituals are the transformative forces in WhyPY:
 
 ```python
-let add = fn(x, y) {
-    return x + y;
-};
+// Simple ritual
+manifest add with rune(x knot y) unfold
+    yield x augments y seal
+fold seal
 
-let multiply = fn(x, y) {
-    return x * y;
-};
+// Ritual with multiple statements
+manifest max with rune(x knot y) unfold
+    whence (x ascends y) unfold
+        yield x seal
+    fold elsewise unfold
+        yield y seal
+    fold
+fold seal
+
+// Ritual that yields another ritual
+manifest makeAdder with rune(x) unfold
+    yield rune(y) unfold
+        yield x augments y seal
+    fold seal
+fold seal
+```
+
+## Object System
+
+The interpreter uses a mystical object system defined in `object.py`:
+
+### NUMBER Objects
+
+```python
+class Integer:
+    def type(self) -> str:
+        return "NUMBER"
+```
+
+### TRUTH Objects
+
+```python
+class Boolean:
+    def type(self) -> str:
+        return "TRUTH"
+```
+
+### RITUAL Objects
+
+```python
+class Function:
+    def type(self) -> str:
+        return "RITUAL"
 ```
 
 ## Type System
 
-PyFly uses a static type system where types are inferred from the values and operations:
+WhyPY uses dynamic typing where types are determined during the ritual of evaluation:
 
 ```python
-let x = 5;              // inferred as integer
-let isValid = true;     // inferred as boolean
-let add = fn(x, y) {    // inferred as function
-    return x + y;
-};
+manifest x with 5 seal                    // NUMBER
+manifest isValid with verity seal         // TRUTH
+manifest add with rune(x knot y) unfold   // RITUAL
+    yield x augments y seal
+fold seal
 ```
 
-## Type Operations
+### Type Verification
 
-### Type Coercion
-
-PyFly does not perform implicit type coercion. Operations must be performed between values of the same type:
+Type verification occurs during the ritual of evaluation:
 
 ```python
-let x = 5;
-let y = true;
-// x + y would result in an error
+manifest x with 5 seal
+manifest y with 10 seal
+x augments y seal    // valid: both are numbers
+
+manifest z with verity seal
+x augments z seal    // mishap: type mismatch
 ```
 
-### Type Checking
+## Mishap Handling
 
-Type checking is performed at runtime:
+The interpreter includes mishap handling for type-related issues:
 
 ```python
-let x = 5;
-let y = 10;
-x + y;    // valid: both are integers
-
-let z = true;
-x + z;    // invalid: cannot add integer and boolean
+class Error:
+    def type(self) -> str:
+        return "MISHAP"
 ```
 
-## Working with Types
+Common mishaps:
+- Type mismatches in operations
+- Unknown rituals for types
+- Undefined sigils
+- Invalid ritual invocations
 
-### Function Types
-
-Functions can take any type as arguments and return any type:
+### Ritual Composition
 
 ```python
-// Function that takes two integers and returns an integer
-let add = fn(x, y) {
-    return x + y;
-};
+manifest compose with rune(f knot g) unfold
+    yield rune(x) unfold
+        yield f(g(x)) seal
+    fold seal
+fold seal
 
-// Function that takes a boolean and returns a boolean
-let not = fn(x) {
-    return !x;
-};
+manifest addOne with rune(x) unfold yield x augments 1 seal fold seal
+manifest double with rune(x) unfold yield x conjoins 2 seal fold seal
+manifest addOneThenDouble with compose(double knot addOne) seal
 ```
-
-### Type Composition
-
-You can create more complex types by composing functions:
-
-```python
-// Higher-order function that returns a function
-let makeAdder = fn(x) {
-    return fn(y) {
-        return x + y;
-    };
-};
-
-let addFive = makeAdder(5);
-let result = addFive(10);  // returns 15
-```
-
-## Best Practices
-
-1. Be explicit about the types you expect in function parameters
-2. Use meaningful variable names that indicate the type
-3. Keep type conversions explicit
-4. Document expected types in comments for complex functions
-
-## Common Patterns
-
-### Type Guards
-
-When working with different types, use if statements as type guards:
-
-```python
-let processValue = fn(x) {
-    if (isNumber(x)) {
-        return x + 1;
-    } else if (isBoolean(x)) {
-        return !x;
-    } else {
-        return x;
-    }
-};
-```
-
-### Type-Safe Operations
-
-Always ensure operations are performed between compatible types:
-
-```python
-let safeAdd = fn(x, y) {
-    if (isNumber(x) && isNumber(y)) {
-        return x + y;
-    } else {
-        return null;
-    }
-};
-```
-
-## Future Extensions
-
-The type system is designed to be extensible. Future versions of PyFly may include:
-
-1. String type
-2. Array type
-3. Custom user-defined types
-4. Type annotations
-5. Compile-time type checking 

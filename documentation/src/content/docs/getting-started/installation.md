@@ -1,78 +1,46 @@
 ---
-title: Installing PyFly
-description: Learn how to install and set up PyFly on your system
+title: Installation
+description: Learn how to summon WhyPy into your development realm
 ---
 
-# Installation Guide
+WhyPy requires only Python 3.6 or higher to channel its mystical energies. No additional dependencies are needed.
 
-PyFly is a Python-based interpreter, so you'll need Python installed on your system to use it. Follow these steps to get started with PyFly.
+## Quick Installation
 
-## Prerequisites
-
-- Python 3.7 or higher
-- pip (Python package installer)
-- Git (optional, for cloning the repository)
-
-## Installation Steps
-
-### 1. Clone the Repository
+1. Clone the mystical repository:
 
 ```bash
-git clone https://github.com/yourusername/pyfly.git
-cd pyfly
+git clone https://github.com/sambuaneesh/why-py.git
+cd why-py
 ```
 
-### 2. Set Up a Virtual Environment (Recommended)
-
-It's recommended to use a virtual environment to avoid conflicts with other Python packages:
+2. Verify the installation by invoking the REPL:
 
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Unix/macOS
-# or
-.\venv\Scripts\activate  # On Windows
+python repl.py
 ```
 
-### 3. Install Dependencies
+You should see the mystical greeting:
 
-PyFly has minimal dependencies, all of which are included in the Python standard library. No additional packages are required.
+```
+Welcome to the WhyPy REPL - Your Portal to Mystical Computing
+Inscribe your incantations below. Multi-line rituals are supported.
+Use the sacred Ctrl+D to close the tome, or Ctrl+C to cancel the current incantation.
 
-### 4. Verify Installation
+└─⚡
+```
 
-To verify that PyFly is working correctly, you can run the test suite:
+<!-- ## Running WhyPy Programs
+
+To run a WhyPy program from a file:
 
 ```bash
-python -m unittest lexer_test.py
-```
-
-If all tests pass, you're ready to start using PyFly!
-
-## Project Structure
-
-After installation, you'll find the following key files in your project directory:
-
-```
-pyfly/
-├── lexer.py         # Lexical analyzer
-├── parser.py        # Parser implementation
-├── ast1.py          # Abstract Syntax Tree definitions
-└── lexer_test.py    # Test suite
-```
+python repl.py < your_mystical_program.why
+``` -->
 
 ## Next Steps
 
-Now that you have PyFly installed, you can:
-
-1. Follow the [Quick Start](/getting-started/quick-start/) guide to write your first PyFly program
-2. Read the [Language Guide](/language-guide/syntax-overview/) to learn about PyFly's syntax
-3. Explore the [API Reference](/api-reference/lexer/) for detailed documentation
-
-## Troubleshooting
-
-If you encounter any issues during installation:
-
-1. Make sure you have the correct Python version installed
-2. Check that your virtual environment is activated
-3. Verify that all files are in the correct directory structure
-
-For more help, please check the project's GitHub repository or open an issue. 
+Now that you've summoned WhyPy, you're ready to:
+1. [Cast your first spells](quick-start.md) in the Quick Start guide
+2. [Study the mystical syntax](/language-guide/syntax-overview)
+3. [Explore example incantations](/examples/basic) 

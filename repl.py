@@ -16,24 +16,24 @@ RED = "\033[31m"
 
 user = os.getlogin() if os.name != 'nt' else os.environ.get('USERNAME')
 system_info = platform.system() + " " + platform.release()
-prompt1 = f"{GREEN}┌──({CYAN}{user}㉿{system_info}{GREEN})-[{YELLOW}PyFly{GREEN}]\n"
-prompt2 = f"└─{MAGENTA}${RESET} "
+prompt1 = f"{GREEN}┌──({CYAN}Mystic {user}⚡{system_info}{GREEN})-[{YELLOW}Grimoire{GREEN}]\n"
+prompt2 = f"└─{MAGENTA}⚡{RESET} "
 
 def print_parser_errors(errors):
     for msg in errors:
-        print(f"{RED}└─ Error: {msg}{RESET}")
+        print(f"{RED}└─ Arcane Error: {msg}{RESET}")
 
 def start(in_stream=sys.stdin, out_stream=sys.stdout):
     env = Environment()
-    print(f"{YELLOW}Welcome to PyFly{RESET}", file=out_stream)
-    print(f"{CYAN}Type your code below. Use Ctrl+D to exit.{RESET}\n", file=out_stream)
+    print(f"{YELLOW}Welcome to the WhyPy{RESET}", file=out_stream)
+    print(f"{CYAN}Inscribe your incantations below. Use the sacred Ctrl+D to close the tome.{RESET}\n", file=out_stream)
 
     while True:
         print(prompt1, end="", file=out_stream)
         try:
             line = input(prompt2)
         except EOFError:
-            print("\nGoodbye!", file=out_stream)
+            print("\nMay your code forever flow in the streams of time!", file=out_stream)
             return
 
         lexer = Lexer(line)
@@ -46,5 +46,5 @@ def start(in_stream=sys.stdin, out_stream=sys.stdout):
 
         evaluated = Eval(program, env)
         if evaluated is not None:
-            print(f"{GREEN}└─ {evaluated.inspect()}{RESET}", file=out_stream)
+            print(f"{GREEN}└─ The runes speak: {evaluated.inspect()}{RESET}", file=out_stream)
             print(file=out_stream)

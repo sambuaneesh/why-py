@@ -1,256 +1,126 @@
 ---
 title: Parser Implementation
-description: Detailed explanation of PyFly's parser implementation using recursive descent and Pratt parsing
+description: Understanding the mystical art of parsing in WhyPY
 ---
 
-# Parser Implementation
+## The Art of Vaughan Pratt Parsing
 
-The parser is the second phase of the PyFly interpreter. It takes the tokens produced by the lexer and constructs an Abstract Syntax Tree (AST) that represents the program's structure.
+WhyPY employs the elegant Vaughan Pratt parsing technique, a top-down operator precedence parsing method that brings clarity to expression parsing. This approach allows us to handle complex expressions with proper precedence while maintaining the mystical nature of our syntax.
 
-## Overview
+### Why Pratt Parsing?
 
-PyFly's parser is implemented using a combination of:
+Pratt parsing excels at handling:
+- Prefix operations (`negate`, `diminishes`)
+- Infix operations (`augments`, `conjoins`, `divide`)
+- Operator precedence in a clean, extensible way
+- Complex nested expressions
 
-1. Recursive Descent Parsing for statements
-2. Pratt Parsing for expressions
+## Prefix Operations
 
-## Parser Structure
-
-The parser is implemented in `parser.py` and consists of several key components:
-
-### Precedence Levels
+WhyPY currently supports prefix operations as part of its mystical syntax:
 
 ```python
-class Precedence(Enum):
-    LOWEST = auto()
-    EQUALS = auto()      # ==
-    LESSGREATER = auto() # > or <
-    SUM = auto()         # +
-    PRODUCT = auto()     # *
-    PREFIX = auto()      # -X or !X
-    CALL = auto()        # myFunction(X)
+manifest x with negate verity seal        // Negation
+manifest y with diminishes 42 seal        // Numeric negation
 ```
 
-### Precedence Table
+Note: Postfix operations are not yet supported in the current incarnation of WhyPY, as they would disturb the flow of mystical energy from left to right.
+
+## Error Handling
+
+The parser implements comprehensive error handling to guide practitioners through their mystical journey:
+
+### Error Types
 
 ```python
-PRECEDENCES = {
-    TokenType.EQ: Precedence.EQUALS,
-    TokenType.NOT_EQ: Precedence.EQUALS,
-    TokenType.LT: Precedence.LESSGREATER,
-    TokenType.GT: Precedence.LESSGREATER,
-    TokenType.PLUS: Precedence.SUM,
-    TokenType.MINUS: Precedence.SUM,
-    TokenType.SLASH: Precedence.PRODUCT,
-    TokenType.ASTERISK: Precedence.PRODUCT,
-    TokenType.LPAREN: Precedence.CALL,
-}
+manifest x with 5 augments seal  // MISHAP: Expected expression after 'augments'
+manifest with 42 seal           // MISHAP: Expected identifier after 'manifest'
 ```
 
-## Parser Class
+### Error Recovery
 
-The `Parser` class is the main component that handles parsing:
+The parser employs sophisticated error recovery mechanisms to:
+- Provide meaningful error messages
+- Continue parsing after encountering errors
+- Maintain the mystical state of the parse tree
 
+Example error messages:
 ```python
-class Parser:
-    def __init__(self, lexer: Lexer):
-        self.lexer = lexer
-        self.cur_token = None
-        self.peek_token = None
-        self.errors: List[str] = []
-        
-        # Register parsing functions
-        self.prefix_parse_fns = {}
-        self.infix_parse_fns = {}
-        
-        self._register_prefix_fns()
-        self._register_infix_fns()
-        
-        # Initialize tokens
-        self.next_token()
-        self.next_token()
-```
-
-## Statement Parsing
-
-The parser handles different types of statements:
-
-### Let Statements
-
-```python
-def parse_let_statement(self) -> Optional[LetStatement]:
-    stmt = LetStatement(token=self.cur_token, name=None, value=None)
-    
-    if not self.expect_peek(TokenType.IDENT):
-        return None
-        
-    stmt.name = Identifier(
-        token=self.cur_token,
-        value=self.cur_token.literal
-    )
-    
-    if not self.expect_peek(TokenType.ASSIGN):
-        return None
-        
-    self.next_token()
-    stmt.value = self.parse_expression(Precedence.LOWEST)
-    
-    if self.peek_token_is(TokenType.SEMICOLON):
-        self.next_token()
-        
-    return stmt
-```
-
-### Return Statements
-
-```python
-def parse_return_statement(self) -> Optional[ReturnStatement]:
-    stmt = ReturnStatement(token=self.cur_token, return_value=None)
-    
-    self.next_token()
-    stmt.return_value = self.parse_expression(Precedence.LOWEST)
-    
-    if self.peek_token_is(TokenType.SEMICOLON):
-        self.next_token()
-        
-    return stmt
+MISHAP: Unexpected token 'seal' during ritual invocation
+MISHAP: Expected 'fold' to close ritual body
+MISHAP: Cannot bind truth value to numeric operation
 ```
 
 ## Expression Parsing
 
-PyFly uses Pratt parsing for expressions, which associates parsing functions with token types:
+The parser handles various expression types:
 
 ### Prefix Expressions
-
 ```python
-def parse_prefix_expression(self) -> Optional[Expression]:
-    expression = PrefixExpression(
-        token=self.cur_token,
-        operator=self.cur_token.literal,
-        right=None
-    )
-    
-    self.next_token()
-    expression.right = self.parse_expression(Precedence.PREFIX)
-    
-    return expression
+negate verity
+diminishes 42
 ```
 
 ### Infix Expressions
-
 ```python
-def parse_infix_expression(self, left: Expression) -> Optional[Expression]:
-    expression = InfixExpression(
-        token=self.cur_token,
-        operator=self.cur_token.literal,
-        left=left,
-        right=None
-    )
-    
-    precedence = self.cur_precedence()
-    self.next_token()
-    expression.right = self.parse_expression(precedence)
-    
-    return expression
+5 augments 3
+x conjoins y
+truth mirrors fallacy
 ```
 
-## Function Parsing
+### Grouped Expressions
+```python
+(5 augments 3) conjoins 2
+```
 
-The parser handles function literals and calls:
+## Implementation Details
 
-### Function Literals
+The parser is implemented using Python, chosen for its:
+- Automatic memory management through garbage collection
+- Clear and readable syntax for implementing parsing logic
+- Rich standard library support
+
+### Why Not Lisp?
+
+While Lisp would seem a natural choice for an interpreter (given its powerful metaprogramming capabilities), we chose not to use it due to the "Curse of Lisp":
+- The Curse of Lisp refers to Lisp's unique syntax and concepts that can create a barrier for collaboration
+- Using Python makes the codebase more accessible to contributors
+- Python's ecosystem provides better tooling for our mystical purposes
+
+## Code Structure
+
+The parser is organized into several mystical components:
 
 ```python
-def parse_function_literal(self) -> Optional[Expression]:
-    lit = FunctionLiteral(
-        token=self.cur_token,
-        parameters=[],
-        body=None
-    )
-    
-    if not self.expect_peek(TokenType.LPAREN):
-        return None
+class Parser:
+    def parse_program(self) -> Program:
+        """Parse the entire mystical program"""
         
-    lit.parameters = self.parse_function_parameters()
-    
-    if not self.expect_peek(TokenType.LBRACE):
-        return None
+    def parse_expression(self, precedence: int) -> Optional[Expression]:
+        """Parse expressions with proper precedence"""
         
-    lit.body = self.parse_block_statement()
-    
-    return lit
+    def register_prefix(self, token_type: TokenType, fn: PrefixParseFn):
+        """Register prefix parsing functions"""
+        
+    def register_infix(self, token_type: TokenType, fn: InfixParseFn):
+        """Register infix parsing functions"""
 ```
 
-## Error Handling
+## Error Examples
 
-The parser maintains a list of errors and provides detailed error messages:
+Here are some common parsing mishaps and their mystical meanings:
 
 ```python
-def peek_error(self, token_type: TokenType):
-    error_msg = (
-        f"expected next token to be {token_type}, "
-        f"got {self.peek_token.type} instead"
-    )
-    self.errors.append(error_msg)
+// Missing seal
+manifest x with 5
+MISHAP: Expected 'seal' to contain the mystical energy
+
+// Invalid ritual declaration
+rune(x knot) unfold
+MISHAP: Expected parameter name after 'knot'
+
+// Unmatched unfold/fold
+whence (verity) unfold
+    yield 42 seal
+MISHAP: Missing 'fold' to close the mystical block
 ```
-
-## Best Practices
-
-The parser implementation follows these best practices:
-
-1. Clear separation between statement and expression parsing
-2. Proper error handling and recovery
-3. Modular design with separate parsing functions
-4. Strong typing using Python type hints
-5. Comprehensive test coverage
-
-## Performance Considerations
-
-The parser is optimized for:
-
-1. Single-pass parsing
-2. Efficient token handling
-3. Minimal backtracking
-4. Memory-efficient AST construction
-
-## Testing
-
-The parser is tested for:
-
-1. Statement parsing
-2. Expression parsing
-3. Operator precedence
-4. Error handling
-5. Edge cases
-
-## Example Usage
-
-Here's how to use the parser:
-
-```python
-# Create lexer and parser
-input_code = "let x = 5 + 10;"
-lexer = Lexer(input_code)
-parser = Parser(lexer)
-
-# Parse the program
-program = parser.parse_program()
-
-# Check for errors
-if parser.errors:
-    print("Parsing errors:")
-    for error in parser.errors:
-        print(f"  {error}")
-else:
-    print(program.string())
-```
-
-## Advanced Features
-
-The parser supports advanced features like:
-
-1. Nested expressions
-2. Function calls
-3. If-else expressions
-4. Grouped expressions
-5. Complex operator precedence 

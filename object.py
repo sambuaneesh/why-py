@@ -8,12 +8,12 @@ if TYPE_CHECKING:
 
 ObjectType = str
 
-INTEGER_OBJ = "INTEGER"
-BOOLEAN_OBJ = "BOOLEAN"
-NULL_OBJ = "NULL"
-RETURN_VALUE_OBJ = "RETURN_VALUE"
-ERROR_OBJ = "ERROR"
-FUNCTION_OBJ = "FUNCTION"
+INTEGER_OBJ = "NUMBER"
+BOOLEAN_OBJ = "TRUTH"
+NULL_OBJ = "VOID"
+RETURN_VALUE_OBJ = "YIELDED"
+ERROR_OBJ = "MISHAP"
+FUNCTION_OBJ = "RITUAL"
 
 
 class Object(abc.ABC):
@@ -45,7 +45,7 @@ class Boolean(Object):
         return BOOLEAN_OBJ
 
     def inspect(self) -> str:
-        return str(self.value).lower()
+        return "verity" if self.value else "fallacy"
 
 
 class Null(Object):
@@ -53,7 +53,7 @@ class Null(Object):
         return NULL_OBJ
 
     def inspect(self) -> str:
-        return "null"
+        return "void"
 
 
 class ReturnValue(Object):
@@ -64,7 +64,7 @@ class ReturnValue(Object):
         return RETURN_VALUE_OBJ
 
     def inspect(self) -> str:
-        return self.value.inspect()
+        return f"yield {self.value.inspect()}"
 
 
 class Error(Object):
@@ -75,7 +75,7 @@ class Error(Object):
         return ERROR_OBJ
 
     def inspect(self) -> str:
-        return f"ERROR: {self.message}"
+        return f"MISHAP: {self.message}"
 
 
 class Function(Object):
@@ -90,4 +90,5 @@ class Function(Object):
         return FUNCTION_OBJ
 
     def inspect(self) -> str:
-        return f"fn({', '.join([p.string() for p in self.parameters])}) {{ ... }}"
+        params = " knot ".join([p.string() for p in self.parameters])
+        return f"rune({params}) unfold ... fold"

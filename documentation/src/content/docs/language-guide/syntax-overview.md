@@ -1,35 +1,24 @@
 ---
 title: Syntax Overview
-description: Overview of PyFly's syntax and language constructs
+description: A journey into the mystical syntax of WhyPY
 ---
 
-# Syntax Overview
-
-PyFly's syntax is designed to be clean, intuitive, and familiar to developers who have experience with languages like Python, JavaScript, or Go.
+WhyPY's syntax is designed to make you question everything you know about programming. It takes familiar concepts and wraps them in layers of philosophical uncertainty.
 
 ## Basic Syntax
 
-### Statements and Semicolons
+### Statements and Seals
 
-Every statement in PyFly ends with a semicolon:
-
-```python
-let x = 5;
-let y = 10;
-```
-
-### Comments
-
-PyFly currently supports single-line comments:
+Every statement in WhyPY must be sealed with the mystical 'seal' keyword:
 
 ```python
-// This is a comment
-let x = 5;  // This is an end-of-line comment
+manifest x with 5 seal
+manifest y with 10 seal
 ```
 
-### Identifiers
+### Sigils (Identifiers)
 
-Identifiers in PyFly can contain:
+Sigils in WhyPY can contain:
 - Letters (a-z, A-Z)
 - Numbers (0-9)
 - Underscore (_)
@@ -37,121 +26,159 @@ Identifiers in PyFly can contain:
 The first character must be a letter or underscore:
 
 ```python
-let validName = 5;
-let _alsoValid = 10;
-let valid2 = 15;
+manifest validSigil with 5 seal
+manifest _alsoValid with 10 seal
+manifest valid2 with 15 seal
+```
+
+## Data Types
+
+### Numbers (Integers)
+
+The language deals with whole numbers, for they are pure and undivided:
+
+```python
+manifest x with 42 seal
+manifest y with 100 seal
+manifest negative with diminishes 5 seal
+```
+
+### Truth Values (Booleans)
+
+Truth values ascend to 'verity' or descend to 'fallacy':
+
+```python
+manifest isTrue with verity seal
+manifest isFalse with fallacy seal
 ```
 
 ## Expressions
 
-### Arithmetic Expressions
+### Arithmetic Rituals
 
-PyFly supports standard arithmetic operations:
+The language supports mystical arithmetic operations:
 
 ```python
-let a = 5 + 10;    // Addition
-let b = 20 - 5;    // Subtraction
-let c = 4 * 3;     // Multiplication
-let d = 15 / 3;    // Division
+manifest a with 5 augments 10 seal     // Addition
+manifest b with 20 diminishes 5 seal    // Subtraction
+manifest c with 4 conjoins 3 seal      // Multiplication
+manifest d with 15 divide 3 seal       // Division
 ```
 
-### Comparison Expressions
+### Comparison Rituals
 
-Comparison operators return boolean values:
+Comparison rituals yield truth values:
 
 ```python
-let isEqual = 5 == 5;      // true
-let notEqual = 5 != 3;     // true
-let lessThan = 5 < 10;     // true
-let greaterThan = 10 > 5;  // true
+manifest isEqual with 5 mirrors 5 seal        // verity
+manifest notEqual with 5 diverges 3 seal      // verity
+manifest lessThan with 5 descends 10 seal     // verity
+manifest greaterThan with 10 ascends 5 seal   // verity
 ```
 
-### Logical Expressions
+### Prefix Rituals
 
-PyFly supports basic logical operations:
+The language supports prefix operations:
 
 ```python
-let not = !true;           // false
-let comparison = 5 < 10;   // true
+manifest negation with negate verity seal      // fallacy
+manifest negative with diminishes 5 seal       // negative number
 ```
 
-## Code Blocks
+## Manifestation (Variable Declarations)
 
-Code blocks in PyFly are enclosed in curly braces:
+Variables are manifested using the 'manifest' keyword:
 
 ```python
-if (x > 5) {
-    return true;
-} else {
-    return false;
-}
+manifest name with 42 seal                    // number
+manifest isActive with verity seal            // truth value
+manifest add with rune(x knot y) unfold seal  // ritual
 ```
 
-## Function Declarations
+## Rituals (Functions)
 
-Functions are declared using the `fn` keyword:
+### Ritual Declarations
+
+Rituals are first-class citizens and are declared using the 'rune' keyword:
 
 ```python
-let add = fn(x, y) {
-    return x + y;
-};
+manifest add with rune(x knot y) unfold
+    yield x augments y seal
+fold seal
+
+manifest multiply with rune(x knot y) unfold
+    yield x conjoins y seal
+fold seal
 ```
 
-## Variable Declarations
+### Ritual Invocations
 
-Variables are declared using the `let` keyword:
+Rituals are invoked using parentheses:
 
 ```python
-let name = "PyFly";
-let age = 25;
-let isActive = true;
+manifest result with add(5 knot 10) seal
+manifest doubled with multiply(2 knot result) seal
 ```
 
-## Control Flow
+## Flow Control
 
-### If-Else Statements
+### Whence-Elsewise Expressions
 
-Conditional execution uses if-else statements:
+Conditional execution uses whence-elsewise expressions:
 
 ```python
-if (condition) {
-    // code to execute if condition is true
-} else {
-    // code to execute if condition is false
-}
+manifest max with rune(x knot y) unfold
+    whence (x ascends y) unfold
+        yield x seal
+    fold elsewise unfold
+        yield y seal
+    fold
+fold seal
+```
+
+Note that whence-elsewise constructs are expressions, meaning they yield a value.
+
+### Block Unfoldings
+
+Code blocks can contain multiple statements and yield the value of the last expression:
+
+```python
+manifest result with unfold
+    manifest x with 5 seal
+    manifest y with 10 seal
+    x augments y seal  // yields 15
+fold seal
 ```
 
 ## Best Practices
 
-1. Use consistent indentation (recommended: 4 spaces)
-2. End all statements with semicolons
-3. Use descriptive variable and function names
-4. Add comments to explain complex logic
-5. Keep functions small and focused
+1. Use descriptive sigil names that reflect their mystical purpose
+2. Keep rituals focused on a single arcane task
+3. Use proper indentation to maintain the sacred structure
+4. Break complex rituals into simpler ones
+5. Seal all statements to prevent the escape of mystical energies
 
-## Common Patterns
+## Examples
 
-### Function Composition
+### Ritual Composition
 
 ```python
-let compose = fn(f, g) {
-    return fn(x) {
-        return f(g(x));
-    };
-};
+manifest addTwo with rune(x) unfold yield x augments 2 seal fold seal
+manifest multiplyByThree with rune(x) unfold yield x conjoins 3 seal fold seal
+
+manifest composed with rune(x) unfold
+    yield multiplyByThree(addTwo(x)) seal
+fold seal
 ```
 
-### Higher-Order Functions
+### Conditional Logic
 
 ```python
-let map = fn(arr, f) {
-    let iter = fn(arr, accumulated) {
-        if (len(arr) == 0) {
-            return accumulated;
-        } else {
-            return iter(rest(arr), push(accumulated, f(first(arr))));
-        }
-    };
-    return iter(arr, []);
-};
+manifest isEven with rune(x) unfold
+    whence (x divide 2 mirrors 0) unfold
+        yield verity seal
+    fold elsewise unfold
+        yield fallacy seal
+    fold
+fold seal
 ``` 

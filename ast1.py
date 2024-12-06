@@ -2,6 +2,24 @@ from typing import List, Optional
 import abc
 from lexer import Token, TokenType
 
+# Esoteric syntax mappings
+OPERATOR_MAP = {
+    "=": "with",
+    "+": "augments",
+    "-": "diminishes",
+    "!": "negate",
+    "*": "conjoins",
+    "/": "divide",
+    "<": "descends",
+    ">": "ascends",
+    "==": "mirrors",
+    "!=": "diverges",
+    ",": "knot",
+    ";": "seal",
+    "{": "unfold",
+    "}": "fold"
+}
+
 class Node(abc.ABC):
     @abc.abstractmethod
     def token_literal(self) -> str:
@@ -68,7 +86,7 @@ class BooleanLiteral(Expression):
         return self.token.literal
 
     def string(self) -> str:
-        return self.token.literal
+        return "verity" if self.value else "fallacy"
 
 class IntegerLiteral(Expression):
     """Represents an integer literal"""
@@ -83,7 +101,7 @@ class IntegerLiteral(Expression):
         return self.token.literal
 
     def string(self) -> str:
-        return self.token.literal
+        return str(self.value)
 
 class LetStatement(Statement):
     """Represents a let statement"""
@@ -99,10 +117,10 @@ class LetStatement(Statement):
         return self.token.literal
 
     def string(self) -> str:
-        s = f"{self.token_literal()} {self.name.string()} = "
+        s = f"{self.token_literal()} {self.name.string()} with "
         if self.value:
             s += self.value.string()
-        s += ";"
+        s += " seal"
         return s
 
 class ReturnStatement(Statement):
@@ -118,10 +136,10 @@ class ReturnStatement(Statement):
         return self.token.literal
 
     def string(self) -> str:
-        s = f"{self.token_literal()} "
+        s = f"yield "
         if self.return_value:
             s += self.return_value.string()
-        s += ";"
+        s += " seal"
         return s
 
 class ExpressionStatement(Statement):
@@ -152,7 +170,7 @@ class BlockStatement(Statement):
         return self.token.literal
 
     def string(self) -> str:
-        return "".join(stmt.string() for stmt in self.statements)
+        return f"unfold {' '.join(stmt.string() for stmt in self.statements)} fold"
 
 class PrefixExpression(Expression):
     """Represents a prefix expression (e.g., !true, -5)"""
@@ -168,7 +186,8 @@ class PrefixExpression(Expression):
         return self.token.literal
 
     def string(self) -> str:
-        return f"({self.operator}{self.right.string()})"
+        op = OPERATOR_MAP.get(self.operator, self.operator)
+        return f"({op} {self.right.string()})"
 
 class InfixExpression(Expression):
     """Represents an infix expression (e.g., 5 + 5, a == b)"""
@@ -185,7 +204,8 @@ class InfixExpression(Expression):
         return self.token.literal
 
     def string(self) -> str:
-        return f"({self.left.string()} {self.operator} {self.right.string()})"
+        op = OPERATOR_MAP.get(self.operator, self.operator)
+        return f"({self.left.string()} {op} {self.right.string()})"
 
 class IfExpression(Expression):
     """Represents an if-else expression"""
@@ -208,9 +228,9 @@ class IfExpression(Expression):
         return self.token.literal
 
     def string(self) -> str:
-        s = f"if{self.condition.string()} {self.consequence.string()}"
+        s = f"whence {self.condition.string()} {self.consequence.string()}"
         if self.alternative:
-            s += f" else {self.alternative.string()}"
+            s += f" elsewise {self.alternative.string()}"
         return s
 
 class FunctionLiteral(Expression):
@@ -232,8 +252,8 @@ class FunctionLiteral(Expression):
         return self.token.literal
 
     def string(self) -> str:
-        params = ", ".join(param.string() for param in self.parameters)
-        return f"{self.token_literal()}({params}) {self.body.string()}"
+        params = " knot ".join(param.string() for param in self.parameters)
+        return f"rune({params}) {self.body.string()}"
 
 class CallExpression(Expression):
     """Represents a function call"""
@@ -254,7 +274,7 @@ class CallExpression(Expression):
         return self.token.literal
 
     def string(self) -> str:
-        args = ", ".join(arg.string() for arg in self.arguments)
+        args = " knot ".join(arg.string() for arg in self.arguments)
         return f"{self.function.string()}({args})"
     
 class GroupedExpression(Expression):
