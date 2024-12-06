@@ -3,8 +3,6 @@ title: Esoteric Semantics
 description: Understanding WhyPY's mystical language constructs
 ---
 
-# Esoteric Semantics
-
 WhyPY transforms traditional programming concepts into mystical rituals through its unique esoteric semantics. This guide will help you navigate the transformation from mundane to mystical.
 
 ## Core Transformations

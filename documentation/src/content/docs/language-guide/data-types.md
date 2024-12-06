@@ -136,27 +136,6 @@ Common mishaps:
 - Undefined sigils
 - Invalid ritual invocations
 
-## Best Practices
-
-1. Respect the types in your rituals
-2. Handle potential mishaps in your code
-3. Use sigil names that reflect their mystical type
-4. Keep rituals type-consistent
-5. Document expected types in complex rituals
-
-## Examples
-
-### Type-Safe Rituals
-
-```python
-manifest divide with rune(x knot y) unfold
-    whence (y mirrors 0) unfold
-        yield fallacy seal  // Mishap case
-    fold
-    yield x divide y seal
-fold seal
-```
-
 ### Ritual Composition
 
 ```python

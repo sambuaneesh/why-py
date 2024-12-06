@@ -3,8 +3,6 @@ title: Interpreter Implementation
 description: The mystical inner workings of WhyPY's evaluation engine
 ---
 
-# Interpreter Implementation
-
 ## Tree-Walking Evaluation
 
 WhyPY is implemented as a tree-walking interpreter, a design choice that emphasizes clarity and maintainability over raw performance. This approach allows us to:

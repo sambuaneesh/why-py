@@ -3,8 +3,6 @@ title: Syntax Overview
 description: A journey into the mystical syntax of WhyPY
 ---
 
-# Syntax Overview
-
 WhyPY's syntax is designed to make you question everything you know about programming. It takes familiar concepts and wraps them in layers of philosophical uncertainty.
 
 ## Basic Syntax

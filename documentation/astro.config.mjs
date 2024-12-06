@@ -5,10 +5,13 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'WhyPY',
+			title: 'WhyPy',
 			description: 'A programming language that questions its own existence. Why? We don\'t know either.',
+			customCss: [
+				'./src/styles/custom.css',
+			],
 			social: {
-				github: 'https://github.com/stealthspectre/custom-interpreter',
+				github: 'https://github.com/sambuaneesh/why-py',
 			},
 			sidebar: [
 				{
@@ -44,6 +47,26 @@ export default defineConfig({
 						{ label: 'Design Patterns', slug: 'examples/patterns' },
 					],
 				},
+			],
+			head: [
+				{
+					tag: 'link',
+					attrs: {
+						rel: 'icon',
+						href: '/favicon.svg',
+						type: 'image/svg+xml',
+					},
+				},
+				{
+					tag: 'link',
+					attrs: {
+						rel: 'stylesheet',
+						href: 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap',
+					},
+				},
+			],
+			customCss: [
+				'./src/styles/custom.css',
 			],
 		}),
 	],

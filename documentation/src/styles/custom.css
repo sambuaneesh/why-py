@@ -1,0 +1,275 @@
+/* Custom mystical theme for WhyPy documentation */
+
+/* Global styles */
+:root {
+    /* Colors */
+    --sl-color-accent-low: rgba(134, 73, 255, 0.1);
+    --sl-color-accent: #8649ff;
+    --sl-color-accent-high: #6b1cff;
+    
+    /* Background colors */
+    --sl-color-bg-nav: #0d0d1f;
+    --sl-color-bg-sidebar: #0d0d1f;
+    --sl-color-bg-inline-code: rgba(134, 73, 255, 0.1);
+    --sl-color-bg-code: #12122a;
+    
+    /* Text colors */
+    --sl-color-white: #e6e6ff;
+    --sl-color-gray-1: #e2deff;
+    --sl-color-gray-2: #c4c0ff;
+    --sl-color-gray-3: #9e98ff;
+    --sl-color-gray-4: #7a73ff;
+    --sl-color-gray-5: #635cff;
+    --sl-color-gray-6: #4b43ff;
+    --sl-color-gray-7: #3730ff;
+    --sl-color-black: #0d0d1f;
+    
+    /* Gradients */
+    --gradient-mystical: linear-gradient(45deg, var(--sl-color-bg-nav), #160d33);
+    --gradient-sidebar: linear-gradient(180deg, var(--sl-color-bg-sidebar), #160d33);
+    --gradient-header: linear-gradient(180deg, #0d0d1f, #160d33);
+    
+    /* Fonts */
+    --sl-font: 'Cinzel', serif;
+    --sl-font-mono: 'Fira Code', monospace;
+    
+    /* Effects */
+    --mystical-shadow: 0 0 15px rgba(134, 73, 255, 0.2);
+    --mystical-glow: 0 0 8px rgba(134, 73, 255, 0.4);
+    
+    /* Override Starlight variables */
+    --sl-color-text: var(--sl-color-white);
+    --sl-color-text-accent: var(--sl-color-accent);
+    --sl-color-bg: var(--sl-color-black);
+    --sl-color-bg-nav: var(--sl-color-bg-nav);
+    --sl-color-bg-sidebar: var(--sl-color-bg-sidebar);
+    --sl-color-border: rgba(134, 73, 255, 0.2);
+}
+
+/* Dark theme specific overrides */
+[data-theme='dark'] {
+    --sl-color-accent-low: rgba(134, 73, 255, 0.2);
+    --sl-color-accent: #8649ff;
+    --sl-color-accent-high: #a576ff;
+    --sl-color-white: #e6e6ff;
+    --sl-color-gray-1: #e2deff;
+    --sl-color-gray-2: #c4c0ff;
+    --sl-color-gray-3: #9e98ff;
+    --sl-color-gray-4: #7a73ff;
+    --sl-color-gray-5: #635cff;
+    --sl-color-gray-6: #4b43ff;
+    --sl-color-gray-7: #3730ff;
+    --sl-color-black: #0d0d1f;
+}
+
+/* Enhance headings with mystical styling */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--sl-font);
+    letter-spacing: 0.05em;
+    text-shadow: var(--mystical-shadow);
+    color: var(--sl-color-white);
+}
+
+/* Style code blocks to look like ancient scrolls */
+pre {
+    background: var(--gradient-mystical) !important;
+    border: 1px solid var(--sl-color-border) !important;
+    box-shadow: var(--mystical-shadow);
+    border-radius: 8px !important;
+}
+
+/* Enhance inline code */
+code:not(pre code) {
+    color: var(--sl-color-accent-high) !important;
+    background: var(--sl-color-bg-inline-code) !important;
+    padding: 0.2em 0.4em !important;
+    border-radius: 4px !important;
+}
+
+/* Style links to glow on hover */
+a:not(.site-title):hover {
+    text-shadow: var(--mystical-glow);
+    text-decoration: none !important;
+    color: var(--sl-color-accent-high) !important;
+}
+
+/* Custom sidebar styling */
+aside {
+    background: var(--gradient-sidebar) !important;
+    border-right: 1px solid var(--sl-color-border) !important;
+}
+
+aside a {
+    color: var(--sl-color-gray-2) !important;
+    transition: all 0.3s ease;
+}
+
+aside a:hover {
+    color: var(--sl-color-accent-high) !important;
+    background: var(--sl-color-accent-low) !important;
+}
+
+/* Enhance the site title */
+.site-title {
+    font-family: var(--sl-font);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-shadow: var(--mystical-glow);
+    color: var(--sl-color-white) !important;
+}
+
+/* Style blockquotes to look mystical */
+blockquote {
+    border-left: 4px solid var(--sl-color-accent) !important;
+    background: var(--sl-color-accent-low) !important;
+    margin: 1.5em 0 !important;
+    padding: 1em !important;
+    border-radius: 0 8px 8px 0 !important;
+}
+
+/* Custom table styling */
+table {
+    border: 1px solid var(--sl-color-border) !important;
+    box-shadow: var(--mystical-shadow);
+}
+
+th {
+    background: var(--sl-color-accent-low) !important;
+}
+
+/* Style buttons */
+.button {
+    font-family: var(--sl-font);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    background: var(--gradient-mystical) !important;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--sl-color-accent-low);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--sl-color-bg-nav);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--sl-color-accent);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sl-color-accent-high);
+}
+
+/* Right sidebar (table of contents) */
+.right-sidebar {
+    background: var(--sl-color-bg-sidebar) !important;
+    backdrop-filter: blur(10px);
+    border-left: 1px solid var(--sl-color-border) !important;
+}
+
+/* Header navigation */
+header {
+    background: var(--gradient-header) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--sl-color-border) !important;
+}
+
+/* Search box styling */
+.search {
+    background: var(--sl-color-accent-low) !important;
+    border: 1px solid var(--sl-color-border) !important;
+    border-radius: 8px !important;
+}
+
+/* Code highlighting enhancements */
+.token.comment {
+    color: var(--sl-color-gray-3) !important;
+    font-style: italic;
+}
+
+.token.keyword {
+    color: var(--sl-color-accent-high) !important;
+    font-weight: 500;
+}
+
+.token.string {
+    color: var(--sl-color-accent) !important;
+}
+
+.token.function {
+    color: var(--sl-color-accent) !important;
+}
+
+/* Add a subtle glow to the page header */
+.hero {
+    position: relative;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, var(--sl-color-accent-low) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+/* Style note and warning boxes */
+.content :is(.tip, .note, .caution, .danger) {
+    border-radius: 8px !important;
+    box-shadow: var(--mystical-shadow);
+}
+
+.content .tip {
+    background: var(--sl-color-accent-low) !important;
+    border-color: var(--sl-color-accent) !important;
+}
+
+.content .note {
+    background: var(--sl-color-accent-low) !important;
+    border-color: var(--sl-color-accent-high) !important;
+}
+
+/* Add mystical icons to lists */
+.content ul li::before {
+    content: '✧';
+    color: var(--sl-color-accent);
+    margin-right: 0.5em;
+}
+
+/* Style the footer */
+footer {
+    background: var(--gradient-mystical);
+    border-top: 1px solid var(--sl-color-border) !important;
+}
+
+/* Main content area */
+main {
+    background: var(--sl-color-bg);
+    color: var(--sl-color-text);
+}
+
+/* Active navigation items */
+[aria-current="page"] {
+    background: var(--sl-color-accent-low) !important;
+    color: var(--sl-color-accent-high) !important;
+}
+
+/* Navigation section headings */
+.sidebar h2 {
+    color: var(--sl-color-gray-2) !important;
+    font-size: 1em !important;
+    margin-top: 1.5em !important;
+} 

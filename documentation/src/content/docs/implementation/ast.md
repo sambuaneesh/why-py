@@ -3,8 +3,6 @@ title: Abstract Syntax Tree Implementation
 description: Detailed explanation of the custom interpreter's Abstract Syntax Tree (AST) implementation
 ---
 
-# Abstract Syntax Tree Implementation
-
 The Abstract Syntax Tree (AST) is the core data structure that represents the syntactic structure of our interpreter's programs. It's implemented in `ast1.py` and provides a hierarchical representation of the program's syntax.
 
 ## Overview

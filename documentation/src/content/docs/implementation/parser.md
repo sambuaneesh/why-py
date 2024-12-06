@@ -3,8 +3,6 @@ title: Parser Implementation
 description: Understanding the mystical art of parsing in WhyPY
 ---
 
-# Parser Implementation
-
 ## The Art of Vaughan Pratt Parsing
 
 WhyPY employs the elegant Vaughan Pratt parsing technique, a top-down operator precedence parsing method that brings clarity to expression parsing. This approach allows us to handle complex expressions with proper precedence while maintaining the mystical nature of our syntax.

@@ -31,10 +31,10 @@ Is it:
 
 ```bash
 # Clone the repository of mystical knowledge
-git clone https://github.com/stealthspectre/whyPY.git
+git clone https://github.com/sambuaneesh/why-py.git
 
 # Enter the sacred chamber
-cd whyPY
+cd why-py
 
 # Start your mystical journey
 make run

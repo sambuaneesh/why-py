@@ -3,8 +3,6 @@ title: Lexer Implementation
 description: Deep dive into the custom interpreter's lexical analyzer implementation
 ---
 
-# Lexer Implementation
-
 The lexer (lexical analyzer) is the first phase of our interpreter. It transforms the source code into a sequence of tokens that can be processed by the parser.
 
 ## Overview

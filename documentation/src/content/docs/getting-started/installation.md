@@ -3,8 +3,6 @@ title: Installation
 description: Learn how to summon WhyPy into your development realm
 ---
 
-# Installing WhyPy
-
 WhyPy requires only Python 3.6 or higher to channel its mystical energies. No additional dependencies are needed.
 
 ## Quick Installation
@@ -12,8 +10,8 @@ WhyPy requires only Python 3.6 or higher to channel its mystical energies. No ad
 1. Clone the mystical repository:
 
 ```bash
-git clone https://github.com/stealthspectre/custom-interpreter.git
-cd custom-interpreter
+git clone https://github.com/sambuaneesh/why-py.git
+cd why-py
 ```
 
 2. Verify the installation by invoking the REPL:
@@ -32,13 +30,13 @@ Use the sacred Ctrl+D to close the tome, or Ctrl+C to cancel the current incanta
 └─⚡
 ```
 
-## Running WhyPy Programs
+<!-- ## Running WhyPy Programs
 
 To run a WhyPy program from a file:
 
 ```bash
 python repl.py < your_mystical_program.why
-```
+``` -->
 
 ## Next Steps
 

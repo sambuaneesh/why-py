@@ -3,8 +3,6 @@ title: Quick Start Guide
 description: Begin your journey into mystical computing with WhyPy
 ---
 
-# Quick Start Guide
-
 Welcome, seeker of arcane knowledge! This guide will help you cast your first mystical programs in WhyPy.
 
 ## Your First Incantation

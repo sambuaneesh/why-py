@@ -3,8 +3,6 @@ title: Introduction to WhyPy
 description: A mystical journey into the world of esoteric programming
 ---
 
-# Introduction to WhyPy
-
 Welcome to WhyPy, a programming language that dares to question the very nature of computation. In a world saturated with pragmatic programming languages, WhyPy chooses the path less traveled – the path of mystical computing.
 
 ## Why WhyPy?
