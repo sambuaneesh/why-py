@@ -52,6 +52,14 @@ def Eval(node: Node, env: Environment) -> Object:
         params = node.parameters
         body = node.body
         return Function(params, body, env)
+    elif isinstance(node, CallExpression):
+        function = Eval(node.function, env)
+        if is_error(function):
+            return function
+        args = eval_expressions(node.arguments, env)
+        if len(args) == 1 and is_error(args[0]):
+            return args[0]
+        return apply_function(function, args)
     else:
         return NULL
 
@@ -162,3 +170,30 @@ def eval_identifier(node: Identifier, env: Environment) -> Object:
     if not exists:
         return Error(f"identifier not found: {node.value}")
     return val
+
+def eval_expressions(exps: List[Expression], env: Environment) -> List[Object]:
+    result = []
+    for exp in exps:
+        evaluated = Eval(exp, env)
+        if is_error(evaluated):
+            return [evaluated] + result
+        result.append(evaluated)
+    return result
+
+def apply_function(fn: Object, args: List[Object]) -> Object:
+    if isinstance(fn, Function):
+        extended_env = extend_function_env(fn, args)
+        evaluated = Eval(fn.body, extended_env)
+        return unwrap_return_value(evaluated)
+    return Error(f"not a function: {fn.type()}")
+
+def extend_function_env(fn: Function, args: List[Object]) -> Environment:
+    env = Environment.new_enclosed_environment(fn.env)
+    for param_idx, param in enumerate(fn.parameters):
+        env.set(param.value, args[param_idx])
+    return env
+
+def unwrap_return_value(obj: Object) -> Object:
+    if isinstance(obj, ReturnValue):
+        return obj.value
+    return obj

@@ -188,6 +188,20 @@ if (10 > 1) {
         expected_body = "(x + 2)"
         self.assertEqual(fn.body.string(), expected_body,
             f"body is not {expected_body}. got={fn.body.string()}")
+        
+    def test_function_application(self):
+        tests = [
+            ("let identity = fn(x) { x; }; identity(5);", 5),
+            ("let identity = fn(x) { return x; }; identity(5);", 5),
+            ("let double = fn(x) { x * 2; }; double(5);", 10),
+            ("let add = fn(x, y) { x + y; }; add(5, 5);", 10),
+            ("let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20),
+            ("fn(x) { x; }(5)", 5),
+        ]
+        for (input, expected) in tests:
+            with self.subTest(input=input):
+                evaluated = test_eval(input)
+                test_integer_object(self, evaluated, Integer(expected))
 
 if __name__ == "__main__":
     unittest.main()
