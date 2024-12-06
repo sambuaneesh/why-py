@@ -31,33 +31,63 @@ Is it:
 
 ```bash
 # Clone the repository of mystical knowledge
-git clone https://github.com/stealthspectre/custom-interpreter.git
+git clone https://github.com/stealthspectre/whyPY.git
 
 # Enter the sacred chamber
-cd custom-interpreter
+cd whyPY
 
-# Prepare your environment for mystical experiences
-python -m venv venv
-source venv/bin/activate  # Or appropriate activation spell for your shell
-
-# Install the required artifacts
-pip install -r requirements.txt
+# Start your mystical journey
+make run
 ```
 
 ## Quick Start
 
-Here's a simple ritual to get you started:
+### Starting the Mystical REPL
+
+To begin your journey into the mystical realm, simply run:
+
+```bash
+make run
+```
+
+This will start the WhyPY REPL (Read-Eval-Ponder-Loop), where you can experiment with the language interactively.
+
+### Your First Incantation
+
+Try these mystical commands in the REPL:
 
 ```python
-manifest greeting with "Greetings, seeker of truth" seal
-
-manifest sayHello with rune(name) unfold
-    manifest message with greeting augments name seal
-    yield message seal
-fold seal
-
-sayHello("mystic one") seal
+>> manifest greeting with "Greetings, seeker of truth" seal
+>> manifest sayHello with rune(name) unfold
+..     manifest message with greeting augments name seal
+..     yield message seal
+.. fold seal
+>> sayHello("mystic one") seal
+"Greetings, seeker of truth mystic one"
 ```
+
+### Basic Arithmetic Rituals
+
+```python
+>> manifest x with 5 seal
+>> manifest y with 10 seal
+>> x augments y seal
+15
+>> x conjoins y seal
+50
+```
+
+### Truth Values
+
+```python
+>> manifest isWise with verity seal
+>> whence (isWise) unfold
+..     yield "You have achieved enlightenment" seal
+.. fold seal
+"You have achieved enlightenment"
+```
+
+For more examples and detailed explanations, see our [Basic Rituals Guide](docs/examples/basic.md).
 
 ## The Mystical Theme
 
@@ -80,6 +110,7 @@ For a complete guide to our esoteric semantics, see [docs/semantics.md](docs/sem
 - Vaughan Pratt parsing for elegant expression handling
 - Comprehensive mishap (error) handling
 - Dynamic typing with a mystical twist
+- Interactive REPL for experimentation
 
 ## Implementation
 
@@ -118,23 +149,7 @@ Course Website: [POPL Course](https://faculty.iiit.ac.in/~venkatesh.choppella/po
 
 ## Contributing
 
-Feel free to contribute to this mystical endeavor:
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Prof. Venkatesh Choppella for guidance and wisdom
-- The POPL course at IIIT Hyderabad
-- All contributors and mystics who helped shape this language
+Haven't really thought about it, just fork it and do whatever you want.
 
 ---
 
