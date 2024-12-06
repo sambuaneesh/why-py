@@ -4,6 +4,7 @@ from lexer import Lexer
 from parser import Parser
 from eval import Eval
 from environment import Environment
+
 def test_eval(input):
     l = Lexer(input)
     p = Parser(l)
@@ -13,7 +14,7 @@ def test_eval(input):
 
 def test_integer_object(t, obj, expected):
     if not isinstance(obj, Integer):
-        t.fail(f"object is not Integer. got={type(obj)} ({obj})")
+        t.fail(f"object is not NUMBER. got={type(obj)} ({obj})")
         return False
     if obj.value != expected.value:
         t.fail(f"object has wrong value. got={obj.value}, want={expected.value}")
@@ -22,7 +23,7 @@ def test_integer_object(t, obj, expected):
 
 def test_boolean_object(t, obj, expected):
     if not isinstance(obj, Boolean):
-        t.fail(f"object is not Boolean. got={type(obj)} ({obj})")
+        t.fail(f"object is not TRUTH. got={type(obj)} ({obj})")
         return False
     if obj.value != expected:
         t.fail(f"object has wrong value. got={obj.value}, want={expected}")
@@ -31,7 +32,7 @@ def test_boolean_object(t, obj, expected):
 
 def test_null_object(t, obj):
     if not isinstance(obj, Null):
-        t.fail(f"object is not Null. got={type(obj)} ({obj})")
+        t.fail(f"object is not VOID. got={type(obj)} ({obj})")
         return False
     return True
 
@@ -40,15 +41,15 @@ class TestObject(unittest.TestCase):
         tests = [
             ("5", Integer(5)),
             ("10", Integer(10)),
-            ("-5", Integer(-5)),
-            ("-10", Integer(-10)),
-            ("5 + 5 + 5 + 5 - 10", Integer(10)),
-            ("2 * 2 * 2 * 2 * 2", Integer(32)),
-            ("-50 + 100 + -50", Integer(0)),
-            ("5 * 2 + 10", Integer(20)),
-            ("5 + 2 * 10", Integer(25)),
-            ("20 + 2 * -10", Integer(0)),
-            ("50 / 2 * 2 + 10", Integer(60)),
+            ("diminishes 5", Integer(-5)),
+            ("diminishes 10", Integer(-10)),
+            ("5 augments 5 augments 5 augments 5 diminishes 10", Integer(10)),
+            ("2 conjoins 2 conjoins 2 conjoins 2 conjoins 2", Integer(32)),
+            ("diminishes 50 augments 100 augments diminishes 50", Integer(0)),
+            ("5 conjoins 2 augments 10", Integer(20)),
+            ("5 augments 2 conjoins 10", Integer(25)),
+            ("20 augments 2 conjoins diminishes 10", Integer(0)),
+            ("50 divide 2 conjoins 2 augments 10", Integer(60)),
         ]
         for (input, expected) in tests:
             with self.subTest(input=input):
@@ -57,8 +58,8 @@ class TestObject(unittest.TestCase):
 
     def test_boolean_object(self):
         tests = [
-            ("true", True),
-            ("false", False),
+            ("verity", True),
+            ("fallacy", False),
         ]
         for (input, expected) in tests:
             with self.subTest(input=input):
@@ -67,12 +68,12 @@ class TestObject(unittest.TestCase):
 
     def test_bang_operator(self):
         tests = [
-            ("!true", False),
-            ("!false", True),
-            ("!5", False),
-            ("!!true", True),
-            ("!!false", False),
-            ("!!5", True),
+            ("negate verity", False),
+            ("negate fallacy", True),
+            ("negate 5", False),
+            ("negate negate verity", True),
+            ("negate negate fallacy", False),
+            ("negate negate 5", True),
         ]
         for (input, expected) in tests:
             with self.subTest(input=input):
@@ -81,23 +82,23 @@ class TestObject(unittest.TestCase):
 
     def test_eval_boolean_expression(self):
         tests = [
-            ("true", True),
-            ("false", False),
-            ("1 < 2", True),
-            ("1 > 2", False),
-            ("1 < 1", False),
-            ("1 > 1", False),
-            ("1 == 1", True),
-            ("1 != 1", False),
-            ("true == true", True),
-            ("false == false", True),
-            ("true == false", False),
-            ("true != false", True),
-            ("false != true", True),
-            ("(1 < 2) == true", True),
-            ("(1 < 2) == false", False),
-            ("(1 > 2) == true", False),
-            ("(1 > 2) == false", True),
+            ("verity", True),
+            ("fallacy", False),
+            ("1 descends 2", True),
+            ("1 ascends 2", False),
+            ("1 descends 1", False),
+            ("1 ascends 1", False),
+            ("1 mirrors 1", True),
+            ("1 diverges 1", False),
+            ("verity mirrors verity", True),
+            ("fallacy mirrors fallacy", True),
+            ("verity mirrors fallacy", False),
+            ("verity diverges fallacy", True),
+            ("fallacy diverges verity", True),
+            ("(1 descends 2) mirrors verity", True),
+            ("(1 descends 2) mirrors fallacy", False),
+            ("(1 ascends 2) mirrors verity", False),
+            ("(1 ascends 2) mirrors fallacy", True),
         ]
 
         for (input, expected) in tests:
@@ -107,13 +108,13 @@ class TestObject(unittest.TestCase):
 
     def test_if_else_expressions(self):
         tests = [
-            ("if (true) { 10 }", 10),
-            ("if (false) { 10 }", None),
-            ("if (1) { 10 }", 10),
-            ("if (1 < 2) { 10 }", 10),
-            ("if (1 > 2) { 10 }", None),
-            ("if (1 > 2) { 10 } else { 20 }", 20),
-            ("if (1 < 2) { 10 } else { 20 }", 10),
+            ("whence (verity) unfold 10 fold", 10),
+            ("whence (fallacy) unfold 10 fold", None),
+            ("whence (1) unfold 10 fold", 10),
+            ("whence (1 descends 2) unfold 10 fold", 10),
+            ("whence (1 ascends 2) unfold 10 fold", None),
+            ("whence (1 ascends 2) unfold 10 fold elsewise unfold 20 fold", 20),
+            ("whence (1 descends 2) unfold 10 fold elsewise unfold 20 fold", 10),
         ]
         for (input, expected) in tests:
             with self.subTest(input=input):
@@ -125,12 +126,12 @@ class TestObject(unittest.TestCase):
 
     def test_return_statements(self):
         tests = [
-            ("return 10;", 10),
-            ("return 10; 9;", 10),
-            ("return 2 * 5; 9;", 10),
-            ("9; return 2 * 5; 9;", 10),
-            ("if (10 > 1) { return 10; }", 10),
-            ("if (10 > 1) { if (10 > 1) { return 10; } return 1; }", 10),
+            ("yield 10 seal", 10),
+            ("yield 10 seal 9 seal", 10),
+            ("yield 2 conjoins 5 seal 9 seal", 10),
+            ("9 seal yield 2 conjoins 5 seal 9 seal", 10),
+            ("whence (10 ascends 1) unfold yield 10 seal fold", 10),
+            ("whence (10 ascends 1) unfold whence (10 ascends 1) unfold yield 10 seal fold yield 1 seal fold", 10),
         ]
         for (input, expected) in tests:
             with self.subTest(input=input):
@@ -139,20 +140,20 @@ class TestObject(unittest.TestCase):
 
     def test_error_handling(self):
         tests = [
-            ("5 + true;", "type mismatch: INTEGER + BOOLEAN"),
-            ("5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"), 
-            ("-true", "unknown operator: -BOOLEAN"),
-            ("true + false;", "unknown operator: BOOLEAN + BOOLEAN"),
-            ("5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"),
-            ("if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"),
+            ("5 augments verity seal", "type mismatch: NUMBER augments TRUTH"),
+            ("5 augments verity seal 5 seal", "type mismatch: NUMBER augments TRUTH"), 
+            ("diminishes verity", "unknown ritual: diminishes TRUTH"),
+            ("verity augments fallacy seal", "unknown ritual: TRUTH augments TRUTH"),
+            ("5 seal verity augments fallacy seal 5", "unknown ritual: TRUTH augments TRUTH"),
+            ("whence (10 ascends 1) unfold verity augments fallacy seal fold", "unknown ritual: TRUTH augments TRUTH"),
             ("""
-if (10 > 1) {
-    if (10 > 1) {
-        return true + false;
-    }
-    return 1;
-}
-""", "unknown operator: BOOLEAN + BOOLEAN"),
+whence (10 ascends 1) unfold
+    whence (10 ascends 1) unfold
+        yield verity augments fallacy seal
+    fold
+    yield 1 seal
+fold
+""", "unknown ritual: TRUTH augments TRUTH"),
         ]
 
         for (input, expected_message) in tests:
@@ -163,10 +164,10 @@ if (10 > 1) {
 
     def test_let_statements(self):
         tests = [
-            ("let a = 5; a;", 5),
-            ("let a = 5 * 5; a;", 25), 
-            ("let a = 5; let b = a; b;", 5),
-            ("let a = 5; let b = a; let c = a + b + 5; c;", 15),
+            ("manifest a with 5 seal a seal", 5),
+            ("manifest a with 5 conjoins 5 seal a seal", 25), 
+            ("manifest a with 5 seal manifest b with a seal b seal", 5),
+            ("manifest a with 5 seal manifest b with a seal manifest c with a augments b augments 5 seal c seal", 15),
         ]
         for (input, expected) in tests:
             with self.subTest(input=input):
@@ -174,29 +175,29 @@ if (10 > 1) {
                 test_integer_object(self, evaluated, Integer(expected))
 
     def test_function_object(self):
-        input = "fn(x) { x + 2; };"
+        input = "rune(x) unfold x augments 2 seal fold seal"
         evaluated = test_eval(input)
         self.assertIsInstance(evaluated, Function)
         fn = evaluated
         
         self.assertEqual(len(fn.parameters), 1, 
-            f"function has wrong parameters. Parameters={fn.parameters}")
+            f"ritual has wrong parameters. Parameters={fn.parameters}")
             
         self.assertEqual(fn.parameters[0].token_literal(), "x",
             f"parameter is not 'x'. got={fn.parameters[0].token_literal()}")
             
-        expected_body = "(x + 2)"
+        expected_body = "unfold (x augments 2) fold"
         self.assertEqual(fn.body.string(), expected_body,
             f"body is not {expected_body}. got={fn.body.string()}")
         
     def test_function_application(self):
         tests = [
-            ("let identity = fn(x) { x; }; identity(5);", 5),
-            ("let identity = fn(x) { return x; }; identity(5);", 5),
-            ("let double = fn(x) { x * 2; }; double(5);", 10),
-            ("let add = fn(x, y) { x + y; }; add(5, 5);", 10),
-            ("let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20),
-            ("fn(x) { x; }(5)", 5),
+            ("manifest identity with rune(x) unfold x seal fold seal identity(5) seal", 5),
+            ("manifest identity with rune(x) unfold yield x seal fold seal identity(5) seal", 5),
+            ("manifest double with rune(x) unfold x conjoins 2 seal fold seal double(5) seal", 10),
+            ("manifest add with rune(x knot y) unfold x augments y seal fold seal add(5 knot 5) seal", 10),
+            ("manifest add with rune(x knot y) unfold x augments y seal fold seal add(5 augments 5 knot add(5 knot 5)) seal", 20),
+            ("rune(x) unfold x seal fold(5)", 5),
         ]
         for (input, expected) in tests:
             with self.subTest(input=input):
@@ -205,11 +206,11 @@ if (10 > 1) {
 
     def test_closures(self):
         input = """
-        let newAdder = fn(x) {
-            fn(y) { x + y };
-        };
-        let addTwo = newAdder(2);
-        addTwo(2);
+        manifest newAdder with rune(x) unfold
+            rune(y) unfold x augments y fold seal
+        fold seal
+        manifest addTwo with newAdder(2) seal
+        addTwo(2) seal
         """
         evaluated = test_eval(input)
         test_integer_object(self, evaluated, Integer(4))
