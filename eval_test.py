@@ -203,5 +203,16 @@ if (10 > 1) {
                 evaluated = test_eval(input)
                 test_integer_object(self, evaluated, Integer(expected))
 
+    def test_closures(self):
+        input = """
+        let newAdder = fn(x) {
+            fn(y) { x + y };
+        };
+        let addTwo = newAdder(2);
+        addTwo(2);
+        """
+        evaluated = test_eval(input)
+        test_integer_object(self, evaluated, Integer(4))
+
 if __name__ == "__main__":
     unittest.main()
