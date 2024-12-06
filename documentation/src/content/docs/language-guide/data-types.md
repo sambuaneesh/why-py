@@ -1,188 +1,172 @@
 ---
 title: Data Types
-description: Overview of our interpreter's data types and object system
+description: Understanding the mystical types that flow through WhyPY
 ---
 
 # Data Types
 
-Our interpreter implements a simple but effective object system with basic data types common in most programming languages.
+WhyPY implements a mystical object system with fundamental types that represent the basic building blocks of computational reality.
 
 ## Basic Types
 
-### Integer
+### NUMBER (Integer)
 
-Integers are whole numbers:
+Numbers represent the quantifiable essence of reality:
 
 ```python
-let x = 42;
-let y = -17;
-let z = 0;
+manifest x with 42 seal
+manifest y with diminishes 17 seal
+manifest z with 0 seal
 ```
 
-Operations on integers:
-- Addition: `5 + 3`
-- Subtraction: `10 - 4`
-- Multiplication: `6 * 7`
-- Division: `15 / 3`
-- Comparison: `5 < 10`, `7 > 3`, `5 == 5`, `6 != 4`
+Operations on numbers:
+- Augmentation: `5 augments 3`
+- Diminishment: `10 diminishes 4`
+- Conjunction: `6 conjoins 7`
+- Division: `15 divide 3`
+- Comparison: `5 descends 10`, `7 ascends 3`, `5 mirrors 5`, `6 diverges 4`
 
-### Boolean
+### TRUTH (Boolean)
 
-Boolean values can be either `true` or `false`:
+Truth values represent the duality of existence:
 
 ```python
-let isTrue = true;
-let isFalse = false;
-let result = 5 > 3;  // evaluates to true
+manifest isTrue with verity seal
+manifest isFalse with fallacy seal
+manifest result with 5 descends 3 seal  // evaluates to fallacy
 ```
 
-Operations on booleans:
-- Logical NOT: `!true` evaluates to `false`
-- Equality: `true == true`, `false != true`
+Operations on truth values:
+- Negation: `negate verity` evaluates to `fallacy`
+- Equality: `verity mirrors verity`, `fallacy diverges verity`
 
-### Function
+### RITUAL (Function)
 
-Functions are first-class values in our language:
+Rituals are the transformative forces in WhyPY:
 
 ```python
-// Simple function
-let add = fn(x, y) {
-    return x + y;
-};
+// Simple ritual
+manifest add with rune(x knot y) unfold
+    yield x augments y seal
+fold seal
 
-// Function with multiple statements
-let max = fn(x, y) {
-    if (x > y) {
-        return x;
-    } else {
-        return y;
-    }
-};
+// Ritual with multiple statements
+manifest max with rune(x knot y) unfold
+    whence (x ascends y) unfold
+        yield x seal
+    fold elsewise unfold
+        yield y seal
+    fold
+fold seal
 
-// Function that returns a function
-let makeAdder = fn(x) {
-    return fn(y) {
-        return x + y;
-    };
-};
+// Ritual that yields another ritual
+manifest makeAdder with rune(x) unfold
+    yield rune(y) unfold
+        yield x augments y seal
+    fold seal
+fold seal
 ```
 
 ## Object System
 
-The interpreter uses a simple object system defined in `object.py`:
+The interpreter uses a mystical object system defined in `object.py`:
 
-### Integer Objects
+### NUMBER Objects
 
 ```python
 class Integer:
-    def __init__(self, value: int):
-        self.value = value
-
     def type(self) -> str:
-        return INTEGER_OBJ
+        return "NUMBER"
 ```
 
-### Boolean Objects
+### TRUTH Objects
 
 ```python
 class Boolean:
-    def __init__(self, value: bool):
-        self.value = value
-
     def type(self) -> str:
-        return BOOLEAN_OBJ
+        return "TRUTH"
 ```
 
-### Function Objects
+### RITUAL Objects
 
 ```python
 class Function:
-    def __init__(self, parameters: List[Identifier], 
-                 body: BlockStatement, 
-                 env: Environment):
-        self.parameters = parameters
-        self.body = body
-        self.env = env
-
     def type(self) -> str:
-        return FUNCTION_OBJ
+        return "RITUAL"
 ```
 
 ## Type System
 
-The interpreter uses dynamic typing where types are determined at runtime:
+WhyPY uses dynamic typing where types are determined during the ritual of evaluation:
 
 ```python
-let x = 5;              // Integer
-let isValid = true;     // Boolean
-let add = fn(x, y) {    // Function
-    return x + y;
-};
+manifest x with 5 seal                    // NUMBER
+manifest isValid with verity seal         // TRUTH
+manifest add with rune(x knot y) unfold   // RITUAL
+    yield x augments y seal
+fold seal
 ```
 
-### Type Checking
+### Type Verification
 
-Type checking is performed at runtime during evaluation:
+Type verification occurs during the ritual of evaluation:
 
 ```python
-let x = 5;
-let y = 10;
-x + y;    // valid: both are integers
+manifest x with 5 seal
+manifest y with 10 seal
+x augments y seal    // valid: both are numbers
 
-let z = true;
-x + z;    // runtime error: type mismatch
+manifest z with verity seal
+x augments z seal    // mishap: type mismatch
 ```
 
-## Error Handling
+## Mishap Handling
 
-The interpreter includes error handling for type-related issues:
+The interpreter includes mishap handling for type-related issues:
 
 ```python
 class Error:
-    def __init__(self, message: str):
-        self.message = message
-
     def type(self) -> str:
-        return ERROR_OBJ
+        return "MISHAP"
 ```
 
-Common error cases:
+Common mishaps:
 - Type mismatches in operations
-- Unknown operators for types
-- Undefined variables
-- Invalid function calls
+- Unknown rituals for types
+- Undefined sigils
+- Invalid ritual invocations
 
 ## Best Practices
 
-1. Use consistent types in operations
-2. Handle potential type errors in your code
-3. Use meaningful variable names that indicate the type
-4. Keep functions type-consistent
-5. Document expected types in complex functions
+1. Respect the types in your rituals
+2. Handle potential mishaps in your code
+3. Use sigil names that reflect their mystical type
+4. Keep rituals type-consistent
+5. Document expected types in complex rituals
 
 ## Examples
 
-### Type-Safe Operations
+### Type-Safe Rituals
 
 ```python
-let divide = fn(x, y) {
-    if (y == 0) {
-        return false;  // Error case
-    }
-    return x / y;
-};
+manifest divide with rune(x knot y) unfold
+    whence (y mirrors 0) unfold
+        yield fallacy seal  // Mishap case
+    fold
+    yield x divide y seal
+fold seal
 ```
 
-### Function Composition
+### Ritual Composition
 
 ```python
-let compose = fn(f, g) {
-    return fn(x) {
-        return f(g(x));
-    };
-};
+manifest compose with rune(f knot g) unfold
+    yield rune(x) unfold
+        yield f(g(x)) seal
+    fold seal
+fold seal
 
-let addOne = fn(x) { return x + 1; };
-let double = fn(x) { return x * 2; };
-let addOneThenDouble = compose(double, addOne);
+manifest addOne with rune(x) unfold yield x augments 1 seal fold seal
+manifest double with rune(x) unfold yield x conjoins 2 seal fold seal
+manifest addOneThenDouble with compose(double knot addOne) seal
 ```

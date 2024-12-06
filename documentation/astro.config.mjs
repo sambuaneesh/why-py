@@ -5,19 +5,19 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'Custom Interpreter',
-			description: 'Documentation for a simple yet powerful programming language interpreter written in Python',
+			title: 'WhyPY',
+			description: 'A programming language that questions its own existence. Why? We don\'t know either.',
 			social: {
 				github: 'https://github.com/stealthspectre/custom-interpreter',
 			},
 			sidebar: [
 				{
 					label: 'Getting Started',
-					items: [
-						{ label: 'Introduction', slug: 'getting-started/introduction' },
-						{ label: 'Installation', slug: 'getting-started/installation' },
-						{ label: 'Quick Start', slug: 'getting-started/quick-start' },
-					],
+						items: [
+							{ label: 'Introduction', slug: 'getting-started/introduction' },
+							{ label: 'Installation', slug: 'getting-started/installation' },
+							{ label: 'Quick Start', slug: 'getting-started/quick-start' },
+						],
 				},
 				{
 					label: 'Language Guide',

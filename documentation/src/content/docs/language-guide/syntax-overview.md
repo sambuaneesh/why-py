@@ -1,26 +1,26 @@
 ---
 title: Syntax Overview
-description: Overview of our custom interpreter's syntax and language constructs
+description: A journey into the mystical syntax of WhyPY
 ---
 
 # Syntax Overview
 
-Our interpreter's syntax is designed to be clean, intuitive, and familiar to developers who have experience with languages like Python, JavaScript, or Go.
+WhyPY's syntax is designed to make you question everything you know about programming. It takes familiar concepts and wraps them in layers of philosophical uncertainty.
 
 ## Basic Syntax
 
-### Statements and Semicolons
+### Statements and Seals
 
-Every statement in our language can end with a semicolon (optional in most cases):
+Every statement in WhyPY must be sealed with the mystical 'seal' keyword:
 
 ```python
-let x = 5;
-let y = 10;
+manifest x with 5 seal
+manifest y with 10 seal
 ```
 
-### Identifiers
+### Sigils (Identifiers)
 
-Identifiers in our language can contain:
+Sigils in WhyPY can contain:
 - Letters (a-z, A-Z)
 - Numbers (0-9)
 - Underscore (_)
@@ -28,159 +28,159 @@ Identifiers in our language can contain:
 The first character must be a letter or underscore:
 
 ```python
-let validName = 5;
-let _alsoValid = 10;
-let valid2 = 15;
+manifest validSigil with 5 seal
+manifest _alsoValid with 10 seal
+manifest valid2 with 15 seal
 ```
 
 ## Data Types
 
-### Integer Literals
+### Numbers (Integers)
 
-The language supports integer numbers:
+The language deals with whole numbers, for they are pure and undivided:
 
 ```python
-let x = 42;
-let y = 100;
-let negative = -5;
+manifest x with 42 seal
+manifest y with 100 seal
+manifest negative with diminishes 5 seal
 ```
 
-### Boolean Literals
+### Truth Values (Booleans)
 
-Boolean values are represented by `true` and `false`:
+Truth values ascend to 'verity' or descend to 'fallacy':
 
 ```python
-let isTrue = true;
-let isFalse = false;
+manifest isTrue with verity seal
+manifest isFalse with fallacy seal
 ```
 
 ## Expressions
 
-### Arithmetic Expressions
+### Arithmetic Rituals
 
-The language supports standard arithmetic operations:
+The language supports mystical arithmetic operations:
 
 ```python
-let a = 5 + 10;    // Addition
-let b = 20 - 5;    // Subtraction
-let c = 4 * 3;     // Multiplication
-let d = 15 / 3;    // Division
+manifest a with 5 augments 10 seal     // Addition
+manifest b with 20 diminishes 5 seal    // Subtraction
+manifest c with 4 conjoins 3 seal      // Multiplication
+manifest d with 15 divide 3 seal       // Division
 ```
 
-### Comparison Expressions
+### Comparison Rituals
 
-Comparison operators return boolean values:
+Comparison rituals yield truth values:
 
 ```python
-let isEqual = 5 == 5;      // true
-let notEqual = 5 != 3;     // true
-let lessThan = 5 < 10;     // true
-let greaterThan = 10 > 5;  // true
+manifest isEqual with 5 mirrors 5 seal        // verity
+manifest notEqual with 5 diverges 3 seal      // verity
+manifest lessThan with 5 descends 10 seal     // verity
+manifest greaterThan with 10 ascends 5 seal   // verity
 ```
 
-### Prefix Expressions
+### Prefix Rituals
 
-The language supports prefix operators:
+The language supports prefix operations:
 
 ```python
-let negation = !true;      // false
-let negative = -5;         // negative number
+manifest negation with negate verity seal      // fallacy
+manifest negative with diminishes 5 seal       // negative number
 ```
 
-## Variable Declarations
+## Manifestation (Variable Declarations)
 
-Variables are declared using the `let` keyword:
+Variables are manifested using the 'manifest' keyword:
 
 ```python
-let name = 42;             // integer
-let isActive = true;       // boolean
-let add = fn(x, y) { };    // function
+manifest name with 42 seal                    // number
+manifest isActive with verity seal            // truth value
+manifest add with rune(x knot y) unfold seal  // ritual
 ```
 
-## Functions
+## Rituals (Functions)
 
-### Function Declarations
+### Ritual Declarations
 
-Functions are first-class citizens and are declared using the `fn` keyword:
+Rituals are first-class citizens and are declared using the 'rune' keyword:
 
 ```python
-let add = fn(x, y) {
-    return x + y;
-};
+manifest add with rune(x knot y) unfold
+    yield x augments y seal
+fold seal
 
-let multiply = fn(x, y) {
-    return x * y;
-};
+manifest multiply with rune(x knot y) unfold
+    yield x conjoins y seal
+fold seal
 ```
 
-### Function Calls
+### Ritual Invocations
 
-Functions are called using parentheses:
+Rituals are invoked using parentheses:
 
 ```python
-let result = add(5, 10);
-let doubled = multiply(2, result);
+manifest result with add(5 knot 10) seal
+manifest doubled with multiply(2 knot result) seal
 ```
 
-## Control Flow
+## Flow Control
 
-### If-Else Expressions
+### Whence-Elsewise Expressions
 
-Conditional execution uses if-else expressions:
+Conditional execution uses whence-elsewise expressions:
 
 ```python
-let max = fn(x, y) {
-    if (x > y) {
-        return x;
-    } else {
-        return y;
-    }
-};
+manifest max with rune(x knot y) unfold
+    whence (x ascends y) unfold
+        yield x seal
+    fold elsewise unfold
+        yield y seal
+    fold
+fold seal
 ```
 
-Note that if-else constructs are expressions, meaning they return a value.
+Note that whence-elsewise constructs are expressions, meaning they yield a value.
 
-### Block Statements
+### Block Unfoldings
 
-Code blocks can contain multiple statements and return the value of the last expression:
+Code blocks can contain multiple statements and yield the value of the last expression:
 
 ```python
-let result = {
-    let x = 5;
-    let y = 10;
-    x + y;  // returns 15
-};
+manifest result with unfold
+    manifest x with 5 seal
+    manifest y with 10 seal
+    x augments y seal  // yields 15
+fold seal
 ```
 
 ## Best Practices
 
-1. Use descriptive variable and function names
-2. Keep functions small and focused
-3. Use proper indentation for readability
-4. Break complex expressions into simpler ones
-5. Use meaningful variable names that indicate their purpose
+1. Use descriptive sigil names that reflect their mystical purpose
+2. Keep rituals focused on a single arcane task
+3. Use proper indentation to maintain the sacred structure
+4. Break complex rituals into simpler ones
+5. Seal all statements to prevent the escape of mystical energies
 
 ## Examples
 
-### Function Composition
+### Ritual Composition
 
 ```python
-let addTwo = fn(x) { return x + 2; };
-let multiplyByThree = fn(x) { return x * 3; };
+manifest addTwo with rune(x) unfold yield x augments 2 seal fold seal
+manifest multiplyByThree with rune(x) unfold yield x conjoins 3 seal fold seal
 
-let composed = fn(x) {
-    return multiplyByThree(addTwo(x));
-};
+manifest composed with rune(x) unfold
+    yield multiplyByThree(addTwo(x)) seal
+fold seal
 ```
 
 ### Conditional Logic
 
 ```python
-let isEven = fn(x) {
-    if (x % 2 == 0) {
-        return true;
-    } else {
-        return false;
-    }
-};
+manifest isEven with rune(x) unfold
+    whence (x divide 2 mirrors 0) unfold
+        yield verity seal
+    fold elsewise unfold
+        yield fallacy seal
+    fold
+fold seal
 ``` 
