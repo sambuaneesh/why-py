@@ -3,3 +3,6 @@ clean:
 
 run:
 	python main.py
+
+test:
+	python -m unittest *_test.py
