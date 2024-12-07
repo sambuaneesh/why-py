@@ -129,12 +129,76 @@ blockquote {
 
 /* Custom table styling */
 table {
-    border: 1px solid var(--sl-color-border) !important;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 2em 0;
+    background: var(--sl-color-bg-nav);
+    border-radius: 8px;
+    overflow: hidden;
     box-shadow: var(--mystical-shadow);
 }
 
 th {
+    background: var(--gradient-mystical) !important;
+    color: var(--sl-color-white);
+    font-family: var(--sl-font);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 1em;
+    text-align: left;
+    border-bottom: 2px solid var(--sl-color-accent);
+}
+
+td {
+    padding: 0.8em 1em;
+    border-bottom: 1px solid var(--sl-color-border);
+    color: var(--sl-color-gray-2);
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Code within tables */
+td code {
     background: var(--sl-color-accent-low) !important;
+    color: var(--sl-color-accent-high) !important;
+    padding: 0.2em 0.4em !important;
+    border-radius: 4px !important;
+    font-family: var(--sl-font-mono);
+}
+
+/* Hover effect on table rows */
+tr:hover td {
+    background: var(--sl-color-accent-low);
+    transition: background 0.3s ease;
+}
+
+/* First column styling */
+td:first-child,
+th:first-child {
+    padding-left: 1.5em;
+}
+
+/* Last column styling */
+td:last-child,
+th:last-child {
+    padding-right: 1.5em;
+}
+
+/* Alternating row colors */
+tr:nth-child(even) {
+    background: rgba(134, 73, 255, 0.03);
+}
+
+/* Table caption if needed */
+table caption {
+    font-family: var(--sl-font);
+    color: var(--sl-color-white);
+    padding: 1em;
+    text-align: left;
+    font-style: italic;
 }
 
 /* Style buttons */

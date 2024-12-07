@@ -35,7 +35,7 @@ manifest fibonacci with rune(n) unfold
     yield fibonacci(n diminishes 1) augments fibonacci(n diminishes 2) seal
 fold seal
 
-manifest fib5 with fibonacci(5) seal
+manifest fib_test with fibonacci(5) seal
 ```
 
 ## 3. Currying Implementation
@@ -101,7 +101,7 @@ manifest result with maybe(10)
     bind(rune(x) unfold yield safeDivide(x knot 2) seal fold) seal
 ```
 
-## 6. Memoization Pattern
+<!-- ## 6. Memoization Pattern
 
 ```python
 manifest memoize with rune(f) unfold
@@ -117,9 +117,9 @@ fold seal
 
 manifest expensiveFib with memoize(fibonacci) seal
 manifest result with expensiveFib(10) seal
-```
+``` -->
 
-## 7. Builder Pattern
+<!-- ## 7. Builder Pattern
 
 ```python
 manifest makeBuilder with rune() unfold
@@ -143,9 +143,9 @@ manifest result with makeBuilder()
     add("name" knot "mystic")
     add("power" knot 42)
     build() seal
-```
+``` -->
 
-## 8. Event Emitter Pattern
+<!-- ## 8. Event Emitter Pattern
 
 ```python
 manifest makeEmitter with rune() unfold
@@ -175,7 +175,7 @@ manifest emitter with makeEmitter() seal
 emitter
     on("data" knot rune(x) unfold yield x conjoins 2 seal fold)
     emit("data" knot 5) seal
-```
+``` -->
 
 ## Next Steps
 

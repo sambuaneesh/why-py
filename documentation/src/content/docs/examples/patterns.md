@@ -1,6 +1,7 @@
 ---
 title: Design Patterns
 description: Common mystical patterns and best practices in WhyPY
+draft: true
 ---
 
 # WhyPY Design Patterns

@@ -10,49 +10,49 @@ WhyPY transforms traditional programming concepts into mystical rituals through 
 ### Keywords and Operators
 
 | Traditional | WhyPY Equivalent | Description |
-|------------|------------------|-------------|
-| `let` | `manifest` | Variable declaration |
-| `=` | `with` | Assignment operator |
-| `fn` | `rune` | Function declaration |
-| `{` | `unfold` | Block start |
-| `}` | `fold` | Block end |
-| `;` | `seal` | Statement terminator |
-| `return` | `yield` | Value return |
-| `,` | `knot` | Parameter separator |
-| `if` | `whence` | Conditional start |
-| `else` | `elsewise` | Alternative branch |
+|:------------|:-----------------|:------------|
+| `let`       | `manifest`       | Variable declaration |
+| `=`         | `with`          | Assignment operator |
+| `fn`        | `rune`          | Function declaration |
+| `{`         | `unfold`        | Block start |
+| `}`         | `fold`          | Block end |
+| `;`         | `seal`          | Statement terminator |
+| `return`    | `yield`         | Value return |
+| `,`         | `knot`          | Parameter separator |
+| `if`        | `whence`        | Conditional start |
+| `else`      | `elsewise`      | Alternative branch |
 
 ### Operators
 
 | Traditional | WhyPY Equivalent | Description |
-|------------|------------------|-------------|
-| `+` | `augments` | Addition |
-| `-` | `diminishes` | Subtraction |
-| `*` | `conjoins` | Multiplication |
-| `/` | `divide` | Division |
-| `<` | `descends` | Less than |
-| `>` | `ascends` | Greater than |
-| `==` | `mirrors` | Equality |
-| `!=` | `diverges` | Inequality |
-| `!` | `negate` | Logical negation |
+|:------------|:-----------------|:------------|
+| `+`         | `augments`       | Addition |
+| `-`         | `diminishes`     | Subtraction |
+| `*`         | `conjoins`       | Multiplication |
+| `/`         | `divide`         | Division |
+| `<`         | `descends`       | Less than |
+| `>`         | `ascends`        | Greater than |
+| `==`        | `mirrors`        | Equality |
+| `!=`        | `diverges`       | Inequality |
+| `!`         | `negate`         | Logical negation |
 
 ### Values
 
 | Traditional | WhyPY Equivalent | Description |
-|------------|------------------|-------------|
-| `true` | `verity` | Truth value |
-| `false` | `fallacy` | False value |
-| `null` | `void` | Null value |
+|:------------|:-----------------|:------------|
+| `true`      | `verity`        | Truth value |
+| `false`     | `fallacy`       | False value |
+| `null`      | `void`          | Null value |
 
 ## Type System
 
 | Traditional | WhyPY Type | Description |
-|------------|------------|-------------|
-| Integer | NUMBER | Whole number values |
-| Boolean | TRUTH | Truth values |
-| Function | RITUAL | Callable rituals |
-| Error | MISHAP | Error conditions |
-| Return Value | YIELDED | Returned values |
+|:------------|:-----------|:------------|
+| Integer     | `NUMBER`   | Whole number values |
+| Boolean     | `TRUTH`    | Truth values |
+| Function    | `RITUAL`   | Callable rituals |
+| Error       | `MISHAP`   | Error conditions |
+| Return Value| `YIELDED`  | Returned values |
 
 ## Code Examples
 
@@ -63,6 +63,14 @@ let x = 5;
 
 // WhyPY
 manifest x with 5 seal
+
+/* Coming soon: String support
+// Traditional
+let message = "Hello";
+
+// WhyPY
+manifest message with "Greetings" seal
+*/
 ```
 
 ### Function Definition
@@ -76,6 +84,18 @@ let add = fn(x, y) {
 manifest add with rune(x knot y) unfold
     yield x augments y seal
 fold seal
+
+/* Coming soon: String support
+// Traditional
+let greet = fn(name) {
+    return "Hello, " + name;
+};
+
+// WhyPY
+manifest greet with rune(name) unfold
+    yield "Greetings, " augments name seal
+fold seal
+*/
 ```
 
 ### Conditional Logic
@@ -102,92 +122,41 @@ let result = (5 + 3) * 2 - 1;
 
 // WhyPY
 manifest result with (5 augments 3) conjoins 2 diminishes 1 seal
+
+/* Coming soon: Array support
+// Traditional
+let items = [1, 2, 3];
+let sum = items[0] + items[1];
+
+// WhyPY
+manifest items with [1 knot 2 knot 3] seal
+manifest sum with items[0] augments items[1] seal
+*/
 ```
 
 ## Error Messages
 
-WhyPY's error messages (mishaps) are designed to maintain the mystical theme:
-
 | Traditional Error | WhyPY Mishap |
-|------------------|--------------|
+|:-----------------|:-------------|
 | "Type mismatch" | "Incompatible mystical energies" |
 | "Undefined variable" | "Unknown sigil invoked" |
 | "Syntax error" | "Mystical incantation malformed" |
 | "Division by zero" | "Attempted division by the void" |
 
+/* Coming soon: String and Array support
+| "Index out of bounds" | "Attempted to reach beyond the mystical bounds" |
+| "Invalid string operation" | "Incompatible textual energies" |
+*/
+
 ## Best Practices
 
-1. **Consistent Terminology**
-   - Always use WhyPY's mystical terms in your code
-   - Maintain the esoteric theme in comments and documentation
-   - Use appropriate mystical analogies when explaining code
+1. Always seal your statements to contain their mystical energy
+2. Use descriptive sigil names that reflect their mystical purpose
+3. Keep rituals focused on a single arcane task
+4. Properly unfold and fold your mystical blocks
+5. Handle mishaps with appropriate mystical error handling
 
-2. **Code Structure**
-   - Properly seal all statements
-   - Use meaningful unfolding and folding of blocks
-   - Bind parameters with knots in ritual declarations
-
-3. **Error Handling**
-   - Handle mishaps with appropriate mystical responses
-   - Provide clear guidance when mystical operations fail
-   - Maintain the theme even in error conditions
-
-## Examples in Context
-
-### Counter Ritual
-```python
-manifest newCounter with rune() unfold
-    manifest count with 0 seal
-    yield rune() unfold
-        manifest count with count augments 1 seal
-        yield count seal
-    fold seal
-fold seal
-```
-
-### List Processing
-```python
-manifest processItems with rune(items knot transformer) unfold
-    manifest result with unfold
-        whence (items mirrors void) unfold
-            yield void seal
-        fold
-        yield transformer(items) seal
-    fold seal
-fold seal
-```
-
-### Complex Arithmetic
-```python
-manifest complexCalc with rune(x knot y knot z) unfold
-    manifest base with x conjoins y seal
-    whence (base ascends z) unfold
-        yield base augments z seal
-    fold elsewise unfold
-        yield base diminishes z seal
-    fold
-fold seal
-```
-
-## Common Patterns
-
-### Guard Clauses
-```python
-manifest safeDivide with rune(x knot y) unfold
-    whence (y mirrors 0) unfold
-        yield void seal
-    fold
-    yield x divide y seal
-fold seal
-```
-
-### Higher-Order Rituals
-```python
-manifest compose with rune(f knot g) unfold
-    yield rune(x) unfold
-        yield f(g(x)) seal
-    fold seal
-fold seal
-```
-
-Remember that WhyPY's esoteric semantics are not just about different keywords - they represent a complete transformation of programming concepts into mystical rituals. Embrace the mystical nature of the language to write code that is both functional and philosophically intriguing.
+/* Coming soon: Additional features
+6. Use arrays to contain multiple mystical values
+7. Manipulate strings to channel textual energy
+*/
