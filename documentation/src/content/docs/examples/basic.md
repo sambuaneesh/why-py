@@ -3,9 +3,19 @@ title: Basic Examples
 description: Fundamental WhyPY examples to start your mystical journey
 ---
 
+import InteractiveRepl from '../../../components/InteractiveRepl';
+
 # Basic WhyPY Examples
 
 This guide provides basic examples of WhyPY programming to help you start your mystical journey.
+
+## Interactive Examples
+
+Try these examples directly in your browser:
+
+<div client:only="react">
+  <InteractiveRepl client:only="react" />
+</div>
 
 ## 1. Hello, Mystic World
 

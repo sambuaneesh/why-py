@@ -3,14 +3,22 @@ title: Quick Start Guide
 description: Begin your journey into mystical computing with WhyPy
 ---
 
+import InteractiveRepl from '../../../components/InteractiveRepl.jsx';
+
 Welcome, seeker of arcane knowledge! This guide will help you cast your first mystical programs in WhyPy.
+
+## Try WhyPy Online
+
+Experience the mystical power of WhyPy directly in your browser:
+
+<InteractiveRepl />
 
 ## Your First Incantation
 
-Open the WhyPy REPL and type your first mystical program:
+Try typing this in the REPL above:
 
 ```python
-manifest greeting with "Greetings, seeker of truth" seal
+manifest greeting with 42 seal
 ```
 
 The REPL will respond with the mystical value you've manifested.

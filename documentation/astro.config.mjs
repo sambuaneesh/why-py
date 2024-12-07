@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,37 +17,20 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Getting Started',
-					items: [
-						{ label: 'Introduction', slug: 'getting-started/introduction' },
-						{ label: 'Installation', slug: 'getting-started/installation' },
-						{ label: 'Quick Start', slug: 'getting-started/quick-start' },
-					],
+					autogenerate: { directory: 'getting-started' }
 				},
 				{
 					label: 'Language Guide',
-					items: [
-						{ label: 'Syntax Overview', slug: 'language-guide/syntax-overview' },
-						{ label: 'Data Types', slug: 'language-guide/data-types' },
-						{ label: 'Esoteric Semantics', slug: 'language-guide/esoteric-semantics' },
-					],
+					autogenerate: { directory: 'language-guide' }
 				},
 				{
 					label: 'Implementation',
-					items: [
-						{ label: 'Lexer', slug: 'implementation/lexer' },
-						{ label: 'Parser', slug: 'implementation/parser' },
-						{ label: 'AST', slug: 'implementation/ast' },
-						{ label: 'Interpreter', slug: 'implementation/interpreter' },
-					],
+					autogenerate: { directory: 'implementation' }
 				},
 				{
 					label: 'Examples',
-					items: [
-						{ label: 'Basic Examples', slug: 'examples/basic' },
-						{ label: 'Advanced Examples', slug: 'examples/advanced' },
-						{ label: 'Design Patterns', slug: 'examples/patterns' },
-					],
-				},
+					autogenerate: { directory: 'examples' }
+				}
 			],
 			head: [
 				{
@@ -64,10 +48,14 @@ export default defineConfig({
 						href: 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap',
 					},
 				},
-			],
-			customCss: [
-				'./src/styles/custom.css',
+				{
+					tag: 'script',
+					attrs: {
+						src: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js',
+					},
+				},
 			],
 		}),
+		react(),
 	],
 });

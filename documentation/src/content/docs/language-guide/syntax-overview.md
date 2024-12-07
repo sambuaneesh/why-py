@@ -3,7 +3,15 @@ title: Syntax Overview
 description: A journey into the mystical syntax of WhyPY
 ---
 
+import InteractiveRepl from '../../../components/InteractiveRepl.jsx';
+
 WhyPY's syntax is designed to make you question everything you know about programming. It takes familiar concepts and wraps them in layers of philosophical uncertainty.
+
+## Interactive Playground
+
+Try out the mystical syntax directly in your browser:
+
+<InteractiveRepl />
 
 ## Basic Syntax
 
