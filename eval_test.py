@@ -1,4 +1,4 @@
-from object import Integer, Boolean, Null, Error, Function
+from object import Integer, Boolean, Null, Error, Function, String
 import unittest
 from lexer import Lexer
 from parser import Parser
@@ -140,27 +140,40 @@ class TestObject(unittest.TestCase):
 
     def test_error_handling(self):
         tests = [
-            ("5 augments verity seal", "type mismatch: NUMBER augments TRUTH"),
-            ("5 augments verity seal 5 seal", "type mismatch: NUMBER augments TRUTH"), 
-            ("diminishes verity", "unknown ritual: diminishes TRUTH"),
-            ("verity augments fallacy seal", "unknown ritual: TRUTH augments TRUTH"),
-            ("5 seal verity augments fallacy seal 5", "unknown ritual: TRUTH augments TRUTH"),
-            ("whence (10 ascends 1) unfold verity augments fallacy seal fold", "unknown ritual: TRUTH augments TRUTH"),
-            ("""
-whence (10 ascends 1) unfold
-    whence (10 ascends 1) unfold
-        yield verity augments fallacy seal
-    fold
-    yield 1 seal
-fold
-""", "unknown ritual: TRUTH augments TRUTH"),
+            {
+                "input": "5 augments verity seal",
+                "expected": "MISHAP: type mismatch: NUMBER augments TRUTH"
+            },
+            {
+                "input": "5 augments verity seal yield void seal",
+                "expected": "MISHAP: type mismatch: NUMBER augments TRUTH"
+            },
+            {
+                "input": "verity augments fallacy",
+                "expected": "MISHAP: unknown operator: TRUTH augments TRUTH"
+            },
+            {
+                "input": "5 seal verity augments fallacy seal 5",
+                "expected": "MISHAP: unknown operator: TRUTH augments TRUTH"
+            },
+            {
+                "input": "whence (10 ascends 1) unfold yield verity augments fallacy seal fold",
+                "expected": "MISHAP: unknown operator: TRUTH augments TRUTH"
+            },
+            {
+                "input": "foobar",
+                "expected": "MISHAP: identifier not found: foobar"
+            },
         ]
 
-        for (input, expected_message) in tests:
-            with self.subTest(input=input):
-                evaluated = test_eval(input)
-                self.assertIsInstance(evaluated, Error)
-                self.assertEqual(evaluated.message, expected_message)
+        for tt in tests:
+            evaluated = test_eval(tt["input"])
+            errObj = evaluated
+            if not isinstance(errObj, Error):
+                self.fail(f'no error object returned. got={type(evaluated)}({evaluated})')
+            
+            if errObj.message != tt["expected"]:
+                self.fail(f'wrong error message. expected={tt["expected"]}, got={errObj.message}')
 
     def test_let_statements(self):
         tests = [
@@ -214,6 +227,16 @@ fold
         """
         evaluated = test_eval(input)
         test_integer_object(self, evaluated, Integer(4))
+
+    def test_string_literal(self):
+        input_code = '"Hello World!"'
+        evaluated = test_eval(input_code)
+        
+        if not isinstance(evaluated, String):
+            self.fail(f"object is not String. got={type(evaluated)} ({evaluated})")
+        
+        if evaluated.value != "Hello World!":
+            self.fail(f"String has wrong value. got={evaluated.value}")
 
 if __name__ == "__main__":
     unittest.main()
