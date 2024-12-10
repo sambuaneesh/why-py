@@ -142,28 +142,36 @@ class TestObject(unittest.TestCase):
         tests = [
             {
                 "input": "5 augments verity seal",
-                "expected": "MISHAP: type mismatch: NUMBER augments TRUTH"
+                "expected": "type mismatch: NUMBER augments TRUTH"
             },
             {
                 "input": "5 augments verity seal yield void seal",
-                "expected": "MISHAP: type mismatch: NUMBER augments TRUTH"
+                "expected": "type mismatch: NUMBER augments TRUTH"
             },
             {
                 "input": "verity augments fallacy",
-                "expected": "MISHAP: unknown operator: TRUTH augments TRUTH"
+                "expected": "unknown operator: TRUTH augments TRUTH"
             },
             {
                 "input": "5 seal verity augments fallacy seal 5",
-                "expected": "MISHAP: unknown operator: TRUTH augments TRUTH"
+                "expected": "unknown operator: TRUTH augments TRUTH"
             },
             {
                 "input": "whence (10 ascends 1) unfold yield verity augments fallacy seal fold",
-                "expected": "MISHAP: unknown operator: TRUTH augments TRUTH"
+                "expected": "unknown operator: TRUTH augments TRUTH"
             },
             {
                 "input": "foobar",
-                "expected": "MISHAP: identifier not found: foobar"
+                "expected": "identifier not found: foobar"
             },
+            {
+                "input": '"Hello" diminishes "World"',
+                "expected": "unknown operator: SCROLL diminishes SCROLL"
+            },
+            {
+                "input": '"Hello" conjoins "World"',
+                "expected": "unknown operator: SCROLL conjoins SCROLL"
+            }
         ]
 
         for tt in tests:
@@ -230,6 +238,16 @@ class TestObject(unittest.TestCase):
 
     def test_string_literal(self):
         input_code = '"Hello World!"'
+        evaluated = test_eval(input_code)
+        
+        if not isinstance(evaluated, String):
+            self.fail(f"object is not String. got={type(evaluated)} ({evaluated})")
+        
+        if evaluated.value != "Hello World!":
+            self.fail(f"String has wrong value. got={evaluated.value}")
+
+    def test_string_concatenation(self):
+        input_code = '"Hello" augments " " augments "World!"'
         evaluated = test_eval(input_code)
         
         if not isinstance(evaluated, String):
