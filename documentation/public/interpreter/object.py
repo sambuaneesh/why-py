@@ -14,6 +14,7 @@ NULL_OBJ = "VOID"
 RETURN_VALUE_OBJ = "YIELDED"
 ERROR_OBJ = "MISHAP"
 FUNCTION_OBJ = "RITUAL"
+STRING_OBJ = "SCROLL"
 
 
 class Object(abc.ABC):
@@ -24,6 +25,17 @@ class Object(abc.ABC):
     @abc.abstractmethod
     def inspect(self) -> str:
         pass
+
+
+class String(Object):
+    def __init__(self, value: str):
+        self.value = value
+
+    def type(self) -> ObjectType:
+        return STRING_OBJ
+
+    def inspect(self) -> str:
+        return self.value
 
 
 class Integer(Object):

@@ -32,6 +32,8 @@ def Eval(node: Node, env: Environment) -> Object:
         return Integer(node.value)
     elif isinstance(node, BooleanLiteral):
         return VERITY if node.value else FALLACY
+    elif isinstance(node, StringLiteral):
+        return String(node.value)
     elif isinstance(node, PrefixExpression):
         right = Eval(node.right, env)
         if is_mishap(right):
@@ -109,7 +111,7 @@ def eval_prefix_expression(operator: str, right: Object, env: Environment) -> Ob
         return eval_bang_operator_expression(right)
     elif operator == "diminishes":
         return eval_minus_prefix_operator_expression(right)
-    return Error(f"unknown ritual: {operator} {right.type()}")
+    return Error(f"MISHAP: unknown operator: {operator} {right.type()}")
 
 def eval_bang_operator_expression(right: Object) -> Object:
     if right == VERITY:
@@ -122,20 +124,20 @@ def eval_bang_operator_expression(right: Object) -> Object:
 
 def eval_minus_prefix_operator_expression(right: Object) -> Object:
     if right.type() != INTEGER_OBJ:
-        return Error(f"unknown ritual: diminishes {right.type()}")
+        return Error(f"MISHAP: unknown operator: diminishes {right.type()}")
     value = right.value
     return Integer(-value)
 
 def eval_infix_expression(operator: str, left: Object, right: Object) -> Object:
     if left.type() != right.type():
-        return Error(f"type mismatch: {left.type()} {operator} {right.type()}")
+        return Error(f"MISHAP: type mismatch: {left.type()} {operator} {right.type()}")
     if left.type() == INTEGER_OBJ and right.type() == INTEGER_OBJ:
         return eval_integer_infix_expression(operator, left, right)
     elif operator == "mirrors":
         return VERITY if left == right else FALLACY
     elif operator == "diverges":
         return VERITY if left != right else FALLACY
-    return Error(f"unknown ritual: {left.type()} {operator} {right.type()}")
+    return Error(f"MISHAP: unknown operator: {left.type()} {operator} {right.type()}")
 
 def eval_integer_infix_expression(operator: str, left: Integer, right: Integer) -> Object:
     left_val = left.value
@@ -160,7 +162,7 @@ def eval_integer_infix_expression(operator: str, left: Integer, right: Integer) 
         return VERITY if left_val < right_val else FALLACY
     elif std_operator == ">":
         return VERITY if left_val > right_val else FALLACY
-    return Error(f"unknown ritual: {left.type()} {operator} {right.type()}")
+    return Error(f"MISHAP: unknown operator: {left.type()} {operator} {right.type()}")
 
 def eval_if_expression(node: IfExpression, env: Environment) -> Object:
     condition = Eval(node.condition, env)
@@ -184,7 +186,7 @@ def is_truthy(obj: Object) -> bool:
 def eval_identifier(node: Identifier, env: Environment) -> Object:
     val, exists = env.get(node.value)
     if not exists:
-        return Error(f"unknown sigil: {node.value}")
+        return Error(f"MISHAP: identifier not found: {node.value}")
     return val
 
 def eval_expressions(exps: List[Expression], env: Environment) -> List[Object]:

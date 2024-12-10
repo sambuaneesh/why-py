@@ -17,7 +17,8 @@ from ast1 import (
     IfExpression, 
     BlockStatement, 
     FunctionLiteral, 
-    CallExpression
+    CallExpression,
+    StringLiteral
 )
 
 # Esoteric operator mappings
@@ -103,6 +104,7 @@ class Parser:
             TokenType.LPAREN: self.parse_grouped_expression,
             TokenType.IF: self.parse_if_expression,
             TokenType.FUNCTION: self.parse_function_literal,
+            TokenType.STRING: self.parse_string_literal,
         }
 
     def _register_infix_fns(self):
@@ -527,6 +529,13 @@ class Parser:
 
         return args
 
+    def parse_string_literal(self) -> StringLiteral:
+        """Parse a string literal"""
+        return StringLiteral(
+            token=self.cur_token,
+            value=self.cur_token.literal
+        )
+
 
 def print_ast(program: Program):
     """
@@ -631,6 +640,9 @@ def print_ast(program: Program):
             print(f"{prefix}{connector}GroupedExpression")
             new_prefix = prefix + ("    " if is_last else "│   ")
             _print_node(node.expression, new_prefix, True)
+        
+        elif isinstance(node, StringLiteral):
+            print(f"{prefix}{connector}StringLiteral: {node.value}")
         
         else:
             print(f"{prefix}{connector}Unknown Node Type: {type(node)}")

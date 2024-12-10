@@ -2,6 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 
+// This is a limited version of WhyPy that only supports single-line input
+// For multiline support and full functionality, please follow the Getting Started guide
+// and clone the repository at: https://github.com/whypy/whypy
+
 // Load Pyodide and the interpreter
 async function initializePyodide() {
     // Load Pyodide
@@ -97,8 +101,10 @@ export default function InteractiveRepl() {
 
     const [input, setInput] = useState('');
     const [output, setOutput] = useState([
-        { type: 'system', content: 'Welcome to the WhyPy' },
+        { type: 'system', content: 'Welcome to the WhyPy REPL' },
         { type: 'system', content: 'Inscribe your incantations below. Use the sacred Enter to evaluate.' },
+        { type: 'system', content: 'Note: This is a limited version that only supports single-line input.' },
+        { type: 'system', content: 'For multiline support, please visit the Getting Started guide.' },
     ]);
     const [pyodide, setPyodide] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
