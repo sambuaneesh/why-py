@@ -3,8 +3,6 @@ title: Data Types
 description: Understanding the mystical types that flow through WhyPY
 ---
 
-# Data Types
-
 WhyPY implements a mystical object system with fundamental types that represent the basic building blocks of computational reality.
 
 ## Basic Types

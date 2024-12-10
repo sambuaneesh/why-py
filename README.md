@@ -11,19 +11,20 @@ Is it:
 - An existential crisis? Definitely.
 - A way to make simple things unnecessarily mystical? Absolutely!
 
+Visit the website for detailed documentation and to try the live interpreter: [why-py.vercel.app](https://why-py.vercel.app/)
+
 ## Table of Contents
 
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Language Guide](#language-guide)
-  - [Syntax Overview](docs/syntax.md)
-  - [Data Types](docs/types.md)
-  - [Esoteric Semantics](docs/semantics.md)
+  - [Syntax Overview](https://why-py.vercel.app/language-guide/syntax-overview/)
+  - [Data Types](https://why-py.vercel.app/language-guide/data-types/)
+  - [Esoteric Semantics](https://why-py.vercel.app/language-guide/esoteric-semantics/)
 - [Examples](#examples)
-  - [Basic Rituals](docs/examples/basic.md)
-  - [Advanced Incantations](docs/examples/advanced.md)
-  - [Mystical Patterns](docs/examples/patterns.md)
-- [Implementation Details](docs/implementation.md)
+  - [Basic Rituals](https://why-py.vercel.app/examples/basic/)
+  - [Advanced Incantations](https://why-py.vercel.app/examples/advanced/)
+- [Implementation Details](https://why-py.vercel.app/implementation/ast/)
 - [References](#references)
 - [Course Project](#course-project)
 
@@ -87,7 +88,7 @@ Try these mystical commands in the REPL:
 "You have achieved enlightenment"
 ```
 
-For more examples and detailed explanations, see our [Basic Rituals Guide](docs/examples/basic.md).
+For more examples and detailed explanations, visit our website.
 
 ## The Mystical Theme
 
@@ -100,7 +101,7 @@ WhyPY reimagines programming as a series of mystical rituals. Traditional progra
 - Statements are sealed with mystical energy
 - Errors are "mishaps" in the cosmic flow
 
-For a complete guide to our esoteric semantics, see [docs/semantics.md](docs/semantics.md).
+For a complete guide to our esoteric semantics, see [docs/semantics.md](https://why-py.vercel.app/language-guide/esoteric-semantics/).
 
 ## Features
 
@@ -119,7 +120,7 @@ WhyPY is implemented in Python, chosen for its:
 - Rich standard library (more time for meditation, less for reinventing wheels)
 - Accessibility for collaboration (we considered Lisp but didn't want to curse our collaborators)
 
-For implementation details, see [docs/implementation.md](docs/implementation.md).
+For implementation details, see [docs/implementation.md](https://why-py.vercel.app/implementation/ast/).
 
 ## References and Inspirations
 
