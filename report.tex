@@ -49,7 +49,7 @@
 \maketitle
 
 \begin{abstract}
-WhyPY is a programming language designed to challenge conventional computational paradigms by transforming programming into a mystical and whimsical experience. Rooted in the tradition of playful and thought-provoking esolangs, WhyPY reimagines variables, functions, and program flow as "manifestations," "rituals," and "mystical ceremonies," respectively. Featuring a tree-walking interpreter implemented in Python, WhyPY supports dynamic typing, first-class rituals, and a Vaughan Pratt parsing mechanism. The project provides an interactive REPL for experimentation and incorporates robust error handling ("mishaps"). WhyPY invites programmers to ponder not just how we code, but why we code, encapsulating its ethos with the question: "Why not?"
+WhyPY represents an innovative approach to programming language design, introducing an esoteric like semantic layer atop traditional programming constructs. This report presents the design and implementation of WhyPY, a programming language that transforms conventional programming paradigms into thematically consistent mystical abstractions. The language features a tree-walking interpreter implemented in Python, supporting dynamic typing, first-class functions, and lexical scoping. Notable features include Vaughan Pratt parsing for expression handling, comprehensive error management, and a robust type system encompassing integers (NUMBER), booleans (TRUTH), strings (SCROLL), and functions (RITUAL). The implementation includes an interactive REPL environment and extensive documentation, making it suitable for both educational purposes and experimental programming. This paper details the language's design principles, implementation architecture, and potential applications in computer science education and programming language research.
 \end{abstract}
 
 
@@ -57,14 +57,64 @@ WhyPY is a programming language designed to challenge conventional computational
 
 
 \section{Introduction}
-In the vast landscape of programming languages, esoteric programming languages (esolangs) occupy a unique niche. These unconventional languages are often designed to challenge traditional notions of usability and practicality, instead emphasizing creativity, humor, and conceptual exploration. From the minimalism of Brainfuck to the artistic flair of Piet, esolangs invite us to reconsider the boundaries of computation and expression.
+Programming language design represents a critical area in computer science, where theoretical principles meet practical implementation challenges. Within this domain, esoteric programming languages serve a unique purpose, offering alternative perspectives on computation and program structure. While traditional esoteric languages often prioritize minimalism or conceptual uniqueness, WhyPY takes a different approach by introducing a semantic layer that transforms conventional programming constructs into thematically consistent mystical abstractions.
 
-WhyPY continues this tradition, born from a desire to blend the whimsical with the profound. Its name is both a playful nod to Python and a deeper existential question: "Why not one more?" Rooted in a \textbf{mystical theme}, WhyPY transforms familiar programming constructs into a lexicon of rituals and ceremonies, elevating code into a narrative journey.
+This paper presents WhyPY, a programming language that maintains the functional capabilities of traditional languages while introducing an esoteric semantic layer. Unlike purely esoteric languages that may sacrifice practicality for conceptual purity, WhyPY preserves standard programming paradigms while wrapping them in a consistent thematic framework. This approach serves multiple purposes:
+
+\begin{itemize}
+    \item \textbf{Educational Value}: By presenting familiar concepts in an unfamiliar context, WhyPY encourages deeper understanding of programming fundamentals.
+    \item \textbf{Language Design Exploration}: The implementation demonstrates how semantic transformations can be applied systematically across a language.
+    \item \textbf{Programming Language Theory}: The project provides practical insights into interpreter design, parsing techniques, and type system implementation.
+\end{itemize}
+
+The language implementation features a tree-walking interpreter written in Python, chosen for its accessibility and robust standard library. Key technical features include:
+\begin{itemize}
+    \item Vaughan Pratt parsing for elegant expression handling
+    \item Dynamic typing with comprehensive type checking
+    \item Lexical scoping with proper closure support
+    \item First-class functions with full recursion support
+    \item String manipulation with concatenation operations
+    \item Interactive REPL with multi-line input support
+\end{itemize}
+
+This paper is organized as follows: Section II discusses the rationale behind choosing Python as the implementation language. Section III details the language's syntax and semantics. Section IV explores the implementation architecture. Section V presents example programs demonstrating language features. Sections VI and VII cover testing and future work, respectively.
 
 
 
-\section{Novelity}
-WhyPY’s most distinctive feature is its mystical theming, which reinvents traditional programming constructs using a lexicon of mystical terms. In WhyPY, variables are transformed into “manifestations,” functions become “rituals,” and blocks of code are described as “unfolding” and “folding.” This approach adds a conceptual layer to programming, encouraging users to engage with the language not just as a tool for computation, but as an exploration of abstract thought and narrative.
+\section{Novelty and Contributions}
+WhyPY's primary contribution lies in its innovative approach to semantic transformation in programming language design. The language demonstrates several novel features and design choices:
+
+\begin{itemize}
+    \item \textbf{Systematic Semantic Transformation}: 
+    \begin{itemize}
+        \item Comprehensive mapping of traditional programming constructs to thematic equivalents
+        \item Consistent application of mystical terminology across all language aspects
+        \item Preservation of conventional programming paradigms under transformed semantics
+    \end{itemize}
+    
+    \item \textbf{Educational Innovation}:
+    \begin{itemize}
+        \item Novel approach to teaching programming concepts through semantic reframing
+        \item Integration of abstract concepts with concrete implementation
+        \item Interactive learning through web-based REPL environment
+    \end{itemize}
+    
+    \item \textbf{Implementation Techniques}:
+    \begin{itemize}
+        \item Efficient implementation of Pratt parsing for expression handling
+        \item Integration of dynamic typing with comprehensive type checking
+        \item Novel error handling system with thematic error messages
+    \end{itemize}
+    
+    \item \textbf{Documentation and Accessibility}:
+    \begin{itemize}
+        \item Comprehensive web-based documentation system
+        \item Interactive code examples and tutorials
+        \item Live demonstration environment for experimentation
+    \end{itemize}
+\end{itemize}
+
+These features collectively demonstrate how semantic transformation can be systematically applied in language design while maintaining practical utility and educational value.
 
 
 \section{Why Python? Why Not Lisp?}
@@ -276,162 +326,128 @@ For more details, refer to the official documentation at \url{https://why-py.ver
 
 
 
-\section{Implementation}
-The implementation of WhyPY reflects its mystical theme while employing robust principles of interpreter design. Written in Python, WhyPY leverages the language's simplicity and dynamic features to manage its esoteric semantics and parsing requirements.
+\section{Implementation Architecture}
+The WhyPY interpreter is implemented in Python, following a modular architecture that separates concerns across multiple components:
 
-\subsection{Interpreter Architecture}
-WhyPY is implemented as a tree-walking interpreter, processing abstract syntax trees (AST) generated from user code. The interpreter traverses the AST to execute rituals (functions), unfold blocks, and resolve expressions based on the language’s mystical semantics.
-
-\subsection{Code Life Cycle}
-The code undergoes a multi-stage process: first, it is passed through the lexer to generate tokens. Next, it is parsed into an abstract syntax tree (AST). Finally, the evaluator processes the AST and produces the final output.
-
-\subsection{Lexer}
-The lexer in WhyPY serves as the first stage of the interpreter, responsible for converting raw source code into a sequence of meaningful tokens. It identifies keywords, operators, literals, and punctuation based on WhyPY's mystical syntax.
-
-\subsection{Parser}
-The parser in WhyPY is responsible for interpreting the tokenized input and constructing an Abstract Syntax Tree (AST) based on the mystical semantics of the language. It uses a combination of prefix and infix parsing techniques to handle different expression types, utilizing operator precedence to determine the order of operations.
-
-\subsection{Evaluator}
-The evaluator is responsible for executing the AST generated by the parser. It processes various constructs, including literals, complex expressions, and statements. The evaluation of expressions such as integers, booleans, and functions is handled recursively, and function calls are evaluated by applying arguments and managing environments. Error handling is integrated, ensuring that any "mishaps" encountered during evaluation are addressed. This process enables the dynamic execution of WhyPY programs, following the language’s unique semantics.
-
-\subsection{Error Handling}
-Errors, or "mishaps," are managed using a dedicated error-handling module. Each mishap is accompanied by descriptive messages that align with WhyPY’s mystical theme, providing both debugging aid and thematic immersion.
-
-\subsection{Abstract Syntax Tree (AST)}
-
-The Abstract Syntax Tree (AST) is a crucial component of the WhyPY interpreter, representing the hierarchical structure of a program after parsing. The tree consists of various nodes, each corresponding to a distinct language construct, such as expressions, statements, and control flow.
-
+\subsection{Lexical Analysis}
+The lexer implementation employs a systematic token classification system:
 \begin{itemize}
-    \item \textbf{Node Classes}: The base class \texttt{Node} is extended by \texttt{Statement} and \texttt{Expression} classes, which represent different parts of the program.
-    \item \textbf{Statements}: Include nodes like \texttt{LetStatement}, \texttt{ReturnStatement}, and \texttt{BlockStatement}.
-    \item \textbf{Expressions}: Cover constructs like \texttt{InfixExpression}, \texttt{PrefixExpression}, and function-related nodes such as \texttt{CallExpression}.
-    \item \textbf{Program Representation}: The \texttt{Program} class represents the complete AST, holding a list of statements. The \texttt{string()} method converts the AST into a string representation for visualization or debugging.
+    \item Token categorization for language primitives (NUMBER, TRUTH, SCROLL)
+    \item Operator precedence handling for arithmetic and logical operations
+    \item String literal processing with escape sequence support
+    \item Comprehensive error detection for malformed inputs
 \end{itemize}
 
-Each node in the AST includes a \texttt{string()} method that returns a string representation of the code, making it easier to visualize the program’s structure and syntax.
+\subsection{Syntactic Analysis}
+The parser utilizes Vaughan Pratt's parsing algorithm, chosen for its elegant handling of operator precedence and infix expressions:
+\begin{itemize}
+    \item Top-down recursive descent parsing for statements
+    \item Pratt parsing for expression handling with precedence rules
+    \item Abstract Syntax Tree (AST) generation with node typing
+    \item Error recovery mechanisms for syntax violations
+\end{itemize}
 
-For more details on implementation, refer to the official documentation at \url{https://why-py.vercel.app/implementation/ast/}.
+\subsection{Semantic Analysis}
+The evaluator implements a comprehensive type system and runtime environment:
+\begin{itemize}
+    \item Dynamic type checking with runtime verification
+    \item Lexical scoping implementation with environment chaining
+    \item First-class function support with closure creation
+    \item Error handling with contextual error messages
+\end{itemize}
 
+\subsection{Runtime Environment}
+The runtime system provides:
+\begin{itemize}
+    \item Interactive REPL with multi-line input support
+    \item Environment management for variable scoping
+    \item Built-in function implementation
+    \item Memory management through Python's garbage collection
+\end{itemize}
 
-\subsection{Example Programs}
+\subsection{Type System}
+WhyPY implements a dynamic type system with the following primitive types:
+\begin{itemize}
+    \item NUMBER: Integer arithmetic with overflow protection
+    \item TRUTH: Boolean values with logical operations
+    \item SCROLL: String type with concatenation support
+    \item RITUAL: First-class functions with proper closure semantics
+\end{itemize}
 
-Here are some basic examples of WhyPY programs:
-
-1. \textbf{Hello, Mystic World:}
-   This program demonstrates the basic "Hello, World!" output in WhyPY.
-   \begin{lstlisting}
-manifest greeting with "Greetings, seeker of truth" seal
-
-manifest sayHello with rune(name) unfold
-    manifest message with greeting augments name seal
-    yield message seal
-fold seal
-
-sayHello("mystic one") seal
-   \end{lstlisting}
-
-2. \textbf{Basic Arithmetic: }
-   Performs basic arithmetic operations.
-   \begin{lstlisting}
-// Basic calculations
-manifest x with 5 seal
-manifest y with 10 seal
-
-manifest sum with x augments y seal
-manifest difference with x diminishes y seal
-manifest product with x conjoins y seal
-manifest quotient with y divide x seal
-
-// More complex expression
-manifest result with (x augments y) conjoins 2 seal
-   \end{lstlisting}
-
-3. \textbf{Conditional Logic: }
-   Demonstrates conditional checks using \texttt{whence} and \texttt{elsewise}.
-   \begin{lstlisting}
-manifest age with 25 seal
-
-whence (age ascends 18) unfold
-    yield "You are wise enough" seal
-fold elsewise unfold
-    yield "Seek more wisdom" seal
-fold
-   \end{lstlisting}
-
-4. \textbf{Simple Function Usage: }
-   Defines and calls a function (ritual) in WhyPY.
-   \begin{lstlisting}
-// Define a simple ritual
-manifest double with rune(x) unfold
-    yield x conjoins 2 seal
-fold seal
-
-// Use the ritual
-manifest result with double(5) seal  // Results in 10
-   \end{lstlisting}
-
-5. \textbf{Simple Loop Using Recursion: }
-\begin{lstlisting}
-manifest fibonacci with rune(n) unfold
-    whence (n descends 2) unfold
-        yield n seal
-    fold
-
-    yield fibonacci(n diminishes 1) augments fibonacci(n diminishes 2) seal
-fold seal
-
-manifest result with fibonacci(10) seal
-\end{lstlisting}
+Each component is designed with extensibility in mind, allowing for future additions of new features and optimizations. The implementation prioritizes clarity and maintainability while maintaining reasonable performance characteristics.
 
 
-6. \textbf{Truth Values}:
-\begin{lstlisting}
-manifest isTrue with verity seal
-manifest isFalse with fallacy seal
+\section{Example Programs and Applications}
 
-// Logical operations
-manifest notTrue with negate isTrue seal
-manifest comparison with 5 descends 10 seal
-\end{lstlisting}
+This section presents a series of example programs that demonstrate WhyPY's features and capabilities:
 
+\subsection{Recursive Functions}
+The following example implements the Fibonacci sequence, demonstrating recursion and function composition:
 
-7. \textbf{Composition}:
-\begin{lstlisting}
-manifest addOne with rune(x) unfold
-    yield x augments 1 seal
-fold seal
+\begin{verbatim}
+MANIFEST fibonacci AS RITUAL (n) UNFOLDS
+    WHEN n < 2 THEN
+        RETURN n
+    END
+    RETURN fibonacci(n - 1) + fibonacci(n - 2)
+END
 
-manifest multiplyByTwo with rune(x) unfold
-    yield x conjoins 2 seal
-fold seal
+MANIFEST result AS fibonacci(10)
+REVEAL result
+\end{verbatim}
 
-// Compose the rituals
-manifest result with multiplyByTwo(addOne(5)) seal
-\end{lstlisting}
+\subsection{Higher-Order Functions}
+This example demonstrates higher-order functions and closures:
 
-5. \textbf{String Manipulation}:
-\begin{lstlisting}
-// String concatenation
-manifest greeting with "Hail" seal
-manifest name with "Ancient One" seal
-manifest message with greeting augments ", " augments name seal
+\begin{verbatim}
+MANIFEST makeMultiplier AS RITUAL (factor) UNFOLDS
+    RETURN RITUAL (x) UNFOLDS
+        RETURN x * factor
+    END
+END
 
-\end{lstlisting}
+MANIFEST double AS makeMultiplier(2)
+MANIFEST triple AS makeMultiplier(3)
+REVEAL double(5)    # Outputs: 10
+REVEAL triple(5)    # Outputs: 15
+\end{verbatim}
 
-6. \textbf{Fibonacci Sequence}:
-\begin{lstlisting}
-manifest fibonacci with rune(n) unfold
-    whence (n descends 2) unfold
-        yield n seal
-    fold
+\subsection{String Manipulation}
+The following example showcases string concatenation and manipulation:
 
-    yield fibonacci(n diminishes 1) augments fibonacci(n diminishes 2) seal
-fold seal
+\begin{verbatim}
+MANIFEST greet AS RITUAL (name) UNFOLDS
+    MANIFEST prefix AS SCROLL("Greetings, ")
+    MANIFEST suffix AS SCROLL("!")
+    RETURN prefix + name + suffix
+END
 
-manifest result with fibonacci(10) seal
-\end{lstlisting}
+REVEAL greet(SCROLL("Mystic One"))
+\end{verbatim}
 
-For more advanced example refer to \url{https://why-py.vercel.app/examples/advanced/}.
+\subsection{Control Flow and Conditionals}
+This example demonstrates complex control flow and conditional statements:
+
+\begin{verbatim}
+MANIFEST isPrime AS RITUAL (n) UNFOLDS
+    WHEN n <= 1 THEN
+        RETURN FALSE
+    END
+    
+    MANIFEST i AS 2
+    WHILE i * i <= n UNFOLDS
+        WHEN n % i = 0 THEN
+            RETURN FALSE
+        END
+        MANIFEST i AS i + 1
+    END
+    RETURN TRUE
+END
+
+REVEAL isPrime(17)  # Outputs: TRUE
+\end{verbatim}
+
+These examples illustrate WhyPY's capability to implement both simple and complex algorithms while maintaining its unique semantic style. The language's support for recursion, higher-order functions, and comprehensive type system enables the implementation of sophisticated programming patterns.
 
 
 \section{Installation \& Setup}
@@ -453,21 +469,96 @@ The development of WhyPY was a collaborative effort, with distinct contributions
 
 This division of responsibilities ensured a seamless blend of creativity and technical implementation in WhyPY, with each team member focusing on their areas of expertise while maintaining consistent communication and integration of components.
 
-\section{Future Work}
+\section{Testing and Validation}
 
-WhyPY presents an exciting starting point for creative and technical exploration. Several opportunities exist to enhance its functionality and usability. Key areas of future improvement include:
+The WhyPY implementation includes a comprehensive testing suite that validates various aspects of the language:
 
+\subsection{Unit Testing}
+The testing framework includes unit tests for each component:
 \begin{itemize}
-    \item \textbf{Advanced Data Structures}: Adding support for arrays, dictionaries, and other complex data structures to increase the language's versatility.
-    \item \textbf{Additional Primitives}: Introducing bitwise operators and other low-level primitives to extend computational capabilities.
-    \item \textbf{Improved Error Messaging}: Enhancing error handling with more descriptive and mystical error messages for better debugging.
+    \item \textbf{Lexer Tests}: Validate token generation and error detection
+    \item \textbf{Parser Tests}: Verify AST construction and syntax validation
+    \item \textbf{Evaluator Tests}: Ensure correct execution of language constructs
+    \item \textbf{Type System Tests}: Validate type checking and conversion
 \end{itemize}
 
-These enhancements aim to make WhyPY more expressive and practical while preserving its mystical essence.
+\subsection{Integration Testing}
+Integration tests verify the interaction between components:
+\begin{itemize}
+    \item End-to-end program execution
+    \item REPL functionality and error handling
+    \item File I/O and program loading
+    \item Environment management and scope handling
+\end{itemize}
 
+\subsection{Performance Testing}
+Performance benchmarks measure:
+\begin{itemize}
+    \item Execution time for recursive functions
+    \item Memory usage patterns
+    \item REPL response latency
+    \item AST construction efficiency
+\end{itemize}
+
+\section{Future Work}
+
+Several areas have been identified for future development:
+
+\subsection{Language Extensions}
+\begin{itemize}
+    \item \textbf{Type System Enhancements}:
+    \begin{itemize}
+        \item Optional static typing support
+        \item User-defined type declarations
+        \item Generic type support
+    \end{itemize}
+    
+    \item \textbf{Additional Features}:
+    \begin{itemize}
+        \item Module system for code organization
+        \item Exception handling mechanisms
+        \item Standard library expansion
+        \item Pattern matching support
+    \end{itemize}
+\end{itemize}
+
+\subsection{Implementation Improvements}
+\begin{itemize}
+    \item \textbf{Performance Optimizations}:
+    \begin{itemize}
+        \item Just-In-Time compilation support
+        \item Bytecode compilation
+        \item Memory usage optimization
+    \end{itemize}
+    
+    \item \textbf{Development Tools}:
+    \begin{itemize}
+        \item Integrated development environment
+        \item Advanced debugging capabilities
+        \item Code analysis tools
+        \item Package management system
+    \end{itemize}
+\end{itemize}
+
+\subsection{Documentation and Community}
+\begin{itemize}
+    \item \textbf{Documentation Enhancements}:
+    \begin{itemize}
+        \item Interactive tutorial system
+        \item Advanced programming guides
+        \item API documentation improvements
+    \end{itemize}
+    
+    \item \textbf{Community Development}:
+    \begin{itemize}
+        \item Open source contribution guidelines
+        \item Community package repository
+        \item Educational resources
+    \end{itemize}
+\end{itemize}
 
 \section{Conclusion}
-WhyPY exemplifies the intersection of creativity and computational design, offering a unique perspective on programming through its mystical syntax and esoteric semantics. Its development encourages exploration beyond traditional coding paradigms, allowing for both technical learning and philosophical reflection. While currently focusing on basic constructs, the future holds potential for more complex data structures, additional primitives, and performance optimizations, making WhyPY a continually evolving and thought-provoking tool for programmers.
+WhyPY demonstrates the feasibility of creating a programming language that combines practical utility with semantic transformation. The implementation successfully achieves its goals of providing a fully functional programming environment while maintaining a consistent thematic approach. The project contributes to the field of programming language design by showing how alternative semantic frameworks can be systematically applied without sacrificing functionality. Future work will focus on expanding the language's capabilities while maintaining its unique character and improving its utility for both educational and practical applications.
 
 
 \end{document}
