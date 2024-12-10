@@ -91,6 +91,22 @@ class Lexer:
             self.read_char()
         return self.input[position:self.position]
 
+    def read_string(self) -> str:
+        """
+        Read and return a complete string literal
+        """
+        position = self.position + 1  # start after the opening quote
+        self.read_char()  # move past the opening quote
+        
+        while self.ch != '"' and self.ch is not None:
+            self.read_char()
+        
+        if self.ch == '"':
+            result = self.input[position:self.position]
+            self.read_char()  # move past the closing quote
+            return result
+        return ""
+
     def next_token(self) -> Token:
         """
         Determine and return the next token
@@ -101,8 +117,12 @@ class Lexer:
             return Token(TokenType.EOF, "")
 
         token = None
+        # Handle string literals
+        if self.ch == '"':
+            literal = self.read_string()
+            return Token(TokenType.STRING, literal)
         # Handle parentheses as they remain unchanged
-        if self.ch == '(':
+        elif self.ch == '(':
             token = Token(TokenType.LPAREN, self.ch)
         elif self.ch == ')':
             token = Token(TokenType.RPAREN, self.ch)
