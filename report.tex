@@ -33,43 +33,32 @@
   showstringspaces=false, % Don't show space characters in strings
 }
 
-
 \title{WhyPY: A Custom Interpreter \\ \Large{PoPL Project Report}}
 
 \author{
   \IEEEauthorblockN{Aneesh Sambu}
   \IEEEauthorblockA{\textit{sambu.aneesh@research.iiit.ac.in} \\
+  2023121012
   }
   \and
   \IEEEauthorblockN{Santhosh Kotekal Methukula}
   \IEEEauthorblockA{\textit{santhosh.km@students.iiit.ac.in} \\
+  2022101057
   }
 }
 
 \maketitle
 
 \begin{abstract}
-WhyPY represents an innovative approach to programming language design, introducing an esoteric like semantic layer atop traditional programming constructs. This report presents the design and implementation of WhyPY, a programming language that transforms conventional programming paradigms into thematically consistent mystical abstractions. The language features a tree-walking interpreter implemented in Python, supporting dynamic typing, first-class functions, and lexical scoping. Notable features include Vaughan Pratt parsing for expression handling, comprehensive error management, and a robust type system encompassing integers (NUMBER), booleans (TRUTH), strings (SCROLL), and functions (RITUAL). The implementation includes an interactive REPL environment and extensive documentation, making it suitable for both educational purposes and experimental programming. This paper details the language's design principles, implementation architecture, and potential applications in computer science education and programming language research.
+WhyPY is yet an another interpreter, introducing an esoteric like semantic layer atop traditional programming constructs. This report presents the design and implementation of WhyPY, a programming language that transforms conventional programming paradigms into thematically consistent mystical abstractions. The language features a tree-walking interpreter implemented in Python, supporting dynamic typing, first-class functions, and lexical scoping. Notable features include Vaughan Pratt parsing for expression handling, comprehensive error management, and a robust type system encompassing integers (NUMBER), booleans (TRUTH), strings (SCROLL), and functions (RITUAL). The implementation includes an interactive REPL environment and extensive documentation, making it suitable for both educational purposes and experimental programming. This paper details the language's design principles, implementation architecture, and potential applications in computer science education and programming language research.
 \end{abstract}
 
 
 
-
-
 \section{Introduction}
-Programming language design represents a critical area in computer science, where theoretical principles meet practical implementation challenges. Within this domain, esoteric programming languages serve a unique purpose, offering alternative perspectives on computation and program structure. While traditional esoteric languages often prioritize minimalism or conceptual uniqueness, WhyPY takes a different approach by introducing a semantic layer that transforms conventional programming constructs into thematically consistent mystical abstractions.
-
-This paper presents WhyPY, a programming language that maintains the functional capabilities of traditional languages while introducing an esoteric semantic layer. Unlike purely esoteric languages that may sacrifice practicality for conceptual purity, WhyPY preserves standard programming paradigms while wrapping them in a consistent thematic framework. This approach serves multiple purposes:
-
-\begin{itemize}
-    \item \textbf{Educational Value}: By presenting familiar concepts in an unfamiliar context, WhyPY encourages deeper understanding of programming fundamentals.
-    \item \textbf{Language Design Exploration}: The implementation demonstrates how semantic transformations can be applied systematically across a language.
-    \item \textbf{Programming Language Theory}: The project provides practical insights into interpreter design, parsing techniques, and type system implementation.
-\end{itemize}
-
 The language implementation features a tree-walking interpreter written in Python, chosen for its accessibility and robust standard library. Key technical features include:
 \begin{itemize}
-    \item Vaughan Pratt parsing for elegant expression handling
+    \item Vaughan Pratt parsing for expression handling
     \item Dynamic typing with comprehensive type checking
     \item Lexical scoping with proper closure support
     \item First-class functions with full recursion support
@@ -77,11 +66,10 @@ The language implementation features a tree-walking interpreter written in Pytho
     \item Interactive REPL with multi-line input support
 \end{itemize}
 
-This paper is organized as follows: Section II discusses the rationale behind choosing Python as the implementation language. Section III details the language's syntax and semantics. Section IV explores the implementation architecture. Section V presents example programs demonstrating language features. Sections VI and VII cover testing and future work, respectively.
+This report is organized as follows: Section II discusses the rationale behind choosing Python as the implementation language. Section III details the language's syntax and semantics. Section IV explores the implementation architecture. Section V presents example programs demonstrating language features. Sections VI and VII cover testing and future work, respectively.
 
 
-
-\section{Novelty and Contributions}
+\section{About Project}
 WhyPY's primary contribution lies in its innovative approach to semantic transformation in programming language design. The language demonstrates several novel features and design choices:
 
 \begin{itemize}
@@ -92,18 +80,11 @@ WhyPY's primary contribution lies in its innovative approach to semantic transfo
         \item Preservation of conventional programming paradigms under transformed semantics
     \end{itemize}
     
-    \item \textbf{Educational Innovation}:
-    \begin{itemize}
-        \item Novel approach to teaching programming concepts through semantic reframing
-        \item Integration of abstract concepts with concrete implementation
-        \item Interactive learning through web-based REPL environment
-    \end{itemize}
-    
     \item \textbf{Implementation Techniques}:
     \begin{itemize}
         \item Efficient implementation of Pratt parsing for expression handling
         \item Integration of dynamic typing with comprehensive type checking
-        \item Novel error handling system with thematic error messages
+        \item Error handling system with thematic error messages
     \end{itemize}
     
     \item \textbf{Documentation and Accessibility}:
@@ -114,11 +95,9 @@ WhyPY's primary contribution lies in its innovative approach to semantic transfo
     \end{itemize}
 \end{itemize}
 
-These features collectively demonstrate how semantic transformation can be systematically applied in language design while maintaining practical utility and educational value.
-
 
 \section{Why Python? Why Not Lisp?}
-The choice of Python as the implementation language for WhyPY was deliberate and strategic, despite Lisp's traditional popularity in interpreter development. Here's why:
+The choice of Python as the implementation language for WhyPY was deliberate, despite Lisp's traditional popularity in interpreter development. Here's why:
 
 \begin{itemize}
     \item \textbf{Accessibility}: Python's readable syntax and widespread adoption allows us to focus on interpreter logic rather than language design.
@@ -139,10 +118,8 @@ This decision prioritizes maintainability and collaboration over the traditional
 This section provides a detailed overview of its lexical structure, data types, and semantics.
 
 
-
-
-\subsection{Esoteric Semantics}
-WhyPY transforms traditional programming concepts into mystical rituals through its unique esoteric semantics. This transformation of common terms into mystical equivalents adds depth and creativity to the coding experience. Below are the core transformations, operator mappings, type system, and error handling mechanisms in WhyPY.
+\subsection{Esoteric like Semantics}
+WhyPY transforms traditional programming concepts into mystical rituals through its unique esoteric like semantics (This is not a complete esoteric language). This transformation of common terms into mystical equivalents adds depth and creativity to the coding experience. Below are the core transformations, operator mappings, type system, and error handling mechanisms in WhyPY.
 
 \subsubsection{Core-Transformations}
 This table outlines the mapping of traditional programming constructs to their mystical equivalents in WhyPY. \\ 
@@ -237,8 +214,6 @@ Division by zero & Attempted division by the void \\
 \\
 
 For a detailed exploration of WhyPY’s esoteric semantics, refer to the official documentation: \href{https://why-py.vercel.app/language-guide/esoteric-semantics/}{Esoteric Semantics Guide}.
-
-
 
 
 
@@ -491,15 +466,6 @@ Integration tests verify the interaction between components:
     \item Environment management and scope handling
 \end{itemize}
 
-\subsection{Performance Testing}
-Performance benchmarks measure:
-\begin{itemize}
-    \item Execution time for recursive functions
-    \item Memory usage patterns
-    \item REPL response latency
-    \item AST construction efficiency
-\end{itemize}
-
 \section{Future Work}
 
 Several areas have been identified for future development:
@@ -522,24 +488,6 @@ Several areas have been identified for future development:
     \end{itemize}
 \end{itemize}
 
-\subsection{Implementation Improvements}
-\begin{itemize}
-    \item \textbf{Performance Optimizations}:
-    \begin{itemize}
-        \item Just-In-Time compilation support
-        \item Bytecode compilation
-        \item Memory usage optimization
-    \end{itemize}
-    
-    \item \textbf{Development Tools}:
-    \begin{itemize}
-        \item Integrated development environment
-        \item Advanced debugging capabilities
-        \item Code analysis tools
-        \item Package management system
-    \end{itemize}
-\end{itemize}
-
 \subsection{Documentation and Community}
 \begin{itemize}
     \item \textbf{Documentation Enhancements}:
@@ -557,8 +505,6 @@ Several areas have been identified for future development:
     \end{itemize}
 \end{itemize}
 
-\section{Conclusion}
-WhyPY demonstrates the feasibility of creating a programming language that combines practical utility with semantic transformation. The implementation successfully achieves its goals of providing a fully functional programming environment while maintaining a consistent thematic approach. The project contributes to the field of programming language design by showing how alternative semantic frameworks can be systematically applied without sacrificing functionality. Future work will focus on expanding the language's capabilities while maintaining its unique character and improving its utility for both educational and practical applications.
-
-
+\section{Remarks}
+// fill here
 \end{document}
