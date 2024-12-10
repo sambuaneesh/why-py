@@ -77,8 +77,26 @@ def read_multiline_input():
             else:
                 raise
 
-def start(in_stream=sys.stdin, out_stream=sys.stdout):
-    env = Environment()
+def evaluate_code(source: str, env: Environment, out_stream=sys.stdout) -> None:
+    """Evaluate a piece of code in the given environment."""
+    if not source.strip():
+        return
+
+    lexer = Lexer(source)
+    parser = Parser(lexer)
+    program = parser.parse_program()
+
+    if len(parser.errors) != 0:
+        print_parser_errors(parser.errors)
+        return
+
+    evaluated = Eval(program, env)
+    if evaluated is not None:
+        print(f"{GREEN}└─ The runes speak: {evaluated.inspect()}{RESET}", file=out_stream)
+        print(file=out_stream)
+
+def start_interactive(env: Environment, out_stream=sys.stdout):
+    """Start the interactive REPL."""
     print(f"\n{YELLOW}╭──────────────────────────────────────────────╮{RESET}", file=out_stream)
     print(f"{YELLOW}│   Hark, Wanderer of the Digital Planes...    │{RESET}", file=out_stream)
     print(f"{YELLOW}│   Enter ye the Ancient REPL of whyPY         │{RESET}", file=out_stream)
@@ -92,25 +110,28 @@ def start(in_stream=sys.stdin, out_stream=sys.stdout):
     while True:
         try:
             source = read_multiline_input()
-            if not source.strip():
-                continue
-
-            lexer = Lexer(source)
-            parser = Parser(lexer)
-            program = parser.parse_program()
-
-            if len(parser.errors) != 0:
-                print_parser_errors(parser.errors)
-                continue
-
-            evaluated = Eval(program, env)
-            if evaluated is not None:
-                print(f"{GREEN}└─ The runes speak: {evaluated.inspect()}{RESET}", file=out_stream)
-                print(file=out_stream)
-
+            evaluate_code(source, env, out_stream)
         except KeyboardInterrupt:
             print("\nIncantation cancelled.", file=out_stream)
             continue
         except EOFError:
             print("\nMay your code forever flow in the streams of time!", file=out_stream)
             return
+
+def start_file_mode(env: Environment, in_stream=sys.stdin, out_stream=sys.stdout):
+    """Execute code from input stream."""
+    source = in_stream.read()
+    evaluate_code(source, env, out_stream)
+
+def start(in_stream=sys.stdin, out_stream=sys.stdout):
+    """Start the REPL in either interactive or file mode."""
+    env = Environment()
+    
+    # Check if input is coming from a terminal
+    if in_stream.isatty():
+        start_interactive(env, out_stream)
+    else:
+        start_file_mode(env, in_stream, out_stream)
+
+if __name__ == "__main__":
+    start()
