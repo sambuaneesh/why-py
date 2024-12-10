@@ -22,6 +22,8 @@ fold
 
 10 mirrors 10 seal
 10 diverges 9 seal
+"foobar"
+"foo bar"
 '''
 
         tests = [
@@ -98,6 +100,8 @@ fold
             (TokenType.NOT_EQ, "diverges"),
             (TokenType.INT, "9"),
             (TokenType.SEMICOLON, "seal"),
+            (TokenType.STRING, "foobar"),
+            (TokenType.STRING, "foo bar"),
             (TokenType.EOF, ""),
         ]
 

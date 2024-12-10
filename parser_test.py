@@ -496,5 +496,23 @@ yield 69 seal
         self._test_infix_expression(exp.arguments[1], 2, "conjoins", 3)
         self._test_infix_expression(exp.arguments[2], 4, "augments", 5)
 
+    def test_string_literal_expression(self):
+        input_code = '"hello world" seal'
+        lexer = Lexer(input_code)
+        parser = Parser(lexer)
+        program = parser.parse_program()
+        self._check_parser_errors(parser)
+
+        stmt = program.statements[0]
+        if not isinstance(stmt, ExpressionStatement):
+            self.fail(f"program.statements[0] is not ExpressionStatement. got={type(stmt)}")
+
+        literal = stmt.expression
+        if not isinstance(literal, StringLiteral):
+            self.fail(f"exp not StringLiteral. got={type(literal)}")
+
+        if literal.value != "hello world":
+            self.fail(f"literal.value not 'hello world'. got='{literal.value}'")
+
 if __name__ == "__main__":
     unittest.main()

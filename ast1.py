@@ -103,6 +103,21 @@ class IntegerLiteral(Expression):
     def string(self) -> str:
         return str(self.value)
 
+class StringLiteral(Expression):
+    """Represents a string literal"""
+    def __init__(self, token: Token, value: str):
+        self.token = token
+        self.value = value
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self) -> str:
+        return self.token.literal
+
+    def string(self) -> str:
+        return self.token.literal
+
 class LetStatement(Statement):
     """Represents a let statement"""
     def __init__(self, token: Token, name: Identifier, value: Optional[Expression]):

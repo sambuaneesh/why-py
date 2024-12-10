@@ -40,6 +40,9 @@ class TokenType(Enum):
     ELSE = auto()
     RETURN = auto()
 
+    # bonus datatypes
+    STRING = auto()
+
 class Token:
     def __init__(self, type: TokenType, literal: str):
         self.type = type
