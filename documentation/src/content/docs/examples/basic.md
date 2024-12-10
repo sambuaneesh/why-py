@@ -3,19 +3,12 @@ title: Basic Examples
 description: Fundamental WhyPY examples to start your mystical journey
 ---
 
-import InteractiveRepl from '../../../components/InteractiveRepl';
-
 # Basic WhyPY Examples
 
 This guide provides basic examples of WhyPY programming to help you start your mystical journey.
 
 ## Interactive Examples
 
-Try these examples directly in your browser:
-
-<div client:only="react">
-  <InteractiveRepl client:only="react" />
-</div>
 
 ## 1. Hello, Mystic World
 
@@ -61,16 +54,15 @@ fold
 ## 4. Simple Loop Using Recursion
 
 ```python
-manifest countdown with rune(n) unfold
-    whence (n descends 0) unfold
-        yield void seal
+manifest fibonacci with rune(n) unfold
+    whence (n descends 2) unfold
+        yield n seal
     fold
-    
-    manifest n with n diminishes 1 seal
-    countdown(n) seal
+
+    yield fibonacci(n diminishes 1) augments fibonacci(n diminishes 2) seal
 fold seal
 
-countdown(5) seal
+manifest result with fibonacci(10) seal 
 ```
 
 ## 5. Basic Function (Ritual) Usage
@@ -96,35 +88,8 @@ manifest notTrue with negate isTrue seal
 manifest comparison with 5 descends 10 seal
 ```
 
-## 7. Basic Error Handling
 
-```python
-manifest safeDivide with rune(x knot y) unfold
-    whence (y mirrors 0) unfold
-        yield void seal
-    fold
-    yield x divide y seal
-fold seal
-
-// Using the safe division
-manifest result with safeDivide(10 knot 2) seal
-manifest errorCase with safeDivide(10 knot 0) seal
-```
-
-## 8. Working with Multiple Returns
-
-```python
-manifest getMinMax with rune(x knot y) unfold
-    whence (x descends y) unfold
-        yield unfold x knot y fold seal
-    fold
-    yield unfold y knot x fold seal
-fold seal
-
-manifest min knot max with getMinMax(5 knot 10) seal
-```
-
-## 9. Basic Composition
+## 7. Basic Composition
 
 ```python
 manifest addOne with rune(x) unfold
@@ -139,35 +104,10 @@ fold seal
 manifest result with multiplyByTwo(addOne(5)) seal
 ```
 
-## 10. Simple Calculator
-
-```python
-manifest calculator with rune(operation knot x knot y) unfold
-    whence (operation mirrors "augments") unfold
-        yield x augments y seal
-    fold elsewise whence (operation mirrors "diminishes") unfold
-        yield x diminishes y seal
-    fold elsewise whence (operation mirrors "conjoins") unfold
-        yield x conjoins y seal
-    fold elsewise whence (operation mirrors "divide") unfold
-        whence (y mirrors 0) unfold
-            yield void seal
-        fold
-        yield x divide y seal
-    fold elsewise unfold
-        yield void seal
-    fold
-fold seal
-
-// Using the calculator
-manifest sum with calculator("augments" knot 5 knot 3) seal
-manifest product with calculator("conjoins" knot 4 knot 2) seal
-```
-
 ## Next Steps
 
 Once you're comfortable with these basic examples, proceed to:
 - [Advanced Examples](advanced.md) for more complex patterns
-- [Design Patterns](patterns.md) for common programming patterns in WhyPY
+- **Design Patterns** for common programming patterns in WhyPY (Coming Soon)
 
 Remember to always seal your statements and maintain the flow of mystical energy in your code! 

@@ -33,6 +33,29 @@ def lookup_ident(literal: str) -> TokenType:
     return KEYWORDS.get(literal, TokenType.IDENT)
 ```
 
+## String Handling
+
+The lexer includes special handling for string literals:
+
+```python
+def read_string(self) -> str:
+    """Read and return a complete string literal"""
+    position = self.position + 1  # skip opening quote
+    while True:
+        self.read_char()
+        if self.ch == '"' or self.ch is None:
+            break
+    return self.input[position:self.position]
+```
+
+String literals are recognized by double quotes and converted to STRING tokens:
+
+```python
+# Example string token generation
+'"Hello, World!"'  -> Token(STRING, "Hello, World!")
+'"Ancient One"'    -> Token(STRING, "Ancient One")
+```
+
 ## Lexer Class
 
 The `Lexer` class is responsible for converting source code into tokens. Here are its key components:

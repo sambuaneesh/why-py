@@ -30,13 +30,13 @@ Use the sacred Ctrl+D to close the tome, or Ctrl+C to cancel the current incanta
 └─⚡
 ```
 
-<!-- ## Running WhyPy Programs
+## Running WhyPy Programs
 
 To run a WhyPy program from a file:
 
 ```bash
 python repl.py < your_mystical_program.why
-``` -->
+```
 
 ## Next Steps
 

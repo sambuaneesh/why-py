@@ -50,6 +50,7 @@ WhyPY transforms traditional programming concepts into mystical rituals through 
 |:------------|:-----------|:------------|
 | Integer     | `NUMBER`   | Whole number values |
 | Boolean     | `TRUTH`    | Truth values |
+| String      | `SCROLL`   | Textual inscriptions |
 | Function    | `RITUAL`   | Callable rituals |
 | Error       | `MISHAP`   | Error conditions |
 | Return Value| `YIELDED`  | Returned values |
@@ -60,17 +61,11 @@ WhyPY transforms traditional programming concepts into mystical rituals through 
 ```python
 // Traditional
 let x = 5;
-
-// WhyPY
-manifest x with 5 seal
-
-/* Coming soon: String support
-// Traditional
 let message = "Hello";
 
 // WhyPY
+manifest x with 5 seal
 manifest message with "Greetings" seal
-*/
 ```
 
 ### Function Definition
@@ -80,22 +75,18 @@ let add = fn(x, y) {
     return x + y;
 };
 
-// WhyPY
-manifest add with rune(x knot y) unfold
-    yield x augments y seal
-fold seal
-
-/* Coming soon: String support
-// Traditional
 let greet = fn(name) {
     return "Hello, " + name;
 };
 
 // WhyPY
+manifest add with rune(x knot y) unfold
+    yield x augments y seal
+fold seal
+
 manifest greet with rune(name) unfold
     yield "Greetings, " augments name seal
 fold seal
-*/
 ```
 
 ### Conditional Logic

@@ -3,16 +3,6 @@ title: Syntax Overview
 description: A journey into the mystical syntax of WhyPY
 ---
 
-import InteractiveRepl from '../../../components/InteractiveRepl.jsx';
-
-WhyPY's syntax is designed to make you question everything you know about programming. It takes familiar concepts and wraps them in layers of philosophical uncertainty.
-
-## Interactive Playground
-
-Try out the mystical syntax directly in your browser:
-
-<InteractiveRepl />
-
 ## Basic Syntax
 
 ### Statements and Seals
@@ -49,6 +39,15 @@ The language deals with whole numbers, for they are pure and undivided:
 manifest x with 42 seal
 manifest y with 100 seal
 manifest negative with diminishes 5 seal
+```
+
+### Scrolls (Strings)
+
+Textual inscriptions are captured within mystical quotation marks:
+
+```python
+manifest greeting with "Hail, seeker of wisdom" seal
+manifest name with "Ancient One" seal
 ```
 
 ### Truth Values (Booleans)

@@ -3,11 +3,11 @@ title: Introduction to WhyPy
 description: A mystical journey into the world of esoteric programming
 ---
 
-Welcome to WhyPy, a programming language that dares to question the very nature of computation. In a world saturated with pragmatic programming languages, WhyPy chooses the path less traveled – the path of mystical computing.
+Welcome to WhyPy, a programming language that is ... idk man maybe it is the path of mystical computing.
 
 ## Why WhyPy?
 
-WhyPy was born from a simple question: "Why not make programming more philosophically challenging?" While other languages focus on being practical, WhyPy focuses on being existential. Here's what makes WhyPy unique:
+WhyPy was born from a simple question: "Why not make programming more philosophically confusing?" While other languages focus on being practical, WhyPy focuses on being existential. IDK what I am talking about but here's what makes WhyPy unique:
 
 - **Mystical Syntax**: Replace mundane keywords with arcane incantations
 - **Philosophical Types**: Where booleans become truth values of 'verity' and 'fallacy'
@@ -32,11 +32,13 @@ Here's a glimpse into the mystical world of WhyPy:
 let x = 5;
 let y = 10;
 let sum = x + y;
+let greeting = "Hello, World";
 
 // WhyPy's mystical approach:
 manifest x with 5 seal
 manifest y with 10 seal
 manifest sum with x augments y seal
+manifest greeting with "Hail, Seeker" seal
 ```
 
 ## Features
@@ -45,6 +47,7 @@ manifest sum with x augments y seal
 - **Mystical Operators**: 'augments' for addition, 'diminishes' for subtraction
 - **Truth Values**: 'verity' and 'fallacy' instead of 'true' and 'false'
 - **Ritual Definitions**: Functions are defined as 'rune' and parameters are bound with 'knot'
+- **Sacred Scrolls**: Strings are treated as mystical scrolls containing ancient wisdom
 
 ## Next Steps
 

@@ -3,8 +3,6 @@ title: Advanced Examples
 description: Complex WhyPY patterns and advanced mystical techniques
 ---
 
-# Advanced WhyPY Examples
-
 This guide showcases more complex WhyPY programming patterns and advanced mystical techniques.
 
 ## 1. Higher-Order Rituals
@@ -20,8 +18,8 @@ fold seal
 manifest double with makeMultiplier(2) seal
 manifest triple with makeMultiplier(3) seal
 
-manifest result1 with double(5) seal    // 10
-manifest result2 with triple(5) seal    // 15
+double(5)
+triple(5)
 ```
 
 ## 2. Recursive Pattern Matching
@@ -75,7 +73,7 @@ manifest pipeline with compose(square knot compose(double knot addOne)) seal
 manifest result with pipeline(2) seal    // ((2 + 1) * 2)^2 = 36
 ```
 
-## 5. Maybe Monad Pattern
+<!-- ## 5. Maybe Monad Pattern
 
 ```python
 manifest maybe with rune(value) unfold
@@ -99,7 +97,7 @@ fold seal
 manifest result with maybe(10)
     bind(rune(x) unfold yield safeDivide(x knot 2) seal fold)
     bind(rune(x) unfold yield safeDivide(x knot 2) seal fold) seal
-```
+``` -->
 
 <!-- ## 6. Memoization Pattern
 
@@ -180,7 +178,7 @@ emitter
 ## Next Steps
 
 For more advanced patterns and techniques:
-- [Design Patterns](patterns.md) for common WhyPY patterns
+- **Design Patterns** for common programming patterns in WhyPY (Coming Soon)
 - [Basic Examples](basic.md) to review fundamentals
 
 Remember that with great power comes great responsibility to maintain the mystical balance in your code! 
